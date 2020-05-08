@@ -11,6 +11,18 @@ plugins {
     id 'java-library'
 }
 
+version = '0.0.1'
+
+
+task fatJar(type: Jar) {
+    manifest {
+        attributes('Implementation-Title': project.name,
+                'Implementation-Version': project.version)
+    }
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
 repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.

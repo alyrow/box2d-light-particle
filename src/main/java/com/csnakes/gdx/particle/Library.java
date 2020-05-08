@@ -3,6 +3,10 @@
  */
 package com.csnakes.gdx.particle;
 
+/**
+ * @author alyrow
+ */
+
 public class Library {
     public boolean someLibraryMethod() {
         return true;
