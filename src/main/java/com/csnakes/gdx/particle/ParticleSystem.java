@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.csnakes.gdx.particle.physics.PhysicManager;
 import com.csnakes.gdx.particle.rules.ParticleEmissionNumber;
 import com.csnakes.gdx.particle.texture.ParticleTexture;
 
@@ -22,6 +23,7 @@ public class ParticleSystem {
     private SpriteBatch batch;
     private long test_long; //For check time elapsed or number of particles inner the screen
     private float x, y;
+    private PhysicManager physicManager;
 
     public ParticleSystem(int type, World world, Camera camera) {
         this.type = type;
@@ -29,6 +31,9 @@ public class ParticleSystem {
         this.camera = camera;
         batch = new SpriteBatch();
         time = TimeUtils.millis();
+
+        if(type == ParticleType.HALO) texture = new ParticleTexture("halo.png");
+        else if (type == ParticleType.NOTHING) texture = new ParticleTexture();
     }
 
     public void setTexture(ParticleTexture texture) {
@@ -52,6 +57,14 @@ public class ParticleSystem {
         return rules;
     }
 
+    public void setPhysicManager(PhysicManager physicManager) {
+        this.physicManager = physicManager;
+    }
+
+    public PhysicManager getPhysicManager() {
+        return physicManager;
+    }
+
     public void setParticlesPosition(float x, float y) {
         this.x = x;
         this.y = y;
@@ -70,18 +83,18 @@ public class ParticleSystem {
             test_long = 0;
             for (int i = 0; i < particles.size; i++) if (particles.get(i).isInnerScreen) test_long++;
             if (test_long < rules.number.getNumber())
-                particles.add(new Particle(rules.life.getLife(), rules.life.outer, texture.getTexture(), camera, this, x, y));
+                particles.add(new Particle(rules.life.getLife(), rules.life.outer, texture.getTexture(), camera, this, x, y, physicManager.getParticleForces(x, y)));
         } else {
             if (new Date().getTime() >= test_long + 1000) {
                 for (int j = 0; j < rules.number.getNumber(); j++)
-                    particles.add(new Particle(rules.life.getLife(), rules.life.outer, texture.getTexture(), camera, this, x, y));
+                    particles.add(new Particle(rules.life.getLife(), rules.life.outer, texture.getTexture(), camera, this, x, y, physicManager.getParticleForces(x, y)));
                 test_long = new Date().getTime();
             }
         }
 
         //batch.setProjectionMatrix(camera.combined);
         batch.begin();
-        for (int i = 0; i < particles.size; i++) particles.get(i).render(batch, camera);
+        for (int i = 0; i < particles.size; i++) particles.get(i).render(batch, camera, physicManager.forces);
         //particles.forEach(particle -> particle.render(batch, camera));
         batch.end();
     }
