@@ -83,11 +83,11 @@ public class ParticleSystem {
             test_long = 0;
             for (int i = 0; i < particles.size; i++) if (particles.get(i).isInnerScreen) test_long++;
             if (test_long < rules.number.getNumber())
-                particles.add(new Particle(batch, rules.life.getLife(), rules.life.outer, texture.getTexture(), camera, this, x, y, physicManager.getParticleForces(x, y, world, camera), world != null));
+                particles.add(new Particle(rules.light.getLight(), batch, rules.life.getLife(), rules.life.outer, texture.getTexture(), camera, this, x, y, physicManager.getParticleForces(x, y, world, camera), world != null));
         } else {
             if (new Date().getTime() >= test_long + 1000) {
                 for (int j = 0; j < rules.number.getNumber(); j++)
-                    particles.add(new Particle(batch, rules.life.getLife(), rules.life.outer, texture.getTexture(), camera, this, x, y, physicManager.getParticleForces(x, y, world, camera), world != null));
+                    particles.add(new Particle(rules.light.getLight(), batch, rules.life.getLife(), rules.life.outer, texture.getTexture(), camera, this, x, y, physicManager.getParticleForces(x, y, world, camera), world != null));
                 test_long = new Date().getTime();
             }
         }

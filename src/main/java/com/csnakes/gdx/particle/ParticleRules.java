@@ -1,6 +1,7 @@
 package com.csnakes.gdx.particle;
 
 import com.csnakes.gdx.particle.rules.ParticleEmissionDuration;
+import com.csnakes.gdx.particle.rules.ParticleEmissionLight;
 import com.csnakes.gdx.particle.rules.ParticleEmissionNumber;
 import com.csnakes.gdx.particle.rules.ParticleLife;
 
@@ -8,6 +9,7 @@ public class ParticleRules {
     public ParticleLife life;
     public ParticleEmissionNumber number;
     public ParticleEmissionDuration duration;
+    public ParticleEmissionLight light;
 
     public ParticleRules() {
         this.life = new ParticleLife(5f);
@@ -25,5 +27,9 @@ public class ParticleRules {
 
     public void setDuration(ParticleEmissionDuration duration) {
         this.duration = duration;
+    }
+
+    public void setLight(ParticleEmissionLight light) {
+        this.light = light;
     }
 }

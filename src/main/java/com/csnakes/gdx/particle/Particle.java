@@ -1,12 +1,12 @@
 package com.csnakes.gdx.particle;
 
+import box2dLight.PointLight;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.csnakes.gdx.particle.physics.PhysicForce;
@@ -24,8 +24,9 @@ public class Particle {
     private float y;
     private long timeEllapsed;
     public PhysicParticle physicParticle;
+    public PointLight light;
 
-    public Particle(SpriteBatch batch, float life, boolean outer, Texture texture, Camera camera, ParticleSystem system, float x, float y, PhysicParticle physicParticle, boolean worldPhysic) {
+    public Particle(PointLight light, SpriteBatch batch, float life, boolean outer, Texture texture, Camera camera, ParticleSystem system, float x, float y, PhysicParticle physicParticle, boolean worldPhysic) {
         this.life = life * 1000; //s to ms
         this.outer = outer;
         this.texture = texture;
@@ -38,6 +39,13 @@ public class Particle {
         sprite = new Sprite(texture);
         sprite.setPosition(x, y);
         physicParticle.setSize(sprite.getWidth(), sprite.getHeight());
+
+        this.light = light;
+        if (light.getDistance() < physicParticle.width/4) {
+            light.setDistance(physicParticle.width/4);
+            Gdx.app.error("Particle", "Light distance was to small : updated to "+physicParticle.width/4);
+        }
+        light.setPosition(x, y);
 
         isInnerScreen = _calculateIfInnerScreen(camera);
         timeEllapsed = TimeUtils.millis();
@@ -71,6 +79,7 @@ public class Particle {
         y = physicParticle.y;
         //Gdx.app.log("position", x+", "+y);
         sprite.setPosition(physicParticle.x, physicParticle.y);
+        light.setPosition(physicParticle.x + physicParticle.width/2, physicParticle.y + physicParticle.height/2);
 
 
         if (life < 500) {
@@ -81,6 +90,7 @@ public class Particle {
             system.particles.removeValue(this, true);
             if (worldPhysic) {
                 physicParticle.world.destroyBody(physicParticle.body);
+                light.dispose();
             }
         } else sprite.draw(batch);
     }
