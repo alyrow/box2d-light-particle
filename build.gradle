@@ -7,13 +7,15 @@
  */
 
 plugins {
+    id 'maven-publish'
     // Apply the java-library plugin to add support for Java Library
     id 'java-library'
-    id 'maven-publish'
 }
 
 version = '0.1.0'
 group = 'com.csnakes'
+
+sourceCompatibility = 1.8
 
 
 task fatJar(type: Jar) {
@@ -29,6 +31,7 @@ repositories {
     // Use jcenter for resolving dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
+    mavenCentral()
 }
 
 dependencies {
@@ -47,20 +50,19 @@ dependencies {
 
 
 publishing {
-    publications {
-        box2dLightParticle(MavenPublication) {
-            from components.java
-        }
-    }
-
     repositories {
         maven {
             name = "GitHubPackages"
-            url = "https://maven.pkg.github.com/octocat/hello-world"
-            credentials = {
-                username = System.getenv("GITHUB_ACTOR")
-                password = System.getenv("GITHUB_TOKEN")
+            url = uri("https://maven.pkg.github.com/CSnakes/box2d-light-particle")
+            credentials {
+                username = project.findProperty("gpr.user") ?: System.getProperty("USERNAME")
+                password = project.findProperty("gpr.password") ?: System.getProperty("PASSWORD")
             }
+        }
+    }
+    publications {
+        gpr(MavenPublication) {
+            from(components.java)
         }
     }
 }
