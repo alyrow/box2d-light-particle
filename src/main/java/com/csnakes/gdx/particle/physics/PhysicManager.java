@@ -1,5 +1,7 @@
 package com.csnakes.gdx.particle.physics;
 
+import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 
 public class PhysicManager {
@@ -14,7 +16,7 @@ public class PhysicManager {
         forces.removeValue(force, true);
     }
 
-    public PhysicParticle getParticleForces(float x, float y) {
-        return new PhysicParticle(x, y);
+    public PhysicParticle getParticleForces(float x, float y, World world, Camera camera) {
+        return new PhysicParticle(x, y, world, camera);
     }
 }
