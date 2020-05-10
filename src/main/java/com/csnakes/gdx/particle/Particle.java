@@ -49,7 +49,7 @@ public class Particle {
         isInnerScreen = _calculateIfInnerScreen(camera);
         if (outer && !isInnerScreen) life = life - delta;
         else if (!outer) life = life - delta;
-        Gdx.app.log("inner", String.valueOf(isInnerScreen));
+        //Gdx.app.log("inner", String.valueOf(isInnerScreen));
 
         //Put all physics here
         Array<Vector2> vectors = new Array<>();
@@ -69,7 +69,7 @@ public class Particle {
         }
         x = physicParticle.x;
         y = physicParticle.y;
-        Gdx.app.log("position", x+", "+y);
+        //Gdx.app.log("position", x+", "+y);
         sprite.setPosition(physicParticle.x, physicParticle.y);
 
 
@@ -90,7 +90,7 @@ public class Particle {
         float h = camera.viewportHeight;//batch.getProjectionMatrix().getScaleY();
         float x = 0;//camera.position.x;//batch.getProjectionMatrix().getTranslation(new Vector3()).x;
         float y = 0;//camera.position.y;//batch.getProjectionMatrix().getTranslation(new Vector3()).y;
-        Gdx.app.log("w, h, x, y", w +", "+h+", "+", "+x+", "+y);
+        //Gdx.app.log("w, h, x, y", w +", "+h+", "+", "+x+", "+y);
 
         return this.x >= x && this.x < x + w && this.y >= y && this.y < y + h;
     }

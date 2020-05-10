@@ -98,4 +98,35 @@ public class ParticleSystem {
         //particles.forEach(particle -> particle.render(batch, camera));
         batch.end();
     }
+
+
+
+    //Blending functions :
+    public void enableBlending() {
+        batch.enableBlending();
+    }
+    public void disableBlending() {
+        batch.disableBlending();
+    }
+    public boolean isBlendingEnabled() {
+        return batch.isBlendingEnabled();
+    }
+    public int getBlendDstFunc() {
+        return batch.getBlendDstFunc();
+    }
+    public int getBlendSrcFunc() {
+        return batch.getBlendSrcFunc();
+    }
+    public int getBlendSrcFuncAlpha() {
+        return batch.getBlendSrcFuncAlpha();
+    }
+    public int getBlendDstFuncAlpha() {
+        return batch.getBlendDstFuncAlpha();
+    }
+    public void disableBlending(int srcFunc, int dstFunc) {
+        batch.setBlendFunction(srcFunc, dstFunc);
+    }
+    public void setBlendFunctionSeparate(int srcFuncColor, int dstFuncColor, int srcFuncAlpha, int dstFuncAlpha) {
+        batch.setBlendFunctionSeparate(srcFuncColor, dstFuncColor, srcFuncAlpha, dstFuncAlpha);
+    }
 }
