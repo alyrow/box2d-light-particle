@@ -73,6 +73,8 @@ public class ParticleSystem {
 
     public void dispose() {
         batch.dispose();
+        particles.forEach(Particle::dispose);
+        texture.getTexture().dispose();
     }
 
     public void render() {

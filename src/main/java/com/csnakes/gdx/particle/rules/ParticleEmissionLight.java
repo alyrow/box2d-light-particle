@@ -7,16 +7,19 @@ import com.badlogic.gdx.graphics.Color;
 
 public class ParticleEmissionLight {
 
-    public final RayHandler rayHandler;
-    public final int rays;
-    public final Color color;
-    public final float distance;
+    public RayHandler rayHandler;
+    public int rays;
+    public Color color;
+    public float distance;
 
     public ParticleEmissionLight(RayHandler rayHandler, int rays, Color color, float distance) {
         this.rayHandler = rayHandler;
         this.rays = rays;
         this.color = color;
         this.distance = distance;
+    }
+
+    public ParticleEmissionLight() {
     }
 
     public PointLight getLight() {

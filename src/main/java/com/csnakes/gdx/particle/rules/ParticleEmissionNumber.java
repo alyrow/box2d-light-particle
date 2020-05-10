@@ -9,6 +9,9 @@ public class ParticleEmissionNumber {
         this.number = number;
     }
 
+    public ParticleEmissionNumber() {
+    }
+
     public int getNumber() {
         return number;
     }

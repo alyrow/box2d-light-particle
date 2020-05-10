@@ -12,6 +12,9 @@ public class ParticleLife {
         this.outer = outer;
     }
 
+    public ParticleLife() {
+    }
+
     public float getLife() {
         return life;
     }

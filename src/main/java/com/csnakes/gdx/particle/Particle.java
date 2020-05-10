@@ -90,8 +90,9 @@ public class Particle {
             system.particles.removeValue(this, true);
             if (worldPhysic) {
                 physicParticle.world.destroyBody(physicParticle.body);
-                light.dispose();
             }
+            //light.dispose();
+            light.remove(true);
         } else sprite.draw(batch);
     }
 
@@ -103,5 +104,14 @@ public class Particle {
         //Gdx.app.log("w, h, x, y", w +", "+h+", "+", "+x+", "+y);
 
         return this.x >= x && this.x < x + w && this.y >= y && this.y < y + h;
+    }
+
+    public void dispose() {
+        system.particles.removeValue(this, true);
+        if (worldPhysic) {
+            physicParticle.world.destroyBody(physicParticle.body);
+        }
+        //light.dispose();
+        light.remove(true);
     }
 }
