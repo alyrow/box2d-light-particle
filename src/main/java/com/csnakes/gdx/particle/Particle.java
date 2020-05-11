@@ -13,6 +13,8 @@ import com.csnakes.gdx.particle.physics.PhysicForce;
 import com.csnakes.gdx.particle.physics.PhysicParticle;
 
 public class Particle {
+    public static float ratio = 1;
+
     private final boolean worldPhysic;
     public float life; //in seconds
     public boolean outer; //If false --> Survive `life` seconds then die
@@ -38,6 +40,7 @@ public class Particle {
 
         sprite = new Sprite(texture);
         sprite.setPosition(x, y);
+        sprite.setSize(sprite.getWidth()*ratio, sprite.getHeight()*ratio);
         physicParticle.setSize(sprite.getWidth(), sprite.getHeight());
 
         this.light = light;
