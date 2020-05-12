@@ -1,6 +1,7 @@
 package com.csnakes.gdx.particle.physics;
 
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
 import java.util.HashMap;
@@ -28,6 +29,7 @@ public class PhysicParticle {
             bodyDef.type = BodyDef.BodyType.DynamicBody;
             bodyDef.position.set(x/camera.viewportWidth, y/camera.viewportHeight);
             body = world.createBody(bodyDef);
+            body.setTransform(new Vector2(x, y), 0);
         }
     }
 
