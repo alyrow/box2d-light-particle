@@ -13,7 +13,7 @@ plugins {
 }
 
 version = '0.5.0'
-group = 'com.csnakes'
+group = 'com.alyrow'
 
 sourceCompatibility = 1.8
 
@@ -36,7 +36,7 @@ repositories {
 
 dependencies {
     // This dependency is exported to consumers, that is to say found on their compile classpath.
-    api 'org.apache.commons:commons-math3:3.6.1'
+    //api 'org.apache.commons:commons-math3:3.6.1'
 
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation "com.badlogicgames.gdx:gdx:1.9.9"
@@ -57,7 +57,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/CSnakes/box2d-light-particle")
+            url = uri("https://maven.pkg.github.com/alyrow/box2d-light-particle")
             credentials {
                 username = project.findProperty("gpr.user") ?: System.getProperty("USERNAME")
                 password = project.findProperty("gpr.password") ?: System.getProperty("PASSWORD")

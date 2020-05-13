@@ -1,9 +1,14 @@
-package com.csnakes.gdx.particle.rules;
+package com.alyrow.gdx.particle.rules;
 
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.graphics.Color;
 
+/**
+ * @author alyrow
+ * Set lights settings with random distance
+ * @see ParticleEmissionLight
+ */
 public class ParticleEmissionLightRandom extends ParticleEmissionLight {
     public RayHandler rayHandler;
     public int rays;

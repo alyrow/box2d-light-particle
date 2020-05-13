@@ -1,5 +1,9 @@
-package com.csnakes.gdx.particle;
+package com.alyrow.gdx.particle;
 
+/**
+ * @author alyrow
+ * Define particles type...
+ */
 public class ParticleType {
     public static int HALO = 0;
     public static int TEXTURE = 1;

@@ -1,21 +1,25 @@
-package com.csnakes.gdx.particle.physics;
+package com.alyrow.gdx.particle.physics;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
-public class RandomRadialForce extends PhysicForce {
-    private final float strength_min;
-    private final float strength_max;
+/**
+ * @author alyrow
+ * Radial force
+ */
+public class RadialForce extends PhysicForce {
+    float strength;
 
-    public RandomRadialForce(float strength_min, float strength_max) {
-        this.strength_min = strength_min;
-        this.strength_max = strength_max;
+    /**
+     * Create radial force
+     * @param strength Strength of the force
+     */
+    public RadialForce(float strength) {
+        this.strength = strength;
     }
 
     @Override
     public Vector2 getForce(PhysicParticle particle) {
         float distance = (float) Math.sqrt((particle.x-particle.x_start)*(particle.x-particle.x_start) + (particle.y-particle.y_start)*(particle.y-particle.y_start));
-        float strength = (float) (Math.random()*(strength_max-strength_min)+strength_min);
         double angle;
         if (distance == 0) {
             angle = (Math.random() * 2 * Math.PI);
@@ -25,7 +29,7 @@ public class RandomRadialForce extends PhysicForce {
             angle = Math.acos((particle.x - particle.x_start) / distance);
             if (particle.data.get("radian") == -1f) angle = -angle;
         }
-        Gdx.app.log("angle", String.valueOf(Math.toDegrees(angle)));
+        //Gdx.app.log("angle", String.valueOf(Math.toDegrees(angle)));
         return new Vector2((float) Math.cos(angle)*strength, (float) Math.sin(angle)*strength);
     }
 }

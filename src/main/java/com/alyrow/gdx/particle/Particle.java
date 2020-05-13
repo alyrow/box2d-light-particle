@@ -1,4 +1,4 @@
-package com.csnakes.gdx.particle;
+package com.alyrow.gdx.particle;
 
 import box2dLight.PointLight;
 import com.badlogic.gdx.Gdx;
@@ -9,9 +9,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.csnakes.gdx.particle.physics.PhysicForce;
-import com.csnakes.gdx.particle.physics.PhysicParticle;
+import com.alyrow.gdx.particle.physics.PhysicForce;
+import com.alyrow.gdx.particle.physics.PhysicParticle;
 
+/**
+ * @author alyrow
+ * This class represents a particle
+ * Well, you will never use it because particles systems do it for you :)
+ * @see ParticleSystem
+ */
 public class Particle {
     public static float ratio = 1;
 

@@ -1,17 +1,35 @@
-package com.csnakes.gdx.particle.physics;
+package com.alyrow.gdx.particle.physics;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * @author alyrow
+ * Brownian force
+ */
 public class BrownianForce extends PhysicForce {
     float strength_x, strength_y;
     private long seed;
     private double frequency;
 
-    public BrownianForce(float strength) {
+    /**
+     * Brownian force with equals strength on x and y axis
+     * @param strength Strength of the force
+     * @param seed Seed of the force
+     * @param frequency Lower means more quiet
+     */
+    public BrownianForce(float strength, long seed, double frequency) {
         this.strength_x = strength;
         this.strength_y = strength;
+        this.seed = seed;
+        this.frequency = frequency;
     }
+
+    /**
+     * @param strength_x Strength of the force for x axis
+     * @param strength_y Strength of the force for y axis
+     * @param seed Seed of the force
+     * @param frequency Lower means more quiet
+     */
     public BrownianForce(float strength_x, float strength_y, long seed, double frequency) {
         this.strength_x = strength_x;
         this.strength_y = strength_y;
@@ -40,6 +58,9 @@ public class BrownianForce extends PhysicForce {
     }
 
 
+    /**
+     * Raise if you want to make it smoother
+     */
     public static final int octaves = 4; // change to 5 or higher to make it smoother and have smaller extremes
     /**
      * @author TEttinger

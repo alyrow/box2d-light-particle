@@ -1,30 +1,80 @@
-package com.csnakes.gdx.particle;
+package com.alyrow.gdx.particle;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.csnakes.gdx.particle.physics.PhysicManager;
-import com.csnakes.gdx.particle.rules.ParticleEmissionNumber;
-import com.csnakes.gdx.particle.texture.ParticleTexture;
+import com.alyrow.gdx.particle.physics.PhysicManager;
+import com.alyrow.gdx.particle.rules.ParticleEmissionNumber;
+import com.alyrow.gdx.particle.texture.ParticleTexture;
 
 import java.util.Date;
 
+
+/**
+ * @author alyrow
+ * Create a particle system
+ */
 public class ParticleSystem {
+    /**
+     * Define particles type
+     * @see ParticleType
+     */
     public int type;
+
+
     private World world;
     private Camera camera;
+
+    /**
+     * Define Texture of particles
+     * @see ParticleTexture
+     */
     private ParticleTexture texture;
+
+    /**
+     * Define rules as particles life, emission duration....
+     * For more details :
+     * @see ParticleRules
+     */
     private ParticleRules rules;
+
+    /**
+     * Array of all existing particles in the system
+     */
     public Array<Particle> particles = new Array<>();
+
+    /**
+     * Time of emission
+     */
     public long time;
+
+    /**
+     * Draw particles on this
+     */
     private SpriteBatch batch;
+
     private long test_long; //For check time elapsed or number of particles inner the screen
+
+    /**
+     * Initial position of particles
+     */
     private float x, y;
+
+    /**
+     * Manage physics on particles
+     * @see PhysicManager
+     */
     private PhysicManager physicManager;
 
+    /**
+     * Constructor that create a particle system
+     * @param type Particles type (Halo, Texture, No texture)
+     *             {@link ParticleType}
+     * @param world If `null` collisions between particles and world's objects are deactivated
+     * @param camera For display particles on the screen
+     */
     public ParticleSystem(int type, World world, Camera camera) {
         this.type = type;
         this.world = world;
@@ -36,6 +86,12 @@ public class ParticleSystem {
         else if (type == ParticleType.NOTHING) texture = new ParticleTexture();
     }
 
+    /**
+     * Set texture of particles if `type` is set to `TEXTURE`
+     * @see ParticleType
+     * @param texture Set texture with ParticleTexture object
+     *                {@link ParticleTexture}
+     */
     public void setTexture(ParticleTexture texture) {
         if (type == ParticleType.HALO || type == ParticleType.NOTHING) {
             try {
@@ -48,35 +104,65 @@ public class ParticleSystem {
         this.texture = texture;
     }
 
+    /**
+     * Set the rules of particle system and particles.
+     * /!\ THIS IS VERY IMPORTANT TO SET RULES
+     * @param rules All rules in one object ;)
+     *              {@link ParticleRules}
+     */
     public void setRules(ParticleRules rules) {
         this.rules = rules;
         if (rules.number.mode == ParticleEmissionNumber.PER_SECONDS) test_long = new Date().getTime();
     }
 
+    /**
+     * For get the rules
+     * @return Return the rules in one single object
+     * @see ParticleRules
+     */
     public ParticleRules getRules() {
         return rules;
     }
 
+    /**
+     * Well, set physics rules to particles.
+     * @param physicManager The physic manager contains all physics rules in a single object
+     *                      {@link PhysicManager}
+     */
     public void setPhysicManager(PhysicManager physicManager) {
         this.physicManager = physicManager;
     }
 
+    /**
+     * For get the physic manager
+     * @return the physic manager
+     */
     public PhysicManager getPhysicManager() {
         return physicManager;
     }
 
+    /**
+     * Set the first position of particles. If you modify this, it won't affect existing particles but futures.
+     * @param x Set x position of futures particles
+     * @param y Set y position of futures particles
+     */
     public void setParticlesPosition(float x, float y) {
         this.x = x;
         this.y = y;
     }
 
-
+    /**
+     * Free memory
+     */
     public void dispose() {
         batch.dispose();
         particles.forEach(Particle::dispose);
         texture.getTexture().dispose();
     }
 
+    /**
+     * Oh, if you want to see your particles, you need to call this in your render method...
+     */
     public void render() {
         if (!rules.duration.infinite)
             if (TimeUtils.timeSinceMillis(time) >= rules.duration.duration * 1000) return;
@@ -102,6 +188,10 @@ public class ParticleSystem {
     }
 
 
+    /**
+     * Well, down are all blending function on SpriteBatch.
+     * @see SpriteBatch
+     */
 
     //Blending functions :
     public void enableBlending() {

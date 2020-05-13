@@ -1,5 +1,10 @@
-package com.csnakes.gdx.particle.rules;
+package com.alyrow.gdx.particle.rules;
 
+/**
+ * @author alyrow
+ * Set rule for the emission number with random number
+ * @see ParticleEmissionNumber
+ */
 public class ParticleEmissionNumberRandom extends ParticleEmissionNumber {
     public int min;
     public int max;

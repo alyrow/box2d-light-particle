@@ -1,5 +1,10 @@
-package com.csnakes.gdx.particle.rules;
+package com.alyrow.gdx.particle.rules;
 
+/**
+ * @author alyrow
+ * Set random life of particles
+ * @see ParticleLife
+ */
 public class ParticleLifeRandom extends ParticleLife {
     public float life_min; //in seconds
     public float life_max; //in seconds

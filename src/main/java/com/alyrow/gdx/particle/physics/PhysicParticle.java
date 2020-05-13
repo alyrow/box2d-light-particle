@@ -1,4 +1,4 @@
-package com.csnakes.gdx.particle.physics;
+package com.alyrow.gdx.particle.physics;
 
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;

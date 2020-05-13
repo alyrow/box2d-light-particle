@@ -1,7 +1,11 @@
-package com.csnakes.gdx.particle.physics;
+package com.alyrow.gdx.particle.physics;
 
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * @author alyrow
+ * Random linear force
+ */
 public class RandomLinearForce extends PhysicForce {
 
     private final float vx_min;
@@ -9,6 +13,13 @@ public class RandomLinearForce extends PhysicForce {
     private final float vy_max;
     private final float vy_min;
 
+    /**
+     * Random linear force
+     * @param vx_min Min value for x axis
+     * @param vx_max Max value for x axis
+     * @param vy_min Min value for y axis
+     * @param vy_max Max value for y axis
+     */
     public RandomLinearForce(float vx_min, float vx_max, float vy_min, float vy_max) {
         this.vx_min = vx_min;
         this.vx_max = vx_max;
