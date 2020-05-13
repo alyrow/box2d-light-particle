@@ -2,7 +2,7 @@
 
 ## Description
 
-`Box2D light particle` is a library intended for add lights to particles.
+`Box2D light particle` is a library intended for add lights to particles with [libgdx](https://github.com/libgdx/libgdx).
 
 ## Version
 
