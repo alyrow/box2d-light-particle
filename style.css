@@ -1,0 +1,210 @@
+.theme-dark {
+    --primary-background: #263238;
+    --primary-background-transition: #3d193f;;
+    --primary-composant: #000a12;
+    --primary-text: #ffffff;
+
+    background-color: var(--primary-background);
+    color: var(--primary-text);
+    /*height: 100%;*/
+
+    animation: 4s infinite alternate background-transition;
+}
+.theme-bleu {
+    --primary-background: #1565c0;
+    --primary-background-transition: #004d40;
+    --primary-composant: #003c8f;
+    --primary-shadow: rgba(0,0,0,0.2);
+    --primary-text: #ffffff;
+
+    background-color: var(--primary-background);
+    color: var(--primary-text);
+    
+    animation: 4s infinite alternate background-transition;
+}
+.theme-vert {
+    --primary-background: #1b5e20;
+    --primary-background-transition: #255d00;
+    --primary-composant: #003300;
+    --primary-shadow: rgba(0,0,0,0.2);
+    --primary-text: #ffffff;
+
+    background-color: var(--primary-background);
+    color: var(--primary-text);
+    
+    animation: 4s infinite alternate background-transition;
+}
+.theme-orange {
+    --primary-background: #ff6f00;
+    --primary-background-transition: #e65100;
+    --primary-composant: #c43e00;
+    --primary-shadow: rgba(0,0,0,0.2);
+    --primary-text: #000000;
+
+    background-color: var(--primary-background);
+    color: var(--primary-text);
+    
+    animation: 4s infinite alternate background-transition;
+}
+
+a {
+    color: var(--primary-text);
+}
+
+
+
+@keyframes background-transition {
+    from { 
+        background-color: var(--primary-background); }
+    to   { 
+        background-color: var(--primary-background-transition); }
+}
+
+
+
+
+
+
+.carte {
+    background-color: var(--primary-composant);
+    box-shadow: 0 4px 8px 0 var(--primary-shadow);
+    padding: 2px 16px;
+    border-radius: 5px;
+    margin: 32px 20%;
+    transition: 0.3s; 
+    position: relative;  
+}
+.carte:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    border-radius: 10px;
+    margin: 72px 20%;
+}
+.carte-icon {
+    --top-var: top;
+    height: 60px;
+    width: 60px;
+    background-color: var(--primary-composant);
+    /* animation: 4s infinite alternate background-transition; */
+    border-radius: 100%;
+    position: absolute;
+    top: -30px; left: calc(50% - 30px);
+    text-align: center;
+    margin: auto;
+    margin-left: auto;
+    margin-right: auto;  
+    transition: 0.3s;  
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+.carte:hover>.carte-icon {
+    transform: translate(0px, -40px);
+    box-shadow: 0 4px 4px 0 var(--primary-shadow);
+}
+.carte-icon>img {
+    width:40px;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+
+button {
+    padding: 10px 24px;
+    border-radius: 8px;
+    background-color: transparent;
+    color: var(--primary-text);
+    transition: 0.3s;  
+    border-style: solid;
+    border-color: var(--primary-composant);
+}
+button:hover {
+    background-color: var(--primary-composant);
+}
+button:active {
+    border-radius: 15px;
+}
+button:focus {outline:0;}
+button.action {
+    margin: 10px 5px;
+    display: block;
+    float: right;
+}
+
+.carte > .action {
+    position: relative;
+    top: -49px;
+}
+.carte:hover>.action {
+    transform: translate(20px, 41px);
+    box-shadow: 0 4px 4px 0 var(--primary-shadow);
+}
+
+
+
+.centrer-element {
+  position: absolute;
+  margin: 0 0;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%);
+  transform: translateX(-50%);
+}
+.centrer-a-normal {
+    animation: 3s centrer-a-normal-animation;
+}
+@keyframes centrer-a-normal-animation {
+    from { 
+        position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%);
+  transform: translateX(-50%); 
+    }
+    to   { 
+        position: relative;
+  top: 0;
+  left: 0;
+  transform: translateY(0%);
+  transform: translateX(0%);
+    }
+}
+
+
+.centrer-texte {
+    text-align: center;
+}
+.justifier-texte {
+    text-align: justify;
+}
+
+h1.taille-grand {
+    font-size: 3pc;
+}
+p.taille-grand {
+    font-size: 1.2pc;
+}
+
+.btn-diapo-suivante {
+    position: fixed;
+    bottom: 1px;
+    right: 1px;
+}
+
+.cacher-element {
+    display: none;
+    opacity: 0;
+}
+.afficher-element {
+    display: block;
+    animation: 5s afficher-element-animation;
+}
+@keyframes afficher-element-animation {
+    from { 
+        opacity: 0%;
+    }
+    to   { 
+        opacity: 100%;
+    }
+}
