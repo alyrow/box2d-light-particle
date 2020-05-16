@@ -87,15 +87,15 @@ public class ParticleSystem {
     }
 
     /**
-     * Set texture of particles if `type` is set to `TEXTURE`
+     * Set texture of particles if `type` is set to `TEXTURE` or `HALO`
      * @see ParticleType
      * @param texture Set texture with ParticleTexture object
      *                {@link ParticleTexture}
      */
     public void setTexture(ParticleTexture texture) {
-        if (type == ParticleType.HALO || type == ParticleType.NOTHING) {
+        if (type == ParticleType.NOTHING) {
             try {
-                throw new Exception("Particle type is set to HALO or NOTHING, you cannot set texture for HALO or NOTHING. Maybe in a future release.");
+                throw new Exception("Particle type is set to NOTHING, you cannot set texture for NOTHING.");
             } catch (Exception e) {
                 e.printStackTrace();
             }

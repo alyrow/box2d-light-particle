@@ -45,6 +45,7 @@ public class Particle {
         this.worldPhysic = worldPhysic;
 
         sprite = new Sprite(texture);
+        sprite.setColor(light.getColor());
         sprite.setPosition(x, y);
         sprite.setSize(sprite.getWidth()*ratio, sprite.getHeight()*ratio);
         physicParticle.setSize(sprite.getWidth(), sprite.getHeight());
