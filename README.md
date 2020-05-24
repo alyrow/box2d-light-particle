@@ -13,4 +13,4 @@
    - Bug fixes (`RandomLinearForce` no longer make particles buggy)
    - You can add multiple textures that are choosen randomly
    - You can specify the intervall of emission when mode set to `PER_SECONDS`
-   - It's now easy to use particle system without box2dLights (On the other hand you need to add the dependency
+   - It's now easy to use particle system without box2dLights (On the other hand you need to add the dependency)
