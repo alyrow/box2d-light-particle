@@ -3,6 +3,8 @@ package com.alyrow.gdx.particle.rules;
 import box2dLight.PointLight;
 import box2dLight.RayHandler;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.World;
 
 /**
  * @author alyrow
@@ -31,9 +33,20 @@ public class ParticleEmissionLight {
     }
 
     /**
-     * /!\ INTERNAL USE ONLY
+     * Use this if you doesn't want lights
      */
     public ParticleEmissionLight() {
+        this(new Color(1, 1, 1, 1));
+    }
+
+    /**
+     * Use this if you doesn't want lights but tint HALO
+     */
+    public ParticleEmissionLight(Color color) {
+        this.color = color;
+        this.rays = 5;
+        this.distance = 1;
+        this.rayHandler = new RayHandler(new World(new Vector2(0,0), true));
     }
 
     public PointLight getLight() {

@@ -10,7 +10,16 @@ import java.util.Map;
 public class PhysicParticle {
     public Body body;
     public float x, x_start, y, y_start, r, width, height;
+
+    @Deprecated
     public Map<String, Float> data = new HashMap<String, Float>();
+
+    public Map<String, Float> data_float = new HashMap<String, Float>();
+    public Map<String, Double> data_double = new HashMap<String, Double>();
+    public Map<String, Integer> data_int = new HashMap<String, Integer>();
+    public Map<String, Long> data_long = new HashMap<String, Long>();
+    public Map<String, String> data_string = new HashMap<String, String>();
+
     CircleShape shapeCircle;
     public World world;
     private Camera camera;

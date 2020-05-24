@@ -9,4 +9,3 @@
 [![](https://jitpack.io/v/alyrow/box2d-light-particle.svg)](https://jitpack.io/#alyrow/box2d-light-particle)
 
 - v1.0.0 : Make the repositorie public
-  - Planned for May 2020

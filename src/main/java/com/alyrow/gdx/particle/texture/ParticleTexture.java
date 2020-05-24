@@ -6,7 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 /**
  * @author alyrow
- * This class load (TEXTURE mode) or create a Texture (NOTHING mode)
+ * This class load (TEXTURE or HALO mode) or create a Texture (NOTHING mode)
  */
 public class ParticleTexture {
 
@@ -38,5 +38,9 @@ public class ParticleTexture {
      */
     public Texture getTexture() {
         return texture;
+    }
+
+    public void dispose() {
+        texture.dispose();
     }
 }

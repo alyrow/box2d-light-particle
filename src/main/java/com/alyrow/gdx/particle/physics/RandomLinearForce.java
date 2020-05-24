@@ -29,6 +29,8 @@ public class RandomLinearForce extends PhysicForce {
 
     @Override
     public Vector2 getForce(PhysicParticle particle) {
-        return new Vector2((float) Math.random()*(vx_max-vx_min)+vx_min, (float) Math.random()*(vy_max-vy_min)+vy_min);
+        particle.data_float.computeIfAbsent("rlinearX", k -> (float) Math.random()*(vx_max-vx_min)+vx_min);
+        particle.data_float.computeIfAbsent("rlinearY", k -> (float) Math.random()*(vy_max-vy_min)+vy_min);
+        return new Vector2(particle.data_float.get("rlinearX"), particle.data_float.get("rlinearY"));
     }
 }
