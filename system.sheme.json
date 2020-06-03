@@ -1,0 +1,51 @@
+{
+  "particle_type": "HALO/TEXTURE/NOTHING = 0/1/2",
+  "texture": {
+    "random": true,
+    "animated": false,
+    "fps": 4,
+    "texture": [
+      ["img/1.png"],
+      ["img/2.png"],
+        ["img/3.png"]
+    ]
+  },
+  "rules": {
+    "ParticleEmissionDuration": {
+      "infinite": false,
+      "duration": 123
+    },
+    "ParticleEmissionLight": {
+      "random": true,
+      "rays": 128,
+      "color": [0.3, 0.4, 1, 1],
+      "distance": [10, 20]
+    },
+    "ParticleEmissionNumber": {
+      "random": true,
+      "mode": "INNER_SCREEN/PER_SECONDS = 0/1",
+      "delay": 2,
+      "number": [3, 8]
+    },
+    "ParticleLife": {
+      "random": true,
+      "outer": false,
+      "life": [3, 8]
+    }
+  },
+  "physics": {
+    "force": [
+      {
+        "BrownianForce": [5, 1238273, 0.5],
+        "LinearForce": [2, 1],
+        "RandomLinearForce": [2, 5, 0, 1],
+        "RadialForce": [5],
+        "RandomRadialForce": [3, 8],
+        "UserCustomForce": [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
+      }
+    ]
+  },
+  "version": "1.1.0",
+  "version_code": 100010000,
+  "min_version_code": 100010000
+}
