@@ -25,6 +25,14 @@ public class ParticleTexture {
     }
 
     /**
+     * Create particule texture
+     * @param texture The texture
+     */
+    public ParticleTexture(Texture texture) {
+        this.texture = texture;
+    }
+
+    /**
      * You will never use that but create a 2x2 transparent texture
      */
     public ParticleTexture() {
@@ -37,6 +45,7 @@ public class ParticleTexture {
      * @return Return the texture
      */
     public Texture getTexture() {
+        if (texture instanceof AnimatedTexture) return new AnimatedTexture(((AnimatedTexture) texture).textures, ((AnimatedTexture) texture).fps);
         return texture;
     }
 

@@ -1,6 +1,7 @@
 package com.alyrow.gdx.particle;
 
 import box2dLight.PointLight;
+import com.alyrow.gdx.particle.texture.AnimatedTexture;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Texture;
@@ -22,6 +23,7 @@ public class Particle {
     public static float ratio = 1;
 
     private final boolean worldPhysic;
+    private AnimatedTexture anTex;
     public float life; //in seconds
     public boolean outer; //If false --> Survive `life` seconds then die
     public Texture texture;
@@ -34,7 +36,7 @@ public class Particle {
     public PhysicParticle physicParticle;
     public PointLight light;
 
-    public Particle(PointLight light, SpriteBatch batch, float life, boolean outer, Texture texture, Camera camera, ParticleSystem system, float x, float y, PhysicParticle physicParticle, boolean worldPhysic) {
+    public Particle(PointLight light, SpriteBatch batch, float life, boolean outer, Texture texture, Camera camera, ParticleSystem system, float x, float y, PhysicParticle physicParticle, boolean worldPhysic, int type) {
         this.life = life * 1000; //s to ms
         this.outer = outer;
         this.texture = texture;
@@ -44,8 +46,14 @@ public class Particle {
         this.physicParticle = physicParticle;
         this.worldPhysic = worldPhysic;
 
-        sprite = new Sprite(texture);
-        sprite.setColor(light.getColor());
+        if (texture instanceof AnimatedTexture) {
+            //Gdx.app.log("AnimatedTexture", "true");
+            anTex = (AnimatedTexture) texture;
+            sprite = new Sprite(anTex.textures[0]);
+        }
+        else sprite = new Sprite(texture);
+        if(type == ParticleType.HALO)
+            sprite.setColor(light.getColor());
         sprite.setPosition(x, y);
         sprite.setSize(sprite.getWidth()*ratio, sprite.getHeight()*ratio);
         physicParticle.setSize(sprite.getWidth(), sprite.getHeight());
@@ -63,6 +71,12 @@ public class Particle {
 
     public void render(SpriteBatch batch, Camera camera, Array<PhysicForce> forces) {
         if (life <= 0) return;
+
+        if (anTex != null) {
+            anTex.render(Gdx.graphics.getDeltaTime());
+            sprite.setTexture(anTex.textures[anTex.frame]);
+        }
+
         float delta = Gdx.graphics.getDeltaTime() * 1000;
         isInnerScreen = _calculateIfInnerScreen(camera);
         if (outer && !isInnerScreen) life = life - delta;
