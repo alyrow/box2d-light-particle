@@ -31,6 +31,14 @@ public class RandomParticleTexture extends ParticleTexture {
     }
 
     /**
+     * Add texture to the list
+     * @param path Path of the texture
+     */
+    public void addTexture(String path) {
+        textures.add(new Texture(path));
+    }
+
+    /**
      * Remove texture from the list
      * @param texture {@link Texture}
      */
@@ -44,7 +52,9 @@ public class RandomParticleTexture extends ParticleTexture {
      */
     @Override
     public Texture getTexture() {
-        return textures.random();
+        Texture t = textures.random();
+        if (t instanceof AnimatedTexture) return new AnimatedTexture(((AnimatedTexture) t).textures, ((AnimatedTexture) t).fps);
+        return t;
     }
 
     @Override
