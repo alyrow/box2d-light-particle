@@ -3,6 +3,7 @@ package com.alyrow.gdx.particle.pack;
 import box2dLight.RayHandler;
 import com.alyrow.gdx.particle.ParticleRules;
 import com.alyrow.gdx.particle.ParticleSystem;
+import com.alyrow.gdx.particle.physics.*;
 import com.alyrow.gdx.particle.rules.*;
 import com.alyrow.gdx.particle.texture.AnimatedTexture;
 import com.alyrow.gdx.particle.texture.ParticleTexture;
@@ -19,6 +20,7 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import java.io.*;
+import java.util.function.BiConsumer;
 
 public class Packer {
     JSONObject object;
@@ -125,6 +127,45 @@ public class Packer {
         if((Boolean)particleLife.get("random")) {
             particleRules.setLife(new ParticleLifeRandom(life[0], life[1], (Boolean)particleLife.get("outer")));
         } else particleRules.setLife(new ParticleLife(life[0], (Boolean)particleLife.get("outer")));
+
+        system.setRules(particleRules);
+
+        PhysicManager physicManager = new PhysicManager();
+        JSONObject physics = (JSONObject) (object.get("physics"));
+        JSONObject force = (JSONObject) (physics.get("force"));
+        force.forEach(new BiConsumer() {
+            @Override
+            public void accept(Object o, Object o2) {
+                String name = (String) o;
+                double[] values = (double[]) o2;
+
+                switch (name) {
+                    case "BrownianForce":
+                        physicManager.addForce(new BrownianForce((float) values[0], (float) values[1], (long) values[2], values[3]));
+                        break;
+                    case "LinearForce":
+                        physicManager.addForce(new LinearForce((float) values[0], (float) values[1]));
+                        break;
+                    case "RandomLinearForce":
+                        physicManager.addForce(new RandomLinearForce((float) values[0], (float) values[1], (float) values[2], (float) values[3]));
+                        break;
+                    case "RadialForce":
+                        physicManager.addForce(new RadialForce((float) values[0]));
+                        break;
+                    case "RandomRadialForce":
+                        physicManager.addForce(new RandomRadialForce((float) values[0], (float) values[1]));
+                        break;
+                    default:
+
+                        break;
+                }
+
+            }        });
+
+        system.setPhysicManager(physicManager);
+
+        JSONObject position = (JSONObject) (object.get("position"));
+        system.setParticlesPosition((float) position.get("x"), (float) position.get("y"));
 
         reader.close();
     }

@@ -36,7 +36,7 @@
   "physics": {
     "force": [
       {
-        "BrownianForce": [5, 1238273, 0.5],
+        "BrownianForce": [5, 4, 1238273, 0.5],
         "LinearForce": [2, 1],
         "RandomLinearForce": [2, 5, 0, 1],
         "RadialForce": [5],
@@ -44,6 +44,10 @@
         "UserCustomForce": [1, 2, 3, 4, 5, 6, 7, 8, 9, 0]
       }
     ]
+  },
+  "position": {
+    "x": 1,
+    "y": 50
   },
   "version": "1.1.0",
   "version_code": 100010000,
