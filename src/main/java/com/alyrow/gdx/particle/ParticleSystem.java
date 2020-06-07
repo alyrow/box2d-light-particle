@@ -31,7 +31,7 @@ public class ParticleSystem {
      * Define Texture of particles
      * @see ParticleTexture
      */
-    private ParticleTexture texture;
+    public ParticleTexture texture;
 
     /**
      * Define rules as particles life, emission duration....
@@ -60,7 +60,7 @@ public class ParticleSystem {
     /**
      * Initial position of particles
      */
-    private float x, y;
+    public float x, y;
 
     /**
      * Manage physics on particles

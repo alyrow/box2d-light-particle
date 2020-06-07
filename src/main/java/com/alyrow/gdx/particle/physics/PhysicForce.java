@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
  * If you want to create a force, extend your class with it and take a look at {@link PhysicParticle}
  */
 public class PhysicForce {
-    float vx, vy;
+    public float vx, vy;
     Vector2 force;
 
     public Vector2 getForce(PhysicParticle particle) {

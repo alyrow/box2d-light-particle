@@ -8,10 +8,10 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class RandomLinearForce extends PhysicForce {
 
-    private final float vx_min;
-    private final float vx_max;
-    private final float vy_max;
-    private final float vy_min;
+    public final float vx_min;
+    public final float vx_max;
+    public final float vy_max;
+    public final float vy_min;
 
     /**
      * Random linear force

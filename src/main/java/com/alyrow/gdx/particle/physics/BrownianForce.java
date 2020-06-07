@@ -7,9 +7,9 @@ import com.badlogic.gdx.math.Vector2;
  * Brownian force
  */
 public class BrownianForce extends PhysicForce {
-    float strength_x, strength_y;
-    private long seed;
-    private double frequency;
+    public float strength_x, strength_y;
+    public long seed;
+    public double frequency;
 
     /**
      * Brownian force with equals strength on x and y axis

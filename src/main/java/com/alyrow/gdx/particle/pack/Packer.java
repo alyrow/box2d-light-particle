@@ -3,6 +3,7 @@ package com.alyrow.gdx.particle.pack;
 import box2dLight.RayHandler;
 import com.alyrow.gdx.particle.ParticleRules;
 import com.alyrow.gdx.particle.ParticleSystem;
+import com.alyrow.gdx.particle.Version;
 import com.alyrow.gdx.particle.physics.*;
 import com.alyrow.gdx.particle.rules.*;
 import com.alyrow.gdx.particle.texture.AnimatedTexture;
@@ -15,6 +16,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import net.lingala.zip4j.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.FileHeader;
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -31,9 +33,14 @@ public class Packer {
     private RayHandler rayHandler;
 
 
-    public Packer(String path) {}
+    public Packer() {
 
-    public Packer(ParticleSystem system) {}
+    }
+
+    public Packer(ParticleSystem system) {
+        toJSON(system);
+        System.out.println(object.toJSONString());
+    }
 
 
     public void setCamera(Camera camera) {
@@ -48,7 +55,7 @@ public class Packer {
         this.world = world;
     }
 
-    public void load(String path) throws IOException, ParseException {
+    public void loadJSON(String path) throws IOException, ParseException {
         ZipFile zipFile = new ZipFile(path);
         FileHeader fileHeader = zipFile.getFileHeader("system.json");
         InputStream inputStream = zipFile.getInputStream(fileHeader);
@@ -168,5 +175,117 @@ public class Packer {
         system.setParticlesPosition((float) position.get("x"), (float) position.get("y"));
 
         reader.close();
+    }
+
+    public void toJSON(ParticleSystem system) {
+        JSONObject parent = new JSONObject();
+        parent.put("particle_type", system.type);
+        //JSONObject textureO = new JSONObject();
+        //textureO.put("random", system.texture)
+        JSONObject rules = new JSONObject();
+        JSONObject particleEmissionDuration = new JSONObject();
+        particleEmissionDuration.put("infinite", system.getRules().duration.infinite);
+        particleEmissionDuration.put("duration", system.getRules().duration.duration);
+        rules.put("ParticleEmissionDuration", particleEmissionDuration);
+        JSONObject particleEmissionLight = new JSONObject();
+        particleEmissionLight.put("random", (system.getRules().light instanceof ParticleEmissionLightRandom)? true:false);
+        particleEmissionLight.put("rays", system.getRules().light.rays);
+        //Float[] color = new Float[4];
+        JSONArray color = new JSONArray();
+        color.add(system.getRules().light.color.r);
+        color.add(system.getRules().light.color.g);
+        color.add(system.getRules().light.color.b);
+        color.add(system.getRules().light.color.a);
+        particleEmissionLight.put("color", color);
+        JSONArray distance = new JSONArray();
+        if (system.getRules().light instanceof ParticleEmissionLightRandom) {
+            ParticleEmissionLightRandom l = (ParticleEmissionLightRandom)system.getRules().light;
+            distance.add(l.distance_min);
+            distance.add(l.distance_max);
+        } else {
+            distance.add(system.getRules().light.distance);
+        }
+        particleEmissionLight.put("distance", distance);
+        rules.put("ParticleEmissionLight", particleEmissionLight);
+        JSONObject particleEmissionNumber = new JSONObject();
+        particleEmissionNumber.put("random", (system.getRules().number instanceof ParticleEmissionNumberRandom)? true:false);
+        particleEmissionNumber.put("mode", system.getRules().number.mode);
+        particleEmissionNumber.put("delay", system.getRules().number.seconds);
+        JSONArray number = new JSONArray();
+        if (system.getRules().number instanceof ParticleEmissionNumberRandom) {
+            ParticleEmissionNumberRandom l = (ParticleEmissionNumberRandom)system.getRules().number;
+            number.add(l.min);
+            number.add(l.max);
+        } else {
+            number.add(system.getRules().number.number);
+        }
+        particleEmissionNumber.put("number", number);
+        rules.put("ParticleEmissionNumber", particleEmissionNumber);
+        JSONObject particleLife = new JSONObject();
+        particleLife.put("random", (system.getRules().life instanceof ParticleLifeRandom)? true:false);
+        particleLife.put("outer", system.getRules().life.outer);
+        JSONArray life = new JSONArray();
+        if (system.getRules().life instanceof ParticleLifeRandom) {
+            ParticleLifeRandom l = (ParticleLifeRandom)system.getRules().life;
+            life.add(l.life_min);
+            life.add(l.life_max);
+        } else {
+            life.add(system.getRules().life.life);
+        }
+        particleLife.put("life", life);
+        rules.put("ParticleLife", particleLife);
+        parent.put("rules", rules);
+        JSONObject physics = new JSONObject();
+        JSONObject force = new JSONObject();
+        for (PhysicForce pForce : system.getPhysicManager().forces) {
+            if (pForce instanceof BrownianForce) {
+                BrownianForce f = (BrownianForce) pForce;
+                JSONArray p = new JSONArray();
+                p.add(f.strength_x);
+                p.add(f.strength_y);
+                p.add(f.seed);
+                p.add(f.frequency);
+                force.put("BrownianForce", p);
+            } else if (pForce instanceof LinearForce) {
+                LinearForce f = (LinearForce) pForce;
+                JSONArray p = new JSONArray();
+                p.add(f.vx);
+                p.add(f.vy);
+                force.put("LinearForce", p);
+            } else if (pForce instanceof RandomLinearForce) {
+                RandomLinearForce f = (RandomLinearForce) pForce;
+                JSONArray p = new JSONArray();
+                p.add(f.vx_min);
+                p.add(f.vx_max);
+                p.add(f.vy_min);
+                p.add(f.vy_max);
+                force.put("RandomLinearForce", p);
+            } else if (pForce instanceof RadialForce) {
+                RadialForce f = (RadialForce) pForce;
+                JSONArray p = new JSONArray();
+                p.add(f.strength);
+                force.put("RadialForce", p);
+            } else if (pForce instanceof RandomRadialForce) {
+                RandomRadialForce f = (RandomRadialForce) pForce;
+                JSONArray p = new JSONArray();
+                p.add(f.strength_min);
+                p.add(f.strength_max);
+                force.put("RandomRadialForce", p);
+            }
+            else {
+
+            }
+        }
+        physics.put("force", force);
+        parent.put("physics", physics);
+        JSONObject position = new JSONObject();
+        position.put("x", system.x);
+        position.put("y", system.y);
+        parent.put("position", position);
+        parent.put("version", Version.version);
+        parent.put("version_code", Version.version_code);
+        parent.put("min_version_code", Version.min_version_code);
+
+        object = parent;
     }
 }
