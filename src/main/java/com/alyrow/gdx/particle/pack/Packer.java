@@ -37,8 +37,8 @@ public class Packer {
 
     }
 
-    public Packer(ParticleSystem system) {
-        toJSON(system);
+    public Packer(ParticleSystem system, JSONObject texture) {
+        toJSON(system, texture);
         System.out.println(object.toJSONString());
     }
 
@@ -177,11 +177,10 @@ public class Packer {
         reader.close();
     }
 
-    public void toJSON(ParticleSystem system) {
+    public void toJSON(ParticleSystem system, JSONObject texture) {
         JSONObject parent = new JSONObject();
         parent.put("particle_type", system.type);
-        //JSONObject textureO = new JSONObject();
-        //textureO.put("random", system.texture)
+        parent.put("texture", texture);
         JSONObject rules = new JSONObject();
         JSONObject particleEmissionDuration = new JSONObject();
         particleEmissionDuration.put("infinite", system.getRules().duration.infinite);
