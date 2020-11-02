@@ -84,18 +84,22 @@ public class Particle {
         //Gdx.app.log("inner", String.valueOf(isInnerScreen));
 
         //Put all physics here
-        Array<Vector2> vectors = new Array<>();
-        forces.forEach(force -> vectors.add(force.getForce(physicParticle)));
-        float vx = 0, vy = 0;
-        for (int i = 0; i < vectors.size; i++) {
-            vx += vectors.get(i).x;
-            vy += vectors.get(i).y;
-        }
+//        Array<Vector2> vectors = new Array<>();
+//        forces.forEach(force -> vectors.add(force.getForce(physicParticle)));
+//        float vx = 0, vy = 0;
+//        for (int i = 0; i < vectors.size; i++) {
+//            vx += vectors.get(i).x;
+//            vy += vectors.get(i).y;
+//        }
+        Vector2 netForce = new Vector2(0,0);
+        forces.forEach(force -> netForce.add(force.getForce(physicParticle)));
+        float vx = netForce.x, vy = netForce.y;
+
         if (!worldPhysic) {
-            physicParticle.x += vx / (delta + 1);
-            physicParticle.y += vy / (delta + 1);
+            physicParticle.x += netForce.x / (delta + 1);
+            physicParticle.y += netForce.y / (delta + 1);
         } else {
-            physicParticle.body.setLinearVelocity(vx, vy);
+            physicParticle.body.setLinearVelocity(netForce.x, netForce.y);
             physicParticle.x = physicParticle.body.getPosition().x - physicParticle.width/2;
             physicParticle.y = physicParticle.body.getPosition().y - physicParticle.height/2;
         }

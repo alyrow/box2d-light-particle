@@ -63,7 +63,7 @@ public class LibraryTest extends Game {
         //physicManager.addForce(new BrownianForce(5, 1000, 10000, 0.6D));
         //physicManager.addForce(new RandomLinearForce(5, 30, 0, 0));
         //physicManager.addForce(new RandomRadialForce(-10, 10));
-        physicManager.addForce(new BlackHole(camera.viewportWidth/1f, camera.viewportHeight/1f, 60));
+        physicManager.addForce(new BlackHole(camera.viewportWidth/2f, camera.viewportHeight/2f, 60));
         physicManager.addForce(new BlackHole(0, 0, 60));
         system.setPhysicManager(physicManager);
     }
