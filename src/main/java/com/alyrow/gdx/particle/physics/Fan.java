@@ -2,22 +2,25 @@ package com.alyrow.gdx.particle.physics;
 
 import com.badlogic.gdx.math.Vector2;
 
-public class Revolution extends PhysicForce {
+public class Fan extends PhysicForce {
 
     // Black hole specific
     private float speed;
     private Vector2 center;
 
-    public Revolution(float x, float y, float speed) {
+    public Fan(float x, float y, float speed) {
         center = new Vector2(x, y);
-        this.speed = speed;
+        this.speed = speed/100;
     }
 
-    private Vector2 cache;
+    private Vector2 cache = Vector2.Zero;
 
     @Override
     public Vector2 getForce(PhysicParticle particle) {
-        return new Vector2(particle.y - center.y, center.x - particle.x).nor().scl(speed);
+        cache.x = particle.y - center.y;
+        cache.y = center.x - particle.x;
+
+        return cache.scl(speed);
     }
 
 }

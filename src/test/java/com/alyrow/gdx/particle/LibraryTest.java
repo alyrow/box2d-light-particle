@@ -9,7 +9,6 @@ import com.alyrow.gdx.particle.rules.ParticleEmissionDuration;
 import com.alyrow.gdx.particle.rules.ParticleEmissionLightRandom;
 import com.alyrow.gdx.particle.rules.ParticleEmissionNumber;
 import com.alyrow.gdx.particle.rules.ParticleLife;
-import com.alyrow.gdx.particle.utils.Line;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
@@ -65,7 +64,12 @@ public class LibraryTest extends Game {
 //        physicManager.addForce(new BlackLine(new Line(0, camera.viewportHeight/2f), 60));
 //        physicManager.addForce(new BlackLine(new Line(0, -1), 60));
 //        physicManager.addForce(new WhiteLine(new Line(0, camera.viewportHeight/2f), 60));
-        physicManager.addForce(new Revolution(camera.viewportWidth/2f, camera.viewportHeight/2f, 20));
+//        physicManager.addForce(new Revolution(camera.viewportWidth/2f, camera.viewportHeight/2f, 20));
+//        physicManager.addForce(new Fan(camera.viewportWidth/2f, camera.viewportHeight/2f, 20));
+//        physicManager.addForce(new Whirlpool(camera.viewportWidth/2f, camera.viewportHeight/2f, 50, 50));
+//        physicManager.addForce(new PointAttract(camera.viewportWidth/2f, camera.viewportHeight/2f, 10));
+        physicManager.addForce(new Drain(camera.viewportWidth/2f, camera.viewportHeight/2f, 10, 10));
+
         system.setPhysicManager(physicManager);
     }
 
