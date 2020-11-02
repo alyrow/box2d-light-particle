@@ -31,7 +31,7 @@ public class ParticleSystem {
      * Define Texture of particles
      * @see ParticleTexture
      */
-    private ParticleTexture texture;
+    public ParticleTexture texture;
 
     /**
      * Define rules as particles life, emission duration....
@@ -53,7 +53,7 @@ public class ParticleSystem {
     /**
      * Draw particles on this
      */
-    private SpriteBatch batch;
+    public SpriteBatch batch;
 
     private long test_long; //For check time elapsed or number of particles inner the screen
 
