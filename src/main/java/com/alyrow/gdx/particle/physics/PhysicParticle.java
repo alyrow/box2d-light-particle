@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class PhysicParticle {
     public Body body;
-    public float x, x_start, y, y_start, r, width, height;
+    public float x, x_start, y, y_start, r, width, height, mass = 1;
 
     @Deprecated
     public Map<String, Float> data = new HashMap<String, Float>();
