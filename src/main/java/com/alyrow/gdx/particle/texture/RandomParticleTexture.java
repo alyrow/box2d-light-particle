@@ -4,7 +4,7 @@ package com.alyrow.gdx.particle.texture;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.utils.Array;
 
-/**
+    /**
  * @author alyrow
  * This class load (TEXTURE or HALO mode) random texture for differents particles.
  */
