@@ -44,6 +44,7 @@ public class Particle {
         this.x = x;
         this.y = y;
         this.physicParticle = physicParticle;
+        this.physicParticle.setThisNoSenseSetterForParticleThisIsALittleReferenceToTheOrganisationOfThisLibDOnTTakeNotePlease(this);
         this.worldPhysic = worldPhysic;
 
         if (texture instanceof AnimatedTexture) {
@@ -113,17 +114,11 @@ public class Particle {
             sprite.setAlpha(life/500);
         }
         if (life <= 0) {
-            //texture.dispose();
-            system.particles.removeValue(this, true);
-            if (worldPhysic) {
-                physicParticle.world.destroyBody(physicParticle.body);
-            }
-            //light.dispose();
-            light.remove(true);
+            dispose();
         } else sprite.draw(batch);
     }
 
-    private boolean _calculateIfInnerScreen(Camera camera) {
+    public boolean _calculateIfInnerScreen(Camera camera) {
         float w = camera.viewportWidth;//batch.getProjectionMatrix().getScaleX();
         float h = camera.viewportHeight;//batch.getProjectionMatrix().getScaleY();
         float x = 0;//camera.position.x;//batch.getProjectionMatrix().getTranslation(new Vector3()).x;
