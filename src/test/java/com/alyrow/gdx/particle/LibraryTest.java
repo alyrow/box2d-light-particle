@@ -4,14 +4,14 @@
 package com.alyrow.gdx.particle;
 
 import box2dLight.RayHandler;
-import com.alyrow.gdx.particle.ParticleRules;
-import com.alyrow.gdx.particle.ParticleSystem;
-import com.alyrow.gdx.particle.ParticleType;
-import com.alyrow.gdx.particle.physics.*;
+import com.alyrow.gdx.particle.physics.BlackLine;
+import com.alyrow.gdx.particle.physics.PhysicManager;
+import com.alyrow.gdx.particle.physics.WhiteLine;
 import com.alyrow.gdx.particle.rules.ParticleEmissionDuration;
 import com.alyrow.gdx.particle.rules.ParticleEmissionLightRandom;
 import com.alyrow.gdx.particle.rules.ParticleEmissionNumber;
 import com.alyrow.gdx.particle.rules.ParticleLife;
+import com.alyrow.gdx.particle.utils.Line;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
@@ -22,8 +22,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
-import org.junit.Test;
-import static org.junit.Assert.*;
 
 public class LibraryTest extends Game {
 
@@ -63,17 +61,20 @@ public class LibraryTest extends Game {
         //physicManager.addForce(new BrownianForce(5, 1000, 10000, 0.6D));
         //physicManager.addForce(new RandomLinearForce(5, 30, 0, 0));
         //physicManager.addForce(new RandomRadialForce(-10, 10));
-        physicManager.addForce(new BlackHole(camera.viewportWidth/2f, camera.viewportHeight/2f, 60));
-        physicManager.addForce(new BlackHole(0, 0, 60));
+//        physicManager.addForce(new WhiteHole(camera.viewportWidth/2f, camera.viewportHeight/2f, 60));
+//        physicManager.addForce(new BlackHole(0, 0, 60));
+//        physicManager.addForce(new BlackLine(new Line(0, camera.viewportHeight/2f), 60));
+//        physicManager.addForce(new BlackLine(new Line(0, -1), 60));
+        physicManager.addForce(new WhiteLine(new Line(0, camera.viewportHeight/2f), 60));
         system.setPhysicManager(physicManager);
     }
 
     @Override
     public void render() {
         camera.update();
-        world.step(1f / 60f,6,2);
-        system.setParticlesPosition(Math.round(Math.random()*Gdx.graphics.getWidth()), Math.round(Math.random()*Gdx.graphics.getHeight())); //Random position
-        emissionLight.color = new Color((float) Math.random(),(float) Math.random(),(float) Math.random(),1);
+        world.step(1f / 60f, 6, 2);
+        system.setParticlesPosition(Math.round(Math.random() * Gdx.graphics.getWidth()), Math.round(Math.random() * Gdx.graphics.getHeight())); //Random position
+        emissionLight.color = new Color((float) Math.random(), (float) Math.random(), (float) Math.random(), 1);
         system.render();
         rayHandler.setCombinedMatrix(camera.combined);
         rayHandler.updateAndRender();
