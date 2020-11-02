@@ -70,6 +70,10 @@ public class LibraryTest extends Game {
 //        physicManager.addForce(new Whirlpool(camera.viewportWidth/2f, camera.viewportHeight/2f, 50, 50));
 //        physicManager.addForce(new PointAttract(camera.viewportWidth/2f, camera.viewportHeight/2f, 10));
         physicManager.addForce(new Drain(camera.viewportWidth/2f, camera.viewportHeight/2f, 30, 30));
+        physicManager.addForce(new ColorPoint(new Color(1,0,0,1), 0, 0, 500));
+        physicManager.addForce(new ColorPoint(new Color(0,1,0,1), 0, camera.viewportHeight, 500));
+        physicManager.addForce(new ColorPoint(new Color(0.65f,0,0.74f,1), camera.viewportWidth, camera.viewportHeight, 500));
+        physicManager.addForce(new ColorPoint(new Color(0,0,1,1), camera.viewportWidth, 0, 500));
 
         system.setPhysicManager(physicManager);
     }
