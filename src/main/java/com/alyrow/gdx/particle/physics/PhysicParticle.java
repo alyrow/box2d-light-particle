@@ -2,6 +2,7 @@ package com.alyrow.gdx.particle.physics;
 
 import com.alyrow.gdx.particle.Particle;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
@@ -44,6 +45,10 @@ public class PhysicParticle {
         }
     }
 
+    /**
+     * Is it clear? :-3
+     * @param particle The particle
+     */
     public void setThisNoSenseSetterForParticleThisIsALittleReferenceToTheOrganisationOfThisLibDOnTTakeNotePlease(Particle particle) {
         _particle = particle;
     }
@@ -62,11 +67,50 @@ public class PhysicParticle {
         }
     }
 
+    /**
+     * Check if a particle is inner screen
+     * @return {@code true} if inner screen else {@code false}
+     */
     public boolean getIfInnerScreen() {
         return _particle.isInnerScreen;
     }
 
+    /**
+     * Delete the particle
+     */
     public void deleteParticle() {
         _particle.dispose();
+    }
+
+    /**
+     * Get particle light color
+     * @return {@link Color} of the particle light
+     */
+    public Color getLightColor() {
+        return _particle.light.getColor();
+    }
+
+    /**
+     * Set particle light color
+     * @param color The {@link Color} of the particle light
+     */
+    public void setLightColor(Color color) {
+        _particle.light.setColor(color);
+    }
+
+    /**
+     * Get particle light distance
+     * @return {@link Float}
+     */
+    public float getLightDistance() {
+        return _particle.light.getDistance();
+    }
+
+    /**
+     * Set particle light distance
+     * @param distance The {@link Float} distance of the particle light
+     */
+    public void setLightDistance(float distance) {
+        _particle.light.setDistance(distance);
     }
 }
