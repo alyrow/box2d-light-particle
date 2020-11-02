@@ -93,7 +93,6 @@ public class Particle {
 //        }
         Vector2 netForce = new Vector2(0,0);
         forces.forEach(force -> netForce.add(force.getForce(physicParticle)));
-        float vx = netForce.x, vy = netForce.y;
 
         if (!worldPhysic) {
             physicParticle.x += netForce.x / (delta + 1);
