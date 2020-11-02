@@ -7,7 +7,7 @@ import com.badlogic.gdx.math.Vector2;
  * Radial force
  */
 public class RadialForce extends PhysicForce {
-    float strength;
+    public float strength;
 
     /**
      * Create radial force

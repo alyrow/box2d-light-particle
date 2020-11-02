@@ -7,8 +7,8 @@ import com.badlogic.gdx.math.Vector2;
  * Random radial force
  */
 public class RandomRadialForce extends PhysicForce {
-    private final float strength_min;
-    private final float strength_max;
+    public final float strength_min;
+    public final float strength_max;
 
     /**
      * @param strength_min Min strength of the force
