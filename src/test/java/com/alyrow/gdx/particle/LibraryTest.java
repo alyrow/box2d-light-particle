@@ -4,9 +4,7 @@
 package com.alyrow.gdx.particle;
 
 import box2dLight.RayHandler;
-import com.alyrow.gdx.particle.physics.BlackLine;
-import com.alyrow.gdx.particle.physics.PhysicManager;
-import com.alyrow.gdx.particle.physics.WhiteLine;
+import com.alyrow.gdx.particle.physics.*;
 import com.alyrow.gdx.particle.rules.ParticleEmissionDuration;
 import com.alyrow.gdx.particle.rules.ParticleEmissionLightRandom;
 import com.alyrow.gdx.particle.rules.ParticleEmissionNumber;
@@ -58,14 +56,16 @@ public class LibraryTest extends Game {
 
         PhysicManager physicManager = new PhysicManager();
         //Here I have divided by 16 because my tile map ratio is 1/16
-        //physicManager.addForce(new BrownianForce(5, 1000, 10000, 0.6D));
-        //physicManager.addForce(new RandomLinearForce(5, 30, 0, 0));
-        //physicManager.addForce(new RandomRadialForce(-10, 10));
-//        physicManager.addForce(new WhiteHole(camera.viewportWidth/2f, camera.viewportHeight/2f, 60));
+//        physicManager.addForce(new BrownianForce(5, 1000, 10000, 0.6D));
+//        physicManager.addForce(new RandomLinearForce(5, 30, 0, 0));
+//        physicManager.addForce(new RandomRadialForce(-10, 10));
+//        physicManager.addForce(new BlackHole(camera.viewportWidth/2f, camera.viewportHeight/2f, 60));
 //        physicManager.addForce(new BlackHole(0, 0, 60));
+//        physicManager.addForce(new WhiteHole(camera.viewportWidth/2f, camera.viewportHeight/2f, 60));
 //        physicManager.addForce(new BlackLine(new Line(0, camera.viewportHeight/2f), 60));
 //        physicManager.addForce(new BlackLine(new Line(0, -1), 60));
-        physicManager.addForce(new WhiteLine(new Line(0, camera.viewportHeight/2f), 60));
+//        physicManager.addForce(new WhiteLine(new Line(0, camera.viewportHeight/2f), 60));
+        physicManager.addForce(new Revolution(camera.viewportWidth/2f, camera.viewportHeight/2f, 20));
         system.setPhysicManager(physicManager);
     }
 
