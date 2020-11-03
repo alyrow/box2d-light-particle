@@ -20,7 +20,7 @@ public class ParticleEmissionNumber {
     /**
      * If mode is set to PER_SECONDS, this is the delay in seconds between each emission.
      */
-    public int seconds = 1;
+    public float seconds = 1;
 
     /**
      * Set the mode of emission and number of particles
@@ -39,7 +39,7 @@ public class ParticleEmissionNumber {
      * @see #PER_SECONDS
      * @param seconds in second
      */
-    public void setDelay(int seconds) {
+    public void setDelay(float seconds) {
         this.seconds = seconds;
     }
 
