@@ -11,6 +11,7 @@ import com.alyrow.gdx.particle.rules.ParticleEmissionDuration;
 import com.alyrow.gdx.particle.rules.ParticleEmissionLightRandom;
 import com.alyrow.gdx.particle.rules.ParticleEmissionNumber;
 import com.alyrow.gdx.particle.rules.ParticleLife;
+import com.alyrow.gdx.particle.utils.Line;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
@@ -42,7 +43,7 @@ public class LibraryTest extends Game {
         debugRenderer = new Box2DDebugRenderer();
 
         ParticleRules rules = new ParticleRules();
-        rules.setNumber(new ParticleEmissionNumber(ParticleEmissionNumber.INNER_SCREEN, 50)); //One particle emitted per seconds
+        rules.setNumber(new ParticleEmissionNumber(ParticleEmissionNumber.INNER_SCREEN, 200)); //One particle emitted per seconds
         rules.setLife(new ParticleLife(5, true)); //Particles life : 5s. Life will decrease when particles are outside the screen.
         rules.setDuration(new ParticleEmissionDuration(true)); //Infinite duration for the emission
         emissionLight = new ParticleEmissionLightRandom(rayHandler, 128, new Color(0.37647f, 1, 1, 1), 15, 45);
@@ -57,7 +58,7 @@ public class LibraryTest extends Game {
 
         PhysicManager physicManager = new PhysicManager();
         //Here I have divided by 16 because my tile map ratio is 1/16
-//        physicManager.addForce(new BrownianForce(5, 1000, 10000, 0.6D));
+//        physicManager.addForce(new BrownianForce(100, 100, 10000, 0.6D));
 //        physicManager.addForce(new RandomLinearForce(5, 30, 0, 0));
 //        physicManager.addForce(new RandomRadialForce(-10, 10));
 //        physicManager.addForce(new BlackHole(camera.viewportWidth/2f, camera.viewportHeight/2f, 60));
@@ -71,6 +72,10 @@ public class LibraryTest extends Game {
 //        physicManager.addForce(new Whirlpool(camera.viewportWidth/2f, camera.viewportHeight/2f, 50, 50));
 //        physicManager.addForce(new PointAttract(camera.viewportWidth/2f, camera.viewportHeight/2f, 10));
 //        physicManager.addForce(new Drain(camera.viewportWidth/2f, camera.viewportHeight/2f, 10, 10));
+//        physicManager.addForce(new ColorPoint(new Color(1,0,0,1), 0, 0, 500));
+//        physicManager.addForce(new ColorPoint(new Color(0,1,0,1), 0, camera.viewportHeight, 500));
+//        physicManager.addForce(new ColorPoint(new Color(0.65f,0,0.74f,1), camera.viewportWidth, camera.viewportHeight, 500));
+//        physicManager.addForce(new ColorPoint(new Color(0,0,1,1), camera.viewportWidth, 0, 500));
 //        physicManager.addForce(new SwitchableForce(
 //                new BlackHole(camera.viewportWidth/2f, camera.viewportHeight/2f, 60),
 //                new WhiteHole(camera.viewportWidth/2f, camera.viewportHeight/2f, 60)
@@ -100,7 +105,7 @@ public class LibraryTest extends Game {
         camera.update();
         world.step(1f / 60f, 6, 2);
         system.setParticlesPosition(Math.round(Math.random() * Gdx.graphics.getWidth()), Math.round(Math.random() * Gdx.graphics.getHeight())); //Random position
-        emissionLight.color = new Color((float) Math.random(), (float) Math.random(), (float) Math.random(), 1);
+        emissionLight.color = new Color((float) Math.random()*0, (float) Math.random()*0, (float) Math.random(), 1);
         system.render();
         rayHandler.setCombinedMatrix(camera.combined);
         rayHandler.updateAndRender();

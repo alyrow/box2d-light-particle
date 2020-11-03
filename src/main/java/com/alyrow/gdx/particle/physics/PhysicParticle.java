@@ -1,6 +1,8 @@
 package com.alyrow.gdx.particle.physics;
 
+import com.alyrow.gdx.particle.Particle;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
@@ -10,6 +12,7 @@ import java.util.Map;
 public class PhysicParticle {
     public Body body;
     public float x, x_start, y, y_start, r, width, height, mass = 1;
+    private Particle _particle;
 
     @Deprecated
     public Map<String, Float> data = new HashMap<String, Float>();
@@ -42,6 +45,14 @@ public class PhysicParticle {
         }
     }
 
+    /**
+     * Is it clear? :-3
+     * @param particle The particle
+     */
+    public void setThisNoSenseSetterForParticleThisIsALittleReferenceToTheOrganisationOfThisLibDOnTTakeNotePlease(Particle particle) {
+        _particle = particle;
+    }
+
     public void setSize(float width, float height) {
         this.width = width;
         this.height = height;
@@ -54,5 +65,52 @@ public class PhysicParticle {
             body.createFixture(shapeCircle, 0.1f);
             shapeCircle.dispose();
         }
+    }
+
+    /**
+     * Check if a particle is inner screen
+     * @return {@code true} if inner screen else {@code false}
+     */
+    public boolean getIfInnerScreen() {
+        return _particle.isInnerScreen;
+    }
+
+    /**
+     * Delete the particle
+     */
+    public void deleteParticle() {
+        _particle.dispose();
+    }
+
+    /**
+     * Get particle light color
+     * @return {@link Color} of the particle light
+     */
+    public Color getLightColor() {
+        return _particle.light.getColor();
+    }
+
+    /**
+     * Set particle light color
+     * @param color The {@link Color} of the particle light
+     */
+    public void setLightColor(Color color) {
+        _particle.light.setColor(color);
+    }
+
+    /**
+     * Get particle light distance
+     * @return {@link Float}
+     */
+    public float getLightDistance() {
+        return _particle.light.getDistance();
+    }
+
+    /**
+     * Set particle light distance
+     * @param distance The {@link Float} distance of the particle light
+     */
+    public void setLightDistance(float distance) {
+        _particle.light.setDistance(distance);
     }
 }
