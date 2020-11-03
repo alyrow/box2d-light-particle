@@ -1,6 +1,6 @@
 package com.alyrow.gdx.particle.physics;
 
-import com.alyrow.gdx.particle.utils.CompoundForce;
+import com.alyrow.gdx.particle.physics.powerups.CompoundForce;
 
 public class Drain extends CompoundForce {
     public Drain(float x, float y, float strength, float speed) {

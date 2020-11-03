@@ -2,32 +2,31 @@ package com.alyrow.gdx.particle.physics;
 
 import com.badlogic.gdx.math.Vector2;
 
-public class BlackHole extends PhysicForce {
+public class PointElectrostaticForce extends PhysicForce {
 
     private float effect;
     private Vector2 center;
 
     private float drs = 0.1f; // destruction radius squared
 
-    public BlackHole(float x, float y, float mass, float G) {
+    public PointElectrostaticForce(float x, float y, float charge, float k) {
         center = new Vector2(x, y);
-        effect = G * mass;
+        effect = k * charge;
     }
 
-    public BlackHole(float x, float y, float mass) {
-        this(x, y, mass, 40000);
+    public PointElectrostaticForce(float x, float y, float charge) {
+        this(x, y, charge, 40000);
     }
 
-    private Vector2 cache = Vector2.Zero;
+    private Vector2 cache;
     private float rs;
 
     @Override
     public Vector2 getForce(PhysicParticle particle) {
-        cache.x = center.x - particle.x;
-        cache.y = center.y - particle.y;
+        cache = new Vector2(center.x - particle.x, center.y - particle.y);
         rs = cache.len2();
         if (rs < drs) particle.deleteParticle();
-        return cache.nor().scl(effect * particle.mass / rs);
+        return cache.nor().scl(effect * particle.charge / rs);
     }
 
     public void setDestructionRadius(float destructionRadius) {

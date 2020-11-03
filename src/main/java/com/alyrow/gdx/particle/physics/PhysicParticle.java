@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class PhysicParticle {
     public Body body;
-    public float x, x_start, y, y_start, r, width, height, mass = 1;
+    public float x, x_start, y, y_start, r, width, height, mass = 1, charge = 1;
     private Particle _particle;
 
     @Deprecated

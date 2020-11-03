@@ -7,8 +7,9 @@ import com.badlogic.gdx.math.Vector2;
 public class BlackLine extends PhysicForce {
 
     private float effect;
-
     private Line line;
+
+    private float drs = 0.1f; // destruction radius squared
 
     public BlackLine(Line line, float mass, float G) {
         this.line = line;
@@ -26,6 +27,12 @@ public class BlackLine extends PhysicForce {
     public Vector2 getForce(PhysicParticle particle) {
         cache = line.normal(particle.x, particle.y);
         rs = (float) Math.pow(line.distance(particle.x, particle.y), 2);
+        if(rs < drs) particle.deleteParticle();
         return cache.scl(-effect * particle.mass / rs);
     }
+
+    public void setDestructionRadius(float destructionRadius) {
+        this.drs = destructionRadius * destructionRadius;
+    }
+
 }

@@ -4,7 +4,10 @@
 package com.alyrow.gdx.particle;
 
 import box2dLight.RayHandler;
-import com.alyrow.gdx.particle.physics.*;
+import com.alyrow.gdx.particle.physics.BlackLine;
+import com.alyrow.gdx.particle.physics.Drain;
+import com.alyrow.gdx.particle.physics.PhysicManager;
+import com.alyrow.gdx.particle.physics.PointElectrostaticForce;
 import com.alyrow.gdx.particle.rules.ParticleEmissionDuration;
 import com.alyrow.gdx.particle.rules.ParticleEmissionLightRandom;
 import com.alyrow.gdx.particle.rules.ParticleEmissionNumber;
@@ -61,7 +64,7 @@ public class LibraryTest extends Game {
 //        physicManager.addForce(new RandomRadialForce(-10, 10));
 //        physicManager.addForce(new BlackHole(camera.viewportWidth/2f, camera.viewportHeight/2f, 60));
 //        physicManager.addForce(new BlackHole(0, 0, 60));
-        physicManager.addForce(new WhiteHole(camera.viewportWidth/2f, camera.viewportHeight/2f, 60));
+//        physicManager.addForce(new WhiteHole(camera.viewportWidth/2f, camera.viewportHeight/2f, 60));
 //        physicManager.addForce(new BlackLine(new Line(0, camera.viewportHeight/2f), 60));
 //        physicManager.addForce(new BlackLine(new Line(0, -1), 60));
 //        physicManager.addForce(new WhiteLine(new Line(0, camera.viewportHeight/2f), 60));
@@ -69,11 +72,32 @@ public class LibraryTest extends Game {
 //        physicManager.addForce(new Fan(camera.viewportWidth/2f, camera.viewportHeight/2f, 20));
 //        physicManager.addForce(new Whirlpool(camera.viewportWidth/2f, camera.viewportHeight/2f, 50, 50));
 //        physicManager.addForce(new PointAttract(camera.viewportWidth/2f, camera.viewportHeight/2f, 10));
-        physicManager.addForce(new Drain(camera.viewportWidth/2f, camera.viewportHeight/2f, 30, 30));
-        physicManager.addForce(new ColorPoint(new Color(1,0,0,1), 0, 0, 500));
-        physicManager.addForce(new ColorPoint(new Color(0,1,0,1), 0, camera.viewportHeight, 500));
-        physicManager.addForce(new ColorPoint(new Color(0.65f,0,0.74f,1), camera.viewportWidth, camera.viewportHeight, 500));
-        physicManager.addForce(new ColorPoint(new Color(0,0,1,1), camera.viewportWidth, 0, 500));
+//        physicManager.addForce(new Drain(camera.viewportWidth/2f, camera.viewportHeight/2f, 10, 10));
+//        physicManager.addForce(new ColorPoint(new Color(1,0,0,1), 0, 0, 500));
+//        physicManager.addForce(new ColorPoint(new Color(0,1,0,1), 0, camera.viewportHeight, 500));
+//        physicManager.addForce(new ColorPoint(new Color(0.65f,0,0.74f,1), camera.viewportWidth, camera.viewportHeight, 500));
+//        physicManager.addForce(new ColorPoint(new Color(0,0,1,1), camera.viewportWidth, 0, 500));
+//        physicManager.addForce(new SwitchableForce(
+//                new BlackHole(camera.viewportWidth/2f, camera.viewportHeight/2f, 60),
+//                new WhiteHole(camera.viewportWidth/2f, camera.viewportHeight/2f, 60)
+//        ));
+//        physicManager.addForce(new SwitchableForce(
+//                new Revolution(camera.viewportWidth/2f, camera.viewportHeight/2f, 30),
+//                new Revolution(camera.viewportWidth/2f, camera.viewportHeight/2f, -30),
+//                new Revolution(camera.viewportWidth/2f, camera.viewportHeight/2f, 60),
+//                new Revolution(camera.viewportWidth/2f, camera.viewportHeight/2f, -60)
+//        ));
+//        physicManager.addForce(new SwitchableForce(
+//                new TimeMatcherSwitch(200, 400),
+//                new Revolution(camera.viewportWidth/2f, camera.viewportHeight/2f, 30),
+//                new Revolution(camera.viewportWidth/2f, camera.viewportHeight/2f, -30)
+//        ));
+//        physicManager.addForce(new LinearTransitionForce(
+//                new Revolution(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 30),
+//                new Revolution(camera.viewportWidth / 2f, camera.viewportHeight / 2f, -30),
+//                0.0001f // also try 0.001f
+//        ));
+        physicManager.addForce(new PointElectrostaticForce(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 30));
 
         system.setPhysicManager(physicManager);
     }
