@@ -4,6 +4,8 @@
 package com.alyrow.gdx.particle;
 
 import box2dLight.RayHandler;
+import com.alyrow.gdx.particle.physics.BlackLine;
+import com.alyrow.gdx.particle.physics.Drain;
 import com.alyrow.gdx.particle.physics.PhysicManager;
 import com.alyrow.gdx.particle.physics.PointElectrostaticForce;
 import com.alyrow.gdx.particle.rules.ParticleEmissionDuration;

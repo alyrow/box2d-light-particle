@@ -7,6 +7,8 @@ public class BlackHole extends PhysicForce {
     private float effect;
     private Vector2 center;
 
+    private float drs = 0.1f; // destruction radius squared
+
     public BlackHole(float x, float y, float mass, float G) {
         center = new Vector2(x, y);
         effect = G * mass;
@@ -24,6 +26,11 @@ public class BlackHole extends PhysicForce {
         cache.x = center.x - particle.x;
         cache.y = center.y - particle.y;
         rs = cache.len2();
+        if (rs < drs) particle.deleteParticle();
         return cache.nor().scl(effect * particle.mass / rs);
+    }
+
+    public void setDestructionRadius(float destructionRadius) {
+        this.drs = destructionRadius * destructionRadius;
     }
 }
