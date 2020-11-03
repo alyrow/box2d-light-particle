@@ -1,4 +1,4 @@
-package com.alyrow.gdx.particle.utils;
+package com.alyrow.gdx.particle.physics.powerups;
 
 import com.alyrow.gdx.particle.physics.PhysicForce;
 import com.alyrow.gdx.particle.physics.PhysicParticle;
