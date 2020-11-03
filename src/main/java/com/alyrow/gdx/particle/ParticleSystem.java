@@ -1,5 +1,6 @@
 package com.alyrow.gdx.particle;
 
+import com.alyrow.gdx.particle.modifiers.ModifierManager;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
@@ -69,6 +70,12 @@ public class ParticleSystem {
     private PhysicManager physicManager;
 
     /**
+     * Manage modifier on particles
+     * @see ModifierManager
+     */
+    private ModifierManager modifierManager;
+
+    /**
      * Constructor that create a particle system
      * @param type Particles type (Halo, Texture, No texture)
      *             {@link ParticleType}
@@ -84,6 +91,8 @@ public class ParticleSystem {
 
         if(type == ParticleType.HALO) texture = new ParticleTexture("halo.png");
         else if (type == ParticleType.NOTHING) texture = new ParticleTexture();
+
+        modifierManager = new ModifierManager();
     }
 
     /**
@@ -171,11 +180,11 @@ public class ParticleSystem {
             test_long = 0;
             for (int i = 0; i < particles.size; i++) if (particles.get(i).isInnerScreen) test_long++;
             if (test_long < rules.number.getNumber())
-                particles.add(new Particle(rules.light.getLight(), batch, rules.life.getLife(), rules.life.outer, texture.getTexture(), camera, this, x, y, physicManager.getParticleForces(x, y, world, camera), world != null, type));
+                particles.add(applyModifiers(new Particle(rules.light.getLight(), batch, rules.life.getLife(), rules.life.outer, texture.getTexture(), camera, this, x, y, physicManager.getParticleForces(x, y, world, camera), world != null, type)));
         } else {
             if (new Date().getTime() >= test_long + rules.number.seconds*1000) {
                 for (int j = 0; j < rules.number.getNumber(); j++)
-                    particles.add(new Particle(rules.light.getLight(), batch, rules.life.getLife(), rules.life.outer, texture.getTexture(), camera, this, x, y, physicManager.getParticleForces(x, y, world, camera), world != null, type));
+                    particles.add(applyModifiers(new Particle(rules.light.getLight(), batch, rules.life.getLife(), rules.life.outer, texture.getTexture(), camera, this, x, y, physicManager.getParticleForces(x, y, world, camera), world != null, type)));
                 test_long = new Date().getTime();
             }
         }
@@ -187,6 +196,19 @@ public class ParticleSystem {
         batch.end();
     }
 
+    /**
+     * Get the Modifier Manager in order to apply modifiers on particles
+     * @return {@link ModifierManager}
+     */
+    public ModifierManager getModifierManager() {
+        return modifierManager;
+    }
+
+    private Particle applyModifiers(Particle particle) {
+        for (int i = 0; i < modifierManager.modifiers.size; ++i)
+            modifierManager.modifiers.get(i)._applyModifier(particle);
+        return particle;
+    }
 
     /**
      * Well, down are all blending function on SpriteBatch.
