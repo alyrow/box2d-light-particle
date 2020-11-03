@@ -5,8 +5,7 @@ package com.alyrow.gdx.particle;
 
 import box2dLight.RayHandler;
 import com.alyrow.gdx.particle.physics.PhysicManager;
-import com.alyrow.gdx.particle.physics.Revolution;
-import com.alyrow.gdx.particle.physics.powerups.LinearTransitionForce;
+import com.alyrow.gdx.particle.physics.PointElectrostaticForce;
 import com.alyrow.gdx.particle.rules.ParticleEmissionDuration;
 import com.alyrow.gdx.particle.rules.ParticleEmissionLightRandom;
 import com.alyrow.gdx.particle.rules.ParticleEmissionNumber;
@@ -86,11 +85,12 @@ public class LibraryTest extends Game {
 //                new Revolution(camera.viewportWidth/2f, camera.viewportHeight/2f, 30),
 //                new Revolution(camera.viewportWidth/2f, camera.viewportHeight/2f, -30)
 //        ));
-        physicManager.addForce(new LinearTransitionForce(
-                new Revolution(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 30),
-                new Revolution(camera.viewportWidth / 2f, camera.viewportHeight / 2f, -30),
-                0.0001f // also try 0.001f
-        ));
+//        physicManager.addForce(new LinearTransitionForce(
+//                new Revolution(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 30),
+//                new Revolution(camera.viewportWidth / 2f, camera.viewportHeight / 2f, -30),
+//                0.0001f // also try 0.001f
+//        ));
+        physicManager.addForce(new PointElectrostaticForce(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 30));
 
         system.setPhysicManager(physicManager);
     }
