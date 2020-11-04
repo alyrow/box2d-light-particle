@@ -5,9 +5,7 @@ package com.alyrow.gdx.particle;
 
 import box2dLight.RayHandler;
 import com.alyrow.gdx.particle.modifiers.RandomPositionShape;
-import com.alyrow.gdx.particle.physics.ImageColour;
 import com.alyrow.gdx.particle.physics.PhysicManager;
-import com.alyrow.gdx.particle.physics.PointAttract;
 import com.alyrow.gdx.particle.rules.ParticleEmissionDuration;
 import com.alyrow.gdx.particle.rules.ParticleEmissionLightRandom;
 import com.alyrow.gdx.particle.rules.ParticleEmissionNumber;
@@ -24,7 +22,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
 import java.awt.*;
-import java.awt.geom.*;
+import java.awt.geom.Ellipse2D;
 
 public class LibraryTest extends Game {
 
@@ -62,16 +60,9 @@ public class LibraryTest extends Game {
         system.setParticlesPosition(-2, 0);
 //        system.disableBlending();
 
-        Rectangle2D.Float e = new Rectangle2D.Float(camera.viewportWidth / 4, camera.viewportHeight/4, camera.viewportWidth / 2, camera.viewportHeight/2);
-        Path2D path = new Path2D.Double();
-        path.append(e, false);
-        AffineTransform t = new AffineTransform();
-        t.rotate(45, camera.viewportWidth / 2, camera.viewportHeight/2);
-        path.transform(t);
-
         system.getModifierManager().addModifier(
 //                new RandomPositionRectangle(camera.viewportWidth/2, camera.viewportHeight)
-                new RandomPositionShape(path)
+                new RandomPositionShape(new Rectangle(0, 0, 200, 200), new Ellipse2D.Float(300, 300, 200, 200))
 //                new RandomMassModifier(10,30),
 //                new RandomChargeModifier(),
 //                new MassProportionalLightRadius(2f)
@@ -123,7 +114,6 @@ public class LibraryTest extends Game {
 //        ));
 //        physicManager.addForce(new PointElectrostaticForce(camera.viewportWidth / 3f, camera.viewportHeight / 2f, 1000));
 //        physicManager.addForce(new PointElectrostaticForce(2 * camera.viewportWidth / 3f, camera.viewportHeight / 2f, -1000));
-        
 
         system.setPhysicManager(physicManager);
     }

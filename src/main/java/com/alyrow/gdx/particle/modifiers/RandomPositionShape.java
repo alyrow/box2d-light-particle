@@ -1,13 +1,13 @@
 package com.alyrow.gdx.particle.modifiers;
 
 import com.alyrow.gdx.particle.physics.PhysicForce;
-import com.alyrow.gdx.particle.utils.M;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
 import org.w3c.dom.css.Rect;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Path2D;
 
 public class RandomPositionShape extends Modifier {
 
@@ -26,6 +26,20 @@ public class RandomPositionShape extends Modifier {
 
         AffineTransform t = new AffineTransform();
         t.rotate(45);
+
+    }
+
+    public RandomPositionShape(Shape...shapes) {
+
+        Path2D path = new Path2D.Float();
+        for (Shape s : shapes) path.append(s, false);
+
+        this.shape = path;
+        Rectangle r = shape.getBounds();
+        x = r.x;
+        y = r.y;
+        w = r.width;
+        h = r.height;
 
     }
 
