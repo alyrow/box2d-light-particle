@@ -35,6 +35,7 @@ public class Particle {
     private long timeEllapsed;
     public PhysicParticle physicParticle;
     public PointLight light;
+    private int type;
 
     public Particle(PointLight light, SpriteBatch batch, float life, boolean outer, Texture texture, Camera camera, ParticleSystem system, float x, float y, PhysicParticle physicParticle, boolean worldPhysic, int type) {
         this.life = life * 1000; //s to ms
@@ -46,6 +47,7 @@ public class Particle {
         this.physicParticle = physicParticle;
         this.physicParticle.setThisNoSenseSetterForParticleThisIsALittleReferenceToTheOrganisationOfThisLibDOnTTakeNotePlease(this);
         this.worldPhysic = worldPhysic;
+        this.type = type;
 
         if (texture instanceof AnimatedTexture) {
             //Gdx.app.log("AnimatedTexture", "true");
@@ -108,6 +110,9 @@ public class Particle {
         //Gdx.app.log("position", x+", "+y);
         sprite.setPosition(physicParticle.x, physicParticle.y);
         light.setPosition(physicParticle.x + physicParticle.width/2, physicParticle.y + physicParticle.height/2);
+
+        if(type == ParticleType.HALO && sprite.getColor().equals(light.getColor()))
+            sprite.setColor(light.getColor());
 
 
         if (life < 500) {
