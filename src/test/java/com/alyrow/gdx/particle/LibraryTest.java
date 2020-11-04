@@ -4,6 +4,8 @@
 package com.alyrow.gdx.particle;
 
 import box2dLight.RayHandler;
+import com.alyrow.gdx.particle.modifiers.MassProportionalLightRadius;
+import com.alyrow.gdx.particle.modifiers.RandomColors;
 import com.alyrow.gdx.particle.modifiers.RandomPositionShape;
 import com.alyrow.gdx.particle.physics.PhysicManager;
 import com.alyrow.gdx.particle.rules.ParticleEmissionDuration;
@@ -60,13 +62,21 @@ public class LibraryTest extends Game {
         system.setParticlesPosition(-2, 0);
 //        system.disableBlending();
 
-        system.getModifierManager().addModifier(
-//                new RandomPositionRectangle(camera.viewportWidth/2, camera.viewportHeight)
-                new RandomPositionShape(new Rectangle(0, 0, 200, 200), new Ellipse2D.Float(300, 300, 200, 200))
-//                new RandomMassModifier(10,30),
-//                new RandomChargeModifier(),
-//                new MassProportionalLightRadius(2f)
-        );
+        try {
+            system.getModifierManager().addModifier(
+                    //                new RandomPositionRectangle(camera.viewportWidth/2, camera.viewportHeight)
+                    new RandomPositionShape(
+                            new Rectangle(100, 100, 300, 300),
+                            new Ellipse2D.Float(400, 400, 300, 300)
+                    ).getTransform().rotate(Math.PI / 4, camera.viewportWidth / 2, camera.viewportHeight / 2f).getHolder(),
+                    new RandomColors()
+                    //                new RandomMassModifier(10,30),
+                    //                new RandomChargeModifier(),
+//                                    new MassProportionalLightRadius(2f)
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         PhysicManager physicManager = new PhysicManager();
         //Here I have divided by 16 because my tile map ratio is 1/16
