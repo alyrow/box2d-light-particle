@@ -4,15 +4,14 @@
 package com.alyrow.gdx.particle;
 
 import box2dLight.RayHandler;
-import com.alyrow.gdx.particle.modifiers.MassProportionalLightRadius;
-import com.alyrow.gdx.particle.modifiers.RandomChargeModifier;
-import com.alyrow.gdx.particle.modifiers.RandomMassModifier;
-import com.alyrow.gdx.particle.physics.*;
+import com.alyrow.gdx.particle.modifiers.RandomPositionShape;
+import com.alyrow.gdx.particle.physics.ImageColour;
+import com.alyrow.gdx.particle.physics.PhysicManager;
+import com.alyrow.gdx.particle.physics.PointAttract;
 import com.alyrow.gdx.particle.rules.ParticleEmissionDuration;
 import com.alyrow.gdx.particle.rules.ParticleEmissionLightRandom;
 import com.alyrow.gdx.particle.rules.ParticleEmissionNumber;
 import com.alyrow.gdx.particle.rules.ParticleLife;
-import com.alyrow.gdx.particle.utils.Line;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
@@ -23,6 +22,9 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
+
+import java.awt.*;
+import java.awt.geom.*;
 
 public class LibraryTest extends Game {
 
@@ -39,15 +41,17 @@ public class LibraryTest extends Game {
         world = new World(new Vector2(10, 0), true);
         rayHandler = new RayHandler(world);
         rayHandler.setBlurNum(3);
-        rayHandler.setAmbientLight(new Color(0.1f, 0.1f, 0.1f, 0.3f));
+        rayHandler.setAmbientLight(new Color(0.1f, 0.1f, 0.1f, 0f));
         rayHandler.setShadows(true);
         debugRenderer = new Box2DDebugRenderer();
 
         ParticleRules rules = new ParticleRules();
-        rules.setNumber(new ParticleEmissionNumber(ParticleEmissionNumber.INNER_SCREEN, 200)); //One particle emitted per seconds
+        ParticleEmissionNumber ps = new ParticleEmissionNumber(ParticleEmissionNumber.INNER_SCREEN, 1000);
+        ps.setDelay(1f);
+        rules.setNumber(ps); //One particle emitted per seconds
         rules.setLife(new ParticleLife(5, true)); //Particles life : 5s. Life will decrease when particles are outside the screen.
         rules.setDuration(new ParticleEmissionDuration(true)); //Infinite duration for the emission
-        emissionLight = new ParticleEmissionLightRandom(rayHandler, 128, new Color(0.37647f, 1, 1, 1), 1, 50);
+        emissionLight = new ParticleEmissionLightRandom(rayHandler, 16, /*new Color(0.37647f, 1, 1, 1)*/Color.BLACK, 10.5f, 50);
         rules.setLight(emissionLight); //Add random light distance between 35 and 45.
 
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -56,11 +60,21 @@ public class LibraryTest extends Game {
         system = new ParticleSystem(ParticleType.HALO, null, camera);
         system.setRules(rules);
         system.setParticlesPosition(-2, 0);
+//        system.disableBlending();
+
+        Rectangle2D.Float e = new Rectangle2D.Float(camera.viewportWidth / 4, camera.viewportHeight/4, camera.viewportWidth / 2, camera.viewportHeight/2);
+        Path2D path = new Path2D.Double();
+        path.append(e, false);
+        AffineTransform t = new AffineTransform();
+        t.rotate(45, camera.viewportWidth / 2, camera.viewportHeight/2);
+        path.transform(t);
 
         system.getModifierManager().addModifier(
-                new RandomMassModifier(),
-                new RandomChargeModifier(),
-                new MassProportionalLightRadius(2f)
+//                new RandomPositionRectangle(camera.viewportWidth/2, camera.viewportHeight)
+                new RandomPositionShape(path)
+//                new RandomMassModifier(10,30),
+//                new RandomChargeModifier(),
+//                new MassProportionalLightRadius(2f)
         );
 
         PhysicManager physicManager = new PhysicManager();
@@ -79,7 +93,9 @@ public class LibraryTest extends Game {
 //        Whirlpool w = new Whirlpool(camera.viewportWidth/2f, camera.viewportHeight/2f, 50, 50);
 //        w.setDestructionRadius(0);
 //        physicManager.addForce(w);
-//        physicManager.addForce(new PointAttract(camera.viewportWidth/2f, camera.viewportHeight/2f, 1000));
+//        PointAttract p = new PointAttract(camera.viewportWidth/2f, camera.viewportHeight/2f, 60);
+//        p.setDestructionRadius(4f);
+//        physicManager.addForce(p);
 //        physicManager.addForce(new Drain(camera.viewportWidth/2f, camera.viewportHeight/2f, 10, 10));
 //        physicManager.addForce(new ColorPoint(new Color(1,0,0,1), 0, 0, 500));
 //        physicManager.addForce(new ColorPoint(new Color(0,1,0,1), 0, camera.viewportHeight, 500));
@@ -107,6 +123,7 @@ public class LibraryTest extends Game {
 //        ));
 //        physicManager.addForce(new PointElectrostaticForce(camera.viewportWidth / 3f, camera.viewportHeight / 2f, 1000));
 //        physicManager.addForce(new PointElectrostaticForce(2 * camera.viewportWidth / 3f, camera.viewportHeight / 2f, -1000));
+        
 
         system.setPhysicManager(physicManager);
     }
