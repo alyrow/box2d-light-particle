@@ -7,6 +7,7 @@ import box2dLight.RayHandler;
 import com.alyrow.gdx.particle.modifiers.MassProportionalLightRadius;
 import com.alyrow.gdx.particle.modifiers.RandomColors;
 import com.alyrow.gdx.particle.modifiers.RandomPositionShape;
+import com.alyrow.gdx.particle.physics.Fan;
 import com.alyrow.gdx.particle.physics.PhysicManager;
 import com.alyrow.gdx.particle.rules.ParticleEmissionDuration;
 import com.alyrow.gdx.particle.rules.ParticleEmissionLightRandom;
@@ -34,6 +35,7 @@ public class LibraryTest extends Game {
     private ParticleSystem system;
     private OrthographicCamera camera;
     private ParticleEmissionLightRandom emissionLight;
+    PhysicManager physicManager;
 
     @Override
     public void create() {
@@ -78,7 +80,7 @@ public class LibraryTest extends Game {
             e.printStackTrace();
         }
 
-        PhysicManager physicManager = new PhysicManager();
+        physicManager = new PhysicManager();
         //Here I have divided by 16 because my tile map ratio is 1/16
 //        physicManager.addForce(new BrownianForce(100, 100, 10000, 0.6D));
 //        physicManager.addForce(new RandomLinearForce(5, 30, 0, 0));
@@ -128,6 +130,8 @@ public class LibraryTest extends Game {
         system.setPhysicManager(physicManager);
     }
 
+    boolean g = true;
+
     @Override
     public void render() {
         camera.update();
@@ -135,6 +139,12 @@ public class LibraryTest extends Game {
         system.setParticlesPosition(Math.round(Math.random() * Gdx.graphics.getWidth()), Math.round(Math.random() * Gdx.graphics.getHeight())); //Random position
         emissionLight.color = new Color((float) Math.random() * 0, (float) Math.random() * 0, /*(float) Math.random()*/1, 1);
         system.render();
+
+        if(g) {
+            physicManager.addForce(new Fan(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 20));
+            g = false;
+        }
+
         rayHandler.setCombinedMatrix(camera.combined);
         rayHandler.updateAndRender();
     }
