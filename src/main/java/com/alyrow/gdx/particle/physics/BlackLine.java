@@ -1,6 +1,7 @@
 package com.alyrow.gdx.particle.physics;
 
 import com.alyrow.gdx.particle.utils.Line;
+import com.alyrow.gdx.particle.utils.PhysicForces;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
@@ -10,6 +11,7 @@ public class BlackLine extends PhysicForce {
     private Line line;
 
     private float drs = 0.1f; // destruction radius squared
+    private float limit = 10000;
 
     public BlackLine(Line line, float mass, float G) {
         this.line = line;
@@ -28,7 +30,8 @@ public class BlackLine extends PhysicForce {
         cache = line.normal(particle.x, particle.y);
         rs = (float) Math.pow(line.distance(particle.x, particle.y), 2);
         if(rs < drs) particle.deleteParticle();
-        return cache.scl(-effect * particle.mass / rs);
+
+        return PhysicForces.Clamp(cache.scl(-effect * particle.mass / rs), limit);
     }
 
     public void setDestructionRadius(float destructionRadius) {

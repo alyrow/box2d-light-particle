@@ -1,13 +1,31 @@
 package com.alyrow.gdx.particle.physics;
 
-public class WhiteHole extends BlackHole {
+import com.badlogic.gdx.math.Vector2;
+
+public class WhiteHole extends PhysicForce {
+
+    private float effect;
+    private Vector2 center;
 
     public WhiteHole(float x, float y, float mass, float G) {
-        super(x, y, -mass, G);
+        center = new Vector2(x, y);
+        effect = -G * mass;
     }
 
     public WhiteHole(float x, float y, float mass) {
-        super(x, y, -mass);
+        this(x, y, mass, 40000);
+    }
+
+    private Vector2 cache = Vector2.Zero;
+    private float rs;
+
+    @Override
+    public Vector2 getForce(PhysicParticle particle) {
+        cache.x = center.x - particle.x;
+        cache.y = center.y - particle.y;
+        rs = cache.len2();
+
+        return cache.nor().scl(effect * particle.mass / rs);
     }
 
 }

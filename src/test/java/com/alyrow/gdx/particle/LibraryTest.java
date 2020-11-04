@@ -5,10 +5,9 @@ package com.alyrow.gdx.particle;
 
 import box2dLight.RayHandler;
 import com.alyrow.gdx.particle.modifiers.MassProportionalLightRadius;
-import com.alyrow.gdx.particle.physics.BlackLine;
-import com.alyrow.gdx.particle.physics.Drain;
-import com.alyrow.gdx.particle.physics.PhysicManager;
-import com.alyrow.gdx.particle.physics.PointElectrostaticForce;
+import com.alyrow.gdx.particle.modifiers.RandomChargeModifier;
+import com.alyrow.gdx.particle.modifiers.RandomMassModifier;
+import com.alyrow.gdx.particle.physics.*;
 import com.alyrow.gdx.particle.rules.ParticleEmissionDuration;
 import com.alyrow.gdx.particle.rules.ParticleEmissionLightRandom;
 import com.alyrow.gdx.particle.rules.ParticleEmissionNumber;
@@ -58,23 +57,29 @@ public class LibraryTest extends Game {
         system.setRules(rules);
         system.setParticlesPosition(-2, 0);
 
-        system.getModifierManager().addModifier(new MassProportionalLightRadius(2f));
+        system.getModifierManager().addModifier(
+                new RandomMassModifier(),
+                new RandomChargeModifier(),
+                new MassProportionalLightRadius(2f)
+        );
 
         PhysicManager physicManager = new PhysicManager();
         //Here I have divided by 16 because my tile map ratio is 1/16
 //        physicManager.addForce(new BrownianForce(100, 100, 10000, 0.6D));
 //        physicManager.addForce(new RandomLinearForce(5, 30, 0, 0));
 //        physicManager.addForce(new RandomRadialForce(-10, 10));
-//        physicManager.addForce(new BlackHole(camera.viewportWidth/2f, camera.viewportHeight/2f, 60));
-//        physicManager.addForce(new BlackHole(0, 0, 60));
+//        physicManager.addForce(new BlackHole(camera.viewportWidth/2f, camera.viewportHeight/2f, 100));
+//        physicManager.addForce(new BlackHole(0, 0, 100));
 //        physicManager.addForce(new WhiteHole(camera.viewportWidth/2f, camera.viewportHeight/2f, 60));
 //        physicManager.addForce(new BlackLine(new Line(0, camera.viewportHeight/2f), 60));
 //        physicManager.addForce(new BlackLine(new Line(0, -1), 60));
 //        physicManager.addForce(new WhiteLine(new Line(0, camera.viewportHeight/2f), 60));
 //        physicManager.addForce(new Revolution(camera.viewportWidth/2f, camera.viewportHeight/2f, 20));
 //        physicManager.addForce(new Fan(camera.viewportWidth/2f, camera.viewportHeight/2f, 20));
-//        physicManager.addForce(new Whirlpool(camera.viewportWidth/2f, camera.viewportHeight/2f, 50, 50));
-//        physicManager.addForce(new PointAttract(camera.viewportWidth/2f, camera.viewportHeight/2f, 10));
+//        Whirlpool w = new Whirlpool(camera.viewportWidth/2f, camera.viewportHeight/2f, 50, 50);
+//        w.setDestructionRadius(0);
+//        physicManager.addForce(w);
+//        physicManager.addForce(new PointAttract(camera.viewportWidth/2f, camera.viewportHeight/2f, 1000));
 //        physicManager.addForce(new Drain(camera.viewportWidth/2f, camera.viewportHeight/2f, 10, 10));
 //        physicManager.addForce(new ColorPoint(new Color(1,0,0,1), 0, 0, 500));
 //        physicManager.addForce(new ColorPoint(new Color(0,1,0,1), 0, camera.viewportHeight, 500));
@@ -100,7 +105,8 @@ public class LibraryTest extends Game {
 //                new Revolution(camera.viewportWidth / 2f, camera.viewportHeight / 2f, -30),
 //                0.0001f // also try 0.001f
 //        ));
-        physicManager.addForce(new PointElectrostaticForce(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 30));
+//        physicManager.addForce(new PointElectrostaticForce(camera.viewportWidth / 3f, camera.viewportHeight / 2f, 1000));
+//        physicManager.addForce(new PointElectrostaticForce(2 * camera.viewportWidth / 3f, camera.viewportHeight / 2f, -1000));
 
         system.setPhysicManager(physicManager);
     }
@@ -110,7 +116,7 @@ public class LibraryTest extends Game {
         camera.update();
         world.step(1f / 60f, 6, 2);
         system.setParticlesPosition(Math.round(Math.random() * Gdx.graphics.getWidth()), Math.round(Math.random() * Gdx.graphics.getHeight())); //Random position
-        emissionLight.color = new Color((float) Math.random()*0, (float) Math.random()*0, /*(float) Math.random()*/1, 1);
+        emissionLight.color = new Color((float) Math.random() * 0, (float) Math.random() * 0, /*(float) Math.random()*/1, 1);
         system.render();
         rayHandler.setCombinedMatrix(camera.combined);
         rayHandler.updateAndRender();

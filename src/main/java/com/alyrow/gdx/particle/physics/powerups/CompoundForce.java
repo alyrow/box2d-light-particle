@@ -20,4 +20,8 @@ public class CompoundForce extends PhysicForce {
         for (PhysicForce force : forces) cache.add(force.getForce(particle));
         return cache;
     }
+
+    public PhysicForce[] getPhysicForces() {
+        return forces;
+    }
 }

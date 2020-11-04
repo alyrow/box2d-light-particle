@@ -1,5 +1,6 @@
 package com.alyrow.gdx.particle.physics;
 
+import com.alyrow.gdx.particle.utils.PhysicForces;
 import com.badlogic.gdx.math.Vector2;
 
 public class PointElectrostaticForce extends PhysicForce {
@@ -8,6 +9,7 @@ public class PointElectrostaticForce extends PhysicForce {
     private Vector2 center;
 
     private float drs = 0.1f; // destruction radius squared
+    private float limit = 10000;
 
     public PointElectrostaticForce(float x, float y, float charge, float k) {
         center = new Vector2(x, y);
@@ -26,7 +28,8 @@ public class PointElectrostaticForce extends PhysicForce {
         cache = new Vector2(center.x - particle.x, center.y - particle.y);
         rs = cache.len2();
         if (rs < drs) particle.deleteParticle();
-        return cache.nor().scl(effect * particle.charge / rs);
+
+        return PhysicForces.Clamp(cache.nor().scl(effect * particle.charge / rs), limit);
     }
 
     public void setDestructionRadius(float destructionRadius) {

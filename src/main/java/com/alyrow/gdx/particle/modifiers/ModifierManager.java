@@ -8,8 +8,8 @@ public class ModifierManager {
 
     public ModifierManager() {}
 
-    public void addModifier(Modifier modifier) {
-        modifiers.add(modifier);
+    public void addModifier(Modifier...modifiers) {
+        this.modifiers.addAll(modifiers);
     }
 
     public void removeModifier(Modifier modifier) {
