@@ -1,6 +1,8 @@
 package com.alyrow.gdx.particle;
 
 import box2dLight.PointLight;
+import com.alyrow.gdx.particle.physics.PhysicForce;
+import com.alyrow.gdx.particle.physics.PhysicParticle;
 import com.alyrow.gdx.particle.texture.AnimatedTexture;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
@@ -10,8 +12,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.alyrow.gdx.particle.physics.PhysicForce;
-import com.alyrow.gdx.particle.physics.PhysicParticle;
 
 /**
  * @author alyrow
@@ -53,18 +53,17 @@ public class Particle {
             //Gdx.app.log("AnimatedTexture", "true");
             anTex = (AnimatedTexture) texture;
             sprite = new Sprite(anTex.textures[0]);
-        }
-        else sprite = new Sprite(texture);
-        if(type == ParticleType.HALO)
+        } else sprite = new Sprite(texture);
+        if (type == ParticleType.HALO)
             sprite.setColor(light.getColor());
         sprite.setPosition(x, y);
-        sprite.setSize(sprite.getWidth()*ratio, sprite.getHeight()*ratio);
+        sprite.setSize(sprite.getWidth() * ratio, sprite.getHeight() * ratio);
         physicParticle.setSize(sprite.getWidth(), sprite.getHeight());
 
         this.light = light;
-        if (light.getDistance() < physicParticle.width/4) {
-            light.setDistance(physicParticle.width/4);
-            Gdx.app.error("Particle", "Light distance was to small : updated to "+physicParticle.width/4);
+        if (light.getDistance() < physicParticle.width / 4) {
+            light.setDistance(physicParticle.width / 4);
+            Gdx.app.error("Particle", "Light distance was to small : updated to " + physicParticle.width / 4);
         }
         light.setPosition(x, y);
 
@@ -94,29 +93,30 @@ public class Particle {
 //            vx += vectors.get(i).x;
 //            vy += vectors.get(i).y;
 //        }
-        Vector2 netForce = new Vector2(0,0);
+        Vector2 netForce = new Vector2(0, 0);
         forces.forEach(force -> netForce.add(force.getForce(physicParticle)));
+        netForce.scl(1 / physicParticle.mass); // now it's not force, it's acceleration
 
         if (!worldPhysic) {
             physicParticle.x += netForce.x / (delta + 1);
             physicParticle.y += netForce.y / (delta + 1);
         } else {
             physicParticle.body.setLinearVelocity(netForce.x, netForce.y);
-            physicParticle.x = physicParticle.body.getPosition().x - physicParticle.width/2;
-            physicParticle.y = physicParticle.body.getPosition().y - physicParticle.height/2;
+            physicParticle.x = physicParticle.body.getPosition().x - physicParticle.width / 2;
+            physicParticle.y = physicParticle.body.getPosition().y - physicParticle.height / 2;
         }
         x = physicParticle.x;
         y = physicParticle.y;
         //Gdx.app.log("position", x+", "+y);
         sprite.setPosition(physicParticle.x, physicParticle.y);
-        light.setPosition(physicParticle.x + physicParticle.width/2, physicParticle.y + physicParticle.height/2);
+        light.setPosition(physicParticle.x + physicParticle.width / 2, physicParticle.y + physicParticle.height / 2);
 
         if(type == ParticleType.HALO && sprite.getColor().equals(light.getColor()))
             sprite.setColor(light.getColor());
 
 
         if (life < 500) {
-            sprite.setAlpha(life/500);
+            sprite.setAlpha(life / 500);
         }
         if (life <= 0) {
             dispose();

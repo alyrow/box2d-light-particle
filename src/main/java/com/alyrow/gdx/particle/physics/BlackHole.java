@@ -1,5 +1,6 @@
 package com.alyrow.gdx.particle.physics;
 
+import com.alyrow.gdx.particle.utils.PhysicForces;
 import com.badlogic.gdx.math.Vector2;
 
 public class BlackHole extends PhysicForce {
@@ -8,6 +9,7 @@ public class BlackHole extends PhysicForce {
     private Vector2 center;
 
     private float drs = 0.1f; // destruction radius squared
+    private float limit = 10000;
 
     public BlackHole(float x, float y, float mass, float G) {
         center = new Vector2(x, y);
@@ -27,10 +29,15 @@ public class BlackHole extends PhysicForce {
         cache.y = center.y - particle.y;
         rs = cache.len2();
         if (rs < drs) particle.deleteParticle();
-        return cache.nor().scl(effect * particle.mass / rs);
+
+        return PhysicForces.Clamp(cache.nor().scl(effect * particle.mass / rs), limit);
     }
 
     public void setDestructionRadius(float destructionRadius) {
         this.drs = destructionRadius * destructionRadius;
+    }
+
+    public void disableDestructionRadius() {
+        drs = 0;
     }
 }
