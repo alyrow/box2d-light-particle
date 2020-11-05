@@ -3,16 +3,11 @@ package com.alyrow.gdx.particle.physics;
 import com.alyrow.gdx.particle.modifiers.RandomPositionRectangle;
 import com.alyrow.gdx.particle.tester.Tester;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 
 public class ImageColourTest {
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
 //        BufferedImage i = ImageIO.read(new File("D:\\i.png"));
 //        Color[][] c = new Color[i.getWidth()][i.getHeight()];
@@ -25,7 +20,7 @@ public class ImageColourTest {
 
         new Tester()
                 .forModifier(() -> new RandomPositionRectangle(Gdx.graphics.getWidth(), Gdx.graphics.getWidth()))
-                .forForce(() -> new ImageColour(/*c*/Gdx.files.absolute("D:\\i.png")))
+                .forForce(() -> new ImageColour(/*c*/Gdx.files.internal("libgdx.png")))
                 .setPc(10000).Test();
 
     }
