@@ -22,9 +22,6 @@ import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
-import java.awt.*;
-import java.awt.geom.Ellipse2D;
-
 public class LibraryTest extends Game {
 
     private World world;
