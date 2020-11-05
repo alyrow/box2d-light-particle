@@ -22,10 +22,11 @@ public class ImageColourTest {
 //                c[j][k] = new Color(f.getRed(), f.getGreen(), f.getBlue(), 255);
 //            }
 //        }
+
         new Tester()
                 .forModifier(() -> new RandomPositionRectangle(Gdx.graphics.getWidth(), Gdx.graphics.getWidth()))
                 .forForce(() -> new ImageColour(/*c*/Gdx.files.absolute("D:\\i.png")))
-                .setPc(1000).Test();
+                .setPc(10000).Test();
 
     }
 

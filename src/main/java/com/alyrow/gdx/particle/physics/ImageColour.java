@@ -25,7 +25,7 @@ public class ImageColour extends PhysicForce {
 
         for (int i = 0; i < image.getWidth(); i++)
             for (int j = 0; j < image.getHeight(); j++)
-                matrix[i][matrix[0].length - j - 1] = new Color(image.getPixel(x, y));
+                matrix[i][matrix[0].length - j - 1] = new Color(image.getPixel(i, j));
     }
 
     public ImageColour(FileHandle file) {
