@@ -4,9 +4,7 @@
 package com.alyrow.gdx.particle;
 
 import box2dLight.RayHandler;
-import com.alyrow.gdx.particle.modifiers.MassProportionalLightRadius;
 import com.alyrow.gdx.particle.modifiers.RandomColors;
-import com.alyrow.gdx.particle.modifiers.RandomPositionShape;
 import com.alyrow.gdx.particle.physics.Fan;
 import com.alyrow.gdx.particle.physics.PhysicManager;
 import com.alyrow.gdx.particle.rules.ParticleEmissionDuration;
@@ -67,10 +65,6 @@ public class LibraryTest extends Game {
         try {
             system.getModifierManager().addModifier(
                     //                new RandomPositionRectangle(camera.viewportWidth/2, camera.viewportHeight)
-                    new RandomPositionShape(
-                            new Rectangle(100, 100, 300, 300),
-                            new Ellipse2D.Float(400, 400, 300, 300)
-                    ).getTransform().rotate(Math.PI / 4, camera.viewportWidth / 2, camera.viewportHeight / 2f).getHolder(),
                     new RandomColors()
                     //                new RandomMassModifier(10,30),
                     //                new RandomChargeModifier(),

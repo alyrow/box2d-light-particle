@@ -5,6 +5,7 @@ import com.alyrow.gdx.particle.ParticleRules;
 import com.alyrow.gdx.particle.ParticleSystem;
 import com.alyrow.gdx.particle.ParticleType;
 import com.alyrow.gdx.particle.modifiers.Modifier;
+import com.alyrow.gdx.particle.modifiers.ModifierManager;
 import com.alyrow.gdx.particle.physics.Fan;
 import com.alyrow.gdx.particle.physics.PhysicForce;
 import com.alyrow.gdx.particle.physics.PhysicManager;
@@ -21,6 +22,9 @@ import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
+import java.util.ArrayList;
+import java.util.function.Supplier;
+
 public class TestGame extends Game {
 
     private World world;
@@ -31,12 +35,14 @@ public class TestGame extends Game {
     private ParticleEmissionLightRandom emissionLight;
     private PhysicManager physicManager;
 
-    private PhysicForce[] forces;
-    private Modifier[] modifiers;
+    private ArrayList<Supplier<PhysicForce>> forces;
+    private ArrayList<Supplier<Modifier>> modifiers;
+    private int pc;
 
-    public TestGame(PhysicForce[] forces, Modifier[] modifiers) {
+    public TestGame(ArrayList<Supplier<PhysicForce>> forces, ArrayList<Supplier<Modifier>> modifiers, int pc) {
         this.forces = forces;
         this.modifiers = modifiers;
+        this.pc = pc;
     }
 
     @Override
@@ -50,12 +56,12 @@ public class TestGame extends Game {
         debugRenderer = new Box2DDebugRenderer();
 
         ParticleRules rules = new ParticleRules();
-        ParticleEmissionNumber ps = new ParticleEmissionNumber(ParticleEmissionNumber.INNER_SCREEN, 100);
+        ParticleEmissionNumber ps = new ParticleEmissionNumber(ParticleEmissionNumber.INNER_SCREEN, pc);
         ps.setDelay(1f);
         rules.setNumber(ps); //One particle emitted per seconds
         rules.setLife(new ParticleLife(5, true)); //Particles life : 5s. Life will decrease when particles are outside the screen.
         rules.setDuration(new ParticleEmissionDuration(true)); //Infinite duration for the emission
-        emissionLight = new ParticleEmissionLightRandom(rayHandler, 16, /*new Color(0.37647f, 1, 1, 1)*/Color.BLACK, 10.5f, 50);
+        emissionLight = new ParticleEmissionLightRandom(rayHandler, 16, new Color(0.37647f, 1, 1, 1), 10.5f, 50);
         rules.setLight(emissionLight); //Add random light distance between 35 and 45.
 
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -65,10 +71,11 @@ public class TestGame extends Game {
         system.setRules(rules);
         system.setParticlesPosition(-2, 0);
 
-        system.getModifierManager().addModifier(modifiers);
+        ModifierManager manager = system.getModifierManager();
+        modifiers.forEach(sup -> manager.addModifier(sup.get()));
 
         physicManager = new PhysicManager();
-        for (PhysicForce force : forces) physicManager.addForce(force);
+        forces.forEach(sup -> physicManager.addForce(sup.get()));
         system.setPhysicManager(physicManager);
 
     }
