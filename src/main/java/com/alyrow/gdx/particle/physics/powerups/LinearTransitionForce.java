@@ -4,9 +4,12 @@ import com.alyrow.gdx.particle.physics.PhysicForce;
 import com.alyrow.gdx.particle.physics.PhysicParticle;
 import com.badlogic.gdx.math.Vector2;
 
+import java.util.function.Supplier;
+
 public class LinearTransitionForce extends LerpedForce {
 
     private float speed;
+    private Supplier<Boolean> condition = () -> getFactor() > 1 || getFactor() < 0;
 
     public LinearTransitionForce(PhysicForce one, PhysicForce two, float speed) {
         super(one, two);
@@ -21,8 +24,11 @@ public class LinearTransitionForce extends LerpedForce {
     @Override
     public Vector2 getForce(PhysicParticle particle) {
         addFactor(speed);
-        if (getFactor() > 1 || getFactor() < 0) speed = -speed;
+        if (condition.get()) speed = -speed;
         return super.getForce(particle);
     }
 
+    public void setCondition(Supplier<Boolean> condition) {
+        this.condition = condition;
+    }
 }

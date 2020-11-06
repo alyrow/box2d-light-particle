@@ -12,12 +12,13 @@ public class PhysicForces {
     }
 
     public static Vector2 Clamp(Vector2 vc, float limit) {
-        return Clamp(vc, limit, -limit);
+        return Clamp(vc, -limit, limit);
     }
 
     public static Vector2 Clamp(Vector2 vc, float ll, float ul) {
         float mag = vc.len();
-        if(mag < ll || mag > ul) return vc.nor().scl(Math.max(ll, Math.min(ul, mag)));
+        if(mag < ll) return new Vector2(vc).nor().scl(ll);
+        if(mag > ul) return new Vector2(vc).nor().scl(ul);
         return vc;
     }
 }

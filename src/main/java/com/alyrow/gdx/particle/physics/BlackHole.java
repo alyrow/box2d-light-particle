@@ -9,7 +9,7 @@ public class BlackHole extends PhysicForce {
     private Vector2 center;
 
     private float drs = 0.1f; // destruction radius squared
-    private float limit = 10000;
+    private float limit = 500;
 
     public BlackHole(float x, float y, float mass, float G) {
         center = new Vector2(x, y);
@@ -25,8 +25,7 @@ public class BlackHole extends PhysicForce {
 
     @Override
     public Vector2 getForce(PhysicParticle particle) {
-        cache.x = center.x - particle.x;
-        cache.y = center.y - particle.y;
+        cache = new Vector2(center.x - particle.x, center.y - particle.y);
         rs = cache.len2();
         if (rs < drs) particle.deleteParticle();
 
