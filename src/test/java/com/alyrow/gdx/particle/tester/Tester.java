@@ -53,6 +53,11 @@ public class Tester {
         return this;
     }
 
+    public Tester addKey(Runnable action) {
+        inputKeys.put(Input.Keys.SPACE, action);
+        return this;
+    }
+
     public void Test() {
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
         configuration.setTitle("Integrated Tests");
