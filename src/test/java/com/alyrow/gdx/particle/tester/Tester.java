@@ -2,12 +2,14 @@ package com.alyrow.gdx.particle.tester;
 
 import com.alyrow.gdx.particle.modifiers.Modifier;
 import com.alyrow.gdx.particle.physics.PhysicForce;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
@@ -19,6 +21,7 @@ public class Tester {
 
     ArrayList<Supplier<PhysicForce>> forces;
     ArrayList<Supplier<Modifier>> modifiers;
+    HashMap<Integer, Runnable> inputKeys;
 
     int pc = 200;
 
@@ -26,6 +29,7 @@ public class Tester {
 
         forces = new ArrayList<>();
         modifiers = new ArrayList<>();
+        inputKeys = new HashMap<>();
 
     }
 
@@ -44,11 +48,16 @@ public class Tester {
         return this;
     }
 
+    public Tester addKey(int key, Runnable action) {
+        inputKeys.put(key, action);
+        return this;
+    }
+
     public void Test() {
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
         configuration.setTitle("Integrated Tests");
         configuration.setWindowedMode(1024, 768);
-        new Lwjgl3Application(new TestGame(forces, modifiers, pc), configuration);
+        new Lwjgl3Application(new TestGame(forces, modifiers, inputKeys, pc), configuration);
     }
 
 }
