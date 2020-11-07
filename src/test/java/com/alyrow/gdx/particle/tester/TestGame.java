@@ -6,7 +6,6 @@ import com.alyrow.gdx.particle.ParticleSystem;
 import com.alyrow.gdx.particle.ParticleType;
 import com.alyrow.gdx.particle.modifiers.Modifier;
 import com.alyrow.gdx.particle.modifiers.ModifierManager;
-import com.alyrow.gdx.particle.physics.Fan;
 import com.alyrow.gdx.particle.physics.PhysicForce;
 import com.alyrow.gdx.particle.physics.PhysicManager;
 import com.alyrow.gdx.particle.rules.ParticleEmissionDuration;
@@ -23,6 +22,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.function.Supplier;
 
 public class TestGame extends Game {
@@ -37,11 +37,13 @@ public class TestGame extends Game {
 
     private ArrayList<Supplier<PhysicForce>> forces;
     private ArrayList<Supplier<Modifier>> modifiers;
+    private HashMap<Integer, Runnable> inputKeys;
     private int pc;
 
-    public TestGame(ArrayList<Supplier<PhysicForce>> forces, ArrayList<Supplier<Modifier>> modifiers, int pc) {
+    public TestGame(ArrayList<Supplier<PhysicForce>> forces, ArrayList<Supplier<Modifier>> modifiers, HashMap<Integer, Runnable> inputKeys, int pc) {
         this.forces = forces;
         this.modifiers = modifiers;
+        this.inputKeys = inputKeys;
         this.pc = pc;
     }
 
@@ -88,8 +90,13 @@ public class TestGame extends Game {
         system.setParticlesPosition(Math.round(Math.random() * Gdx.graphics.getWidth()), Math.round(Math.random() * Gdx.graphics.getHeight())); //Random position
         emissionLight.color = new Color((float) Math.random() * 0, (float) Math.random() * 0, /*(float) Math.random()*/1, 1);
         system.render();
-        //rayHandler.setCombinedMatrix(camera.combined);
-        //rayHandler.updateAndRender();
+        rayHandler.setCombinedMatrix(camera.combined);
+        rayHandler.updateAndRender();
+
+        inputKeys.forEach((key, act) -> {
+            if (Gdx.input.isKeyJustPressed(key))
+                act.run();
+        });
     }
 
 }
