@@ -12,13 +12,14 @@ public class ImageColourTest {
 
 
 
-        Particle.ratio = 1/64f;
+        Particle.ratio = 1/16f;
 
         new Tester()
                 .forModifier(() -> new RandomPositionRectangle(Gdx.graphics.getWidth(), Gdx.graphics.getWidth()))
                 .forForce(() -> new ImageColour(/*c*/Gdx.files.internal("lisa.jpg")))
                 .forForce(() -> new Fan(Gdx.graphics.getWidth()/2f, Gdx.graphics.getWidth()/2f, 1))
                 .forForce(() -> new BrownianForce(25,25, 156548, 1))
+                .setLightOn(false)
                 .setPc(1).Test();
 
     }

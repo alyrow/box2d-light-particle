@@ -39,12 +39,14 @@ public class TestGame extends Game {
     private ArrayList<Supplier<Modifier>> modifiers;
     private HashMap<Integer, Runnable> inputKeys;
     private int pc;
+    private boolean lightOn;
 
-    public TestGame(ArrayList<Supplier<PhysicForce>> forces, ArrayList<Supplier<Modifier>> modifiers, HashMap<Integer, Runnable> inputKeys, int pc) {
+    public TestGame(ArrayList<Supplier<PhysicForce>> forces, ArrayList<Supplier<Modifier>> modifiers, HashMap<Integer, Runnable> inputKeys, int pc, boolean lightsOn) {
         this.forces = forces;
         this.modifiers = modifiers;
         this.inputKeys = inputKeys;
         this.pc = pc;
+        this.lightOn = lightsOn;
     }
 
     @Override
@@ -90,8 +92,10 @@ public class TestGame extends Game {
         system.setParticlesPosition(Math.round(Math.random() * Gdx.graphics.getWidth()), Math.round(Math.random() * Gdx.graphics.getHeight())); //Random position
         emissionLight.color = new Color((float) Math.random() * 0, (float) Math.random() * 0, /*(float) Math.random()*/1, 1);
         system.render();
-        rayHandler.setCombinedMatrix(camera.combined);
-        rayHandler.updateAndRender();
+        if (lightOn) {
+            rayHandler.setCombinedMatrix(camera.combined);
+            rayHandler.updateAndRender();
+        }
 
         inputKeys.forEach((key, act) -> {
             if (Gdx.input.isKeyJustPressed(key))

@@ -24,6 +24,7 @@ public class Tester {
     HashMap<Integer, Runnable> inputKeys;
 
     int pc = 200;
+    boolean lightOn = true;
 
     public Tester() {
 
@@ -48,6 +49,11 @@ public class Tester {
         return this;
     }
 
+    public Tester setLightOn(boolean p) {
+        lightOn = p;
+        return this;
+    }
+
     public Tester addKey(int key, Runnable action) {
         inputKeys.put(key, action);
         return this;
@@ -62,7 +68,7 @@ public class Tester {
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
         configuration.setTitle("Integrated Tests");
         configuration.setWindowedMode(1024, 768);
-        new Lwjgl3Application(new TestGame(forces, modifiers, inputKeys, pc), configuration);
+        new Lwjgl3Application(new TestGame(forces, modifiers, inputKeys, pc, lightOn), configuration);
     }
 
 }
