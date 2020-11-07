@@ -2,6 +2,7 @@ package com.alyrow.gdx.particle.physics;
 
 import com.alyrow.gdx.particle.Particle;
 import com.alyrow.gdx.particle.modifiers.RandomPositionRectangle;
+import com.alyrow.gdx.particle.rules.ParticleEmissionNumber;
 import com.alyrow.gdx.particle.tester.Tester;
 import com.badlogic.gdx.Gdx;
 
@@ -12,7 +13,7 @@ public class ImageColourTest {
 
 
 
-        Particle.ratio = 1/16f;
+        Particle.ratio = 1/8f;
 
         new Tester()
                 .forModifier(() -> new RandomPositionRectangle(Gdx.graphics.getWidth(), Gdx.graphics.getWidth()))
@@ -20,6 +21,9 @@ public class ImageColourTest {
                 .forForce(() -> new Fan(Gdx.graphics.getWidth()/2f, Gdx.graphics.getWidth()/2f, 1))
                 .forForce(() -> new BrownianForce(25,25, 156548, 1))
                 .setLightOn(false)
+                .clearScreen(false)
+                .setEmissionNumberMode(ParticleEmissionNumber.PER_SECONDS)
+                .setEmissionSecondsDelay(0.001f)
                 .setPc(1).Test();
 
     }
