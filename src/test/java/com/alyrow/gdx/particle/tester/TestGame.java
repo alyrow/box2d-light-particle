@@ -56,12 +56,12 @@ public class TestGame extends Game {
         debugRenderer = new Box2DDebugRenderer();
 
         ParticleRules rules = new ParticleRules();
-        ParticleEmissionNumber ps = new ParticleEmissionNumber(ParticleEmissionNumber.INNER_SCREEN, pc);
-        ps.setDelay(1f);
+        ParticleEmissionNumber ps = new ParticleEmissionNumber(ParticleEmissionNumber.PER_SECONDS, pc);
+        ps.setDelay(0.001f);
         rules.setNumber(ps); //One particle emitted per seconds
         rules.setLife(new ParticleLife(5, true)); //Particles life : 5s. Life will decrease when particles are outside the screen.
         rules.setDuration(new ParticleEmissionDuration(true)); //Infinite duration for the emission
-        emissionLight = new ParticleEmissionLightRandom(rayHandler, 16, new Color(0.37647f, 1, 1, 1), 10.5f, 50);
+        emissionLight = new ParticleEmissionLightRandom(rayHandler, 16, new Color(0.37647f, 1, 1, 1), 25, 35f);
         rules.setLight(emissionLight); //Add random light distance between 35 and 45.
 
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -88,8 +88,8 @@ public class TestGame extends Game {
         system.setParticlesPosition(Math.round(Math.random() * Gdx.graphics.getWidth()), Math.round(Math.random() * Gdx.graphics.getHeight())); //Random position
         emissionLight.color = new Color((float) Math.random() * 0, (float) Math.random() * 0, /*(float) Math.random()*/1, 1);
         system.render();
-        rayHandler.setCombinedMatrix(camera.combined);
-        rayHandler.updateAndRender();
+        //rayHandler.setCombinedMatrix(camera.combined);
+        //rayHandler.updateAndRender();
     }
 
 }

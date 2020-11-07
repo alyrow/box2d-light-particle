@@ -111,8 +111,9 @@ public class Particle {
         sprite.setPosition(physicParticle.x, physicParticle.y);
         light.setPosition(physicParticle.x + physicParticle.width / 2, physicParticle.y + physicParticle.height / 2);
 
-        if(type == ParticleType.HALO && sprite.getColor().equals(light.getColor()))
+        if(type == ParticleType.HALO && !sprite.getColor().equals(light.getColor())) {
             sprite.setColor(light.getColor());
+        }
 
 
         if (life < 500) {
