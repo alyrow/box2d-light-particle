@@ -2,6 +2,7 @@ package com.alyrow.gdx.particle.tester;
 
 import com.alyrow.gdx.particle.modifiers.Modifier;
 import com.alyrow.gdx.particle.physics.PhysicForce;
+import com.alyrow.gdx.particle.rules.ParticleEmissionNumber;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
@@ -24,6 +25,10 @@ public class Tester {
     HashMap<Integer, Runnable> inputKeys;
 
     int pc = 200;
+    boolean lightOn = true;
+    int emissionNumberMode = ParticleEmissionNumber.INNER_SCREEN;
+    float emissionSecondsDelay = 1;
+    boolean clearScreen = true;
 
     public Tester() {
 
@@ -48,6 +53,26 @@ public class Tester {
         return this;
     }
 
+    public Tester setLightOn(boolean p) {
+        lightOn = p;
+        return this;
+    }
+
+    public Tester setEmissionNumberMode(int p) {
+        emissionNumberMode = p;
+        return this;
+    }
+
+    public Tester setEmissionSecondsDelay(float p) {
+        emissionSecondsDelay = p;
+        return this;
+    }
+
+    public Tester clearScreen(boolean p) {
+        clearScreen = p;
+        return this;
+    }
+
     public Tester addKey(int key, Runnable action) {
         inputKeys.put(key, action);
         return this;
@@ -62,7 +87,7 @@ public class Tester {
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
         configuration.setTitle("Integrated Tests");
         configuration.setWindowedMode(1024, 768);
-        new Lwjgl3Application(new TestGame(forces, modifiers, inputKeys, pc), configuration);
+        new Lwjgl3Application(new TestGame(forces, modifiers, inputKeys, pc, lightOn, emissionNumberMode, emissionSecondsDelay, clearScreen), configuration);
     }
 
 }

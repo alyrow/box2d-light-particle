@@ -15,6 +15,7 @@ import com.alyrow.gdx.particle.rules.ParticleLife;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
@@ -26,7 +27,6 @@ import java.util.HashMap;
 import java.util.function.Supplier;
 
 public class TestGame extends Game {
-
     private World world;
     private RayHandler rayHandler;
     private Box2DDebugRenderer debugRenderer;
@@ -39,12 +39,20 @@ public class TestGame extends Game {
     private ArrayList<Supplier<Modifier>> modifiers;
     private HashMap<Integer, Runnable> inputKeys;
     private int pc;
+    private boolean lightOn;
+    private int emissionNumberMode;
+    private float emissionSecondsDelay;
+    private final boolean clearScreen;
 
-    public TestGame(ArrayList<Supplier<PhysicForce>> forces, ArrayList<Supplier<Modifier>> modifiers, HashMap<Integer, Runnable> inputKeys, int pc) {
+    public TestGame(ArrayList<Supplier<PhysicForce>> forces, ArrayList<Supplier<Modifier>> modifiers, HashMap<Integer, Runnable> inputKeys, int pc, boolean lightsOn, int emissionNumberMode, float emissionSecondsDelay, boolean clearScreen) {
         this.forces = forces;
         this.modifiers = modifiers;
         this.inputKeys = inputKeys;
         this.pc = pc;
+        this.lightOn = lightsOn;
+        this.emissionNumberMode = emissionNumberMode;
+        this.emissionSecondsDelay = emissionSecondsDelay;
+        this.clearScreen = clearScreen;
     }
 
     @Override
@@ -58,12 +66,12 @@ public class TestGame extends Game {
         debugRenderer = new Box2DDebugRenderer();
 
         ParticleRules rules = new ParticleRules();
-        ParticleEmissionNumber ps = new ParticleEmissionNumber(ParticleEmissionNumber.INNER_SCREEN, pc);
-        ps.setDelay(1f);
+        ParticleEmissionNumber ps = new ParticleEmissionNumber(emissionNumberMode, pc);
+        ps.setDelay(emissionSecondsDelay);
         rules.setNumber(ps); //One particle emitted per seconds
         rules.setLife(new ParticleLife(5, true)); //Particles life : 5s. Life will decrease when particles are outside the screen.
         rules.setDuration(new ParticleEmissionDuration(true)); //Infinite duration for the emission
-        emissionLight = new ParticleEmissionLightRandom(rayHandler, 16, new Color(0.37647f, 1, 1, 1), 10.5f, 50);
+        emissionLight = new ParticleEmissionLightRandom(rayHandler, 16, new Color(0.37647f, 1, 1, 1), 25, 35f);
         rules.setLight(emissionLight); //Add random light distance between 35 and 45.
 
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -85,13 +93,21 @@ public class TestGame extends Game {
     @Override
     public void render() {
         super.render();
+
+        if (clearScreen) {
+            Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
+            Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        }
+
         camera.update();
         world.step(1f / 60f, 6, 2);
         system.setParticlesPosition(Math.round(Math.random() * Gdx.graphics.getWidth()), Math.round(Math.random() * Gdx.graphics.getHeight())); //Random position
         emissionLight.color = new Color((float) Math.random() * 0, (float) Math.random() * 0, /*(float) Math.random()*/1, 1);
         system.render();
-        rayHandler.setCombinedMatrix(camera.combined);
-        rayHandler.updateAndRender();
+        if (lightOn) {
+            rayHandler.setCombinedMatrix(camera.combined);
+            rayHandler.updateAndRender();
+        }
 
         inputKeys.forEach((key, act) -> {
             if (Gdx.input.isKeyJustPressed(key))
