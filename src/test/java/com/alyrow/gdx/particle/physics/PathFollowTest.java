@@ -10,6 +10,8 @@ public class PathFollowTest {
     public static void main(String[] args) {
 
         new Tester()
+                .setLightOn(false)
+                .setPc(1000)
                 .forModifier(RandomColors::new)
                 .forForce(() -> {
                     int x = Gdx.graphics.getWidth() / 2;
@@ -33,7 +35,7 @@ public class PathFollowTest {
                             x, y - 150,
                             x - 100, y - 200
 
-                    }, new Vector2(x, y), 5);
+                    }, new Vector2(x, y), 5, 10);
                 })
                 .Test();
 
