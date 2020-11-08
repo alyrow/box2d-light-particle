@@ -1,42 +1,57 @@
 package com.alyrow.gdx.particle.utils;
 
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 /**
  * <p> Creates a line object, which programmatically exists in the form <b> y = mx + c </b> </p>
  */
-public class Line {
+public interface Line {
 
-    /**
-     * m = slope of the line as m = y/x.
-     * c = width constant of the line.
-     */
-    float m, c;
+    static Line fromTwoPoints(float x1, float y1, float x2, float y2, boolean isSegment) {
+        float cm = (y1 - y2) / (x1 - x2);
+        float im = (x1 - x2) / (y1 - y2);
 
-    /**
-     * m = slope of the line as angle in theta.
-     * c = width constant of the line.
-     */
-    public Line(float m, float c) {
-        this.m = (float) Math.tan(Math.toRadians(m));
-        this.c = c;
+        Line line;
+
+        if (Math.abs(cm) < Math.abs(im)) line = new SlopeConstantLine /*   */(cm, y1 - cm * x1);
+        else /*                       */ line = new InvertedSlopeConstantLine(im, x1 - im * y1);
+
+        if (isSegment) line.makeSegment(x1, x2, y1, y2);
+
+        return line;
     }
 
-    public Line(float x1, float y1, float x2, float y2) {
-        m = (y2 - y1) / (x2 - x1);
-        c = y1 - m * x1;
+    static Line fromTwoPoints(float x1, float y1, float x2, float y2) {
+        return fromTwoPoints(x1, y1, x2, y2, false);
     }
 
-    public float distance(float x, float y) {
-        return Math.abs(m * x - y + c) / (float) Math.hypot(m, 1);
-    }
+    float distance(float x, float y);
 
-    public Vector2 normal(float x, float y) {
-        return new Vector2(m, -1).nor().scl(put(x, y));
-    }
+    float distance(Line line);
 
-    public float put(float x, float y) {
-        return Math.signum(m * x - y + c);
-    }
+    void normal(Vector2 vect, float x, float y);
+
+    float put(float x, float y);
+
+    float yint();
+
+    float xint();
+
+    boolean isBounded(float x, float y);
+
+    boolean intersects(float x, float y);
+
+    boolean isParallel(Line line);
+
+    boolean intersects(Line line);
+
+    boolean boundsOnSameSide(Line line);
+
+    void getIntersection(Vector2 vect, Line line);
+
+    boolean isSegment();
+
+    void makeSegment(float x1, float x2, float y1, float y2);
+
+
 }
