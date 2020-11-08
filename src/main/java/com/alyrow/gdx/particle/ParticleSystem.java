@@ -121,7 +121,7 @@ public class ParticleSystem {
      */
     public void setRules(ParticleRules rules) {
         this.rules = rules;
-        if (rules.number.mode == ParticleEmissionNumber.PER_SECONDS) test_long = new Date().getTime();
+        if (rules.number.mode == ParticleEmissionNumber.PER_SECONDS) test_long = TimeUtils.millis();
     }
 
     /**
@@ -180,12 +180,12 @@ public class ParticleSystem {
             test_long = 0;
             for (int i = 0; i < particles.size; i++) if (particles.get(i).isInnerScreen) test_long++;
             if (test_long < rules.number.getNumber())
-                particles.add(applyModifiers(new Particle(rules.light.getLight(), batch, rules.life.getLife(), rules.life.outer, texture.getTexture(), camera, this, x, y, physicManager.getParticleForces(x, y, world, camera), world != null, type)));
+                particles.add(applyModifiers(new Particle(rules.light.getLight(), rules.life.getLife(), rules.life.outer, texture.getTexture(), camera, this, x, y, physicManager.getParticleForces(x, y, world, camera), world != null, type)));
         } else {
             if (new Date().getTime() >= test_long + rules.number.seconds*1000) {
                 for (int j = 0; j < rules.number.getNumber(); j++)
-                    particles.add(applyModifiers(new Particle(rules.light.getLight(), batch, rules.life.getLife(), rules.life.outer, texture.getTexture(), camera, this, x, y, physicManager.getParticleForces(x, y, world, camera), world != null, type)));
-                test_long = new Date().getTime();
+                    particles.add(applyModifiers(new Particle(rules.light.getLight(), rules.life.getLife(), rules.life.outer, texture.getTexture(), camera, this, x, y, physicManager.getParticleForces(x, y, world, camera), world != null, type)));
+                test_long = TimeUtils.millis();
             }
         }
 
