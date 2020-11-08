@@ -8,7 +8,7 @@ public class BlackHole extends PhysicForce {
     private float effect;
     private Vector2 center;
 
-    private float drs = 0.1f; // destruction radius squared
+    private float drs = 0.5f; // destruction radius squared
     private float limit = 500;
 
     public BlackHole(float x, float y, float mass, float G) {

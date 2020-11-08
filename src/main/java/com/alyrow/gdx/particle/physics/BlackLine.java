@@ -2,7 +2,6 @@ package com.alyrow.gdx.particle.physics;
 
 import com.alyrow.gdx.particle.utils.Line;
 import com.alyrow.gdx.particle.utils.PhysicForces;
-import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 public class BlackLine extends PhysicForce {
@@ -27,11 +26,14 @@ public class BlackLine extends PhysicForce {
 
     @Override
     public Vector2 getForce(PhysicParticle particle) {
-        cache = line.normal(particle.x, particle.y);
-        rs = (float) Math.pow(line.distance(particle.x, particle.y), 2);
-        if(rs < drs) particle.deleteParticle();
+        line.normal(cache, particle.x, particle.y);
 
-        return PhysicForces.Clamp(cache.scl(-effect * particle.mass / rs), limit);
+        rs = line.distance(particle.x, particle.y);
+        rs *= rs;
+
+        if (rs < drs) particle.deleteParticle();
+
+        return PhysicForces.Clamp(cache.scl(effect * particle.mass / rs), limit);
     }
 
     public void setDestructionRadius(float destructionRadius) {
