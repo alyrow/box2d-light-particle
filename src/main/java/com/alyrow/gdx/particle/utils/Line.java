@@ -45,6 +45,8 @@ public interface Line {
 
     boolean intersects(Line line);
 
+    boolean boundsOnSameSide(Line line);
+
     void getIntersection(Vector2 vect, Line line);
 
     boolean isSegment();

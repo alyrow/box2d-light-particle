@@ -74,7 +74,7 @@ public class InvertedSlopeConstantLine implements Line {
     @Override
     public void normal(Vector2 vect, float x, float y) {
         vect.set(1, -m);
-        vect.nor().scl(put(x, y));
+        vect.nor().scl(-put(x, y));
     }
 
     @Override
@@ -89,6 +89,11 @@ public class InvertedSlopeConstantLine implements Line {
     }
 
     @Override
+    public boolean boundsOnSameSide(Line line) {
+        return line.put(m * yf + c, yf) != line.put(m * yt + c, yt);
+    }
+
+    @Override
     public boolean intersects(float x, float y) {
         return isBounded(x, y) && MathUtils.isEqual(x, m * y + c);
     }
@@ -96,7 +101,15 @@ public class InvertedSlopeConstantLine implements Line {
     @Override
     public boolean intersects(Line line) {
         if (isSegment) {
-            if (line.put(m * yf + c, yf) != line.put(m * yt + c, yt)) return !isParallel(line);
+            if (boundsOnSameSide(line)) {
+                if (line.isSegment()) {
+                    if (line.boundsOnSameSide(this))
+                        return !isParallel(line);
+                    else
+                        return false;
+                }
+                return !isParallel(line);
+            }
             return false;
         }
         return !isParallel(line);

@@ -19,6 +19,20 @@ public class LineTest {
     }
 
     @Test
+    public void LineSegmentLineSegmentIntersect() {
+        Line line1 = Line.fromTwoPoints(0, 0, 2, 0, true);
+        Line line2 = Line.fromTwoPoints(1, -1, 1, 1, true);
+
+        Assert.assertTrue(line1.intersects(line2));
+
+        line1 = Line.fromTwoPoints(0, 0, 2, 0, true);
+        line2 = Line.fromTwoPoints(1, 0.1f, 1, 1, true);
+
+        Assert.assertFalse(line1.intersects(line2));
+        Assert.assertFalse(line2.intersects(line1));
+    }
+
+    @Test
     public void LinePointIntersect() {
         Line line = Line.fromTwoPoints(0, 0, 100, 0);
 

@@ -94,9 +94,22 @@ public class SlopeConstantLine implements Line {
     }
 
     @Override
+    public boolean boundsOnSameSide(Line line) {
+        return line.put(xf, m * xf + c) != line.put(xt, m * xt + c);
+    }
+
+    @Override
     public boolean intersects(Line line) {
         if (isSegment) {
-            if (line.put(xf, m * xf + c) != line.put(xt, m * xt + c)) return !isParallel(line);
+            if (boundsOnSameSide(line)) {
+                if (line.isSegment()) {
+                    if (line.boundsOnSameSide(this))
+                        return !isParallel(line);
+                    else
+                        return false;
+                }
+                return !isParallel(line);
+            }
             return false;
         }
         return !isParallel(line);
