@@ -20,7 +20,7 @@ public class ImageColourTest {
                 .forForce(() -> new ImageColour(/*c*/Gdx.files.internal("lisa.jpg")))
                 .forForce(() -> new Fan(Gdx.graphics.getWidth()/2f, Gdx.graphics.getWidth()/2f, 1))
                 .forForce(() -> new BrownianForce(25,25, 156548, 1))
-                .setLightOn(false)
+                .setLightOn(true)
                 .clearScreen(false)
                 .setEmissionNumberMode(ParticleEmissionNumber.PER_SECONDS)
                 .setEmissionSecondsDelay(0.001f)
