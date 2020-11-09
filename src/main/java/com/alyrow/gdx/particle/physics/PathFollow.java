@@ -46,11 +46,12 @@ public class PathFollow extends PhysicForce {
         for (Line part : lines) {
             if (part.intersects(particle.x, particle.y))
                 break;
-            if (part.intersects(line)) {
+            if (line.intersects(part)) {
                 part.normal(addend, particle.x, particle.y);
                 break;
             }
         }
+
         return new Vector2().add(addend.scl(-attraction)).add(fan.getForce(particle));
     }
 }

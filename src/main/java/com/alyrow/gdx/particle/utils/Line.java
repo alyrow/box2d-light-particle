@@ -25,6 +25,14 @@ public interface Line {
         return fromTwoPoints(x1, y1, x2, y2, false);
     }
 
+    static Line boundedInRectangle(float x, float y, float w, float h, boolean isSegment) {
+        return fromTwoPoints(x, y, x + w, y + h, isSegment);
+    }
+
+    static Line boundedInRectangle(float x, float y, float w, float h) {
+        return boundedInRectangle(x, y, w, h, true);
+    }
+
     float distance(float x, float y);
 
     float distance(Line line);
