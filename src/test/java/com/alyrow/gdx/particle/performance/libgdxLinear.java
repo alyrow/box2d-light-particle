@@ -1,4 +1,4 @@
-package com.alyrow.gdx.particle.perforamance;
+package com.alyrow.gdx.particle.performance;
 
 import box2dLight.RayHandler;
 import com.alyrow.gdx.particle.ParticleRules;

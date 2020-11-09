@@ -3,6 +3,7 @@ package com.alyrow.gdx.particle.tester;
 import com.alyrow.gdx.particle.modifiers.Modifier;
 import com.alyrow.gdx.particle.physics.PhysicForce;
 import com.alyrow.gdx.particle.rules.ParticleEmissionNumber;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
@@ -88,6 +89,23 @@ public class Tester {
         configuration.setTitle("Integrated Tests");
         configuration.setWindowedMode(1024, 768);
         new Lwjgl3Application(new TestGame(forces, modifiers, inputKeys, pc, lightOn, emissionNumberMode, emissionSecondsDelay, clearScreen), configuration);
+    }
+
+    public void Test2(Tester tester2) {
+        Test();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //try {
+                    //Gdx.app.wait(3000);
+                    System.out.println("fool");
+                    tester2.Test();
+                //} catch (InterruptedException e) {
+                //    e.printStackTrace();
+                //}
+
+            }
+        }).start();
     }
 
 }
