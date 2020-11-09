@@ -7,7 +7,7 @@ public class MappedFanTest {
 
     public static void main(String[] args) {
 
-        new Tester().forForce(() -> new MappedFan(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/2f, 0.1f)).Test();
+        new Tester().forForce(() -> new MappedFan(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/2f, 0.2f)).Test();
 
     }
 
