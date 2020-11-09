@@ -72,7 +72,7 @@ public class BrownianForce extends PhysicForce {
         x *= frequency;
         double n = 0.0, i_s = 2.0;
         for (int o = 0; o < octaves; o++) {
-            n += noise(x * (i_s *= 0.5), (seed += 0x9E3779B97F4A7C15L)) * (1 << o);
+            n += noise(x * (i_s *= 0.5), /*(seed += 0x9E3779B97F4A7C15L)*/seed) * (1 << o);
         }
         return n / ((1 << octaves) - 1.0);
     }
