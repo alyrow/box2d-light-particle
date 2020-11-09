@@ -28,7 +28,7 @@ public class Particle {
     public boolean outer; //If false --> Survive `life` seconds then die
     public Texture texture;
     public Sprite sprite;
-    public Boolean isInnerScreen;
+    public boolean isInnerScreen;
     private ParticleSystem system;
     private float x;
     private float y;
@@ -37,7 +37,7 @@ public class Particle {
     public PointLight light;
     private int type;
 
-    public Particle(PointLight light, SpriteBatch batch, float life, boolean outer, Texture texture, Camera camera, ParticleSystem system, float x, float y, PhysicParticle physicParticle, boolean worldPhysic, int type) {
+    public Particle(PointLight light, float life, boolean outer, Texture texture, Camera camera, ParticleSystem system, float x, float y, PhysicParticle physicParticle, boolean worldPhysic, int type) {
         this.life = life * 1000; //s to ms
         this.outer = outer;
         this.texture = texture;
