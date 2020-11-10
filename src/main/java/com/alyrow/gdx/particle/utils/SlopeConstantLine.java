@@ -105,7 +105,8 @@ public class SlopeConstantLine implements Line {
                 if (line.isSegment()) {
                     if (line.boundsOnSameSide(this))
                         return !isParallel(line);
-                    else return false;
+                    else
+                        return false;
                 }
                 return !isParallel(line);
             }
