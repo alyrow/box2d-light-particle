@@ -2,6 +2,7 @@ package com.alyrow.gdx.particle.physics.powerups;
 
 import com.alyrow.gdx.particle.physics.*;
 import com.alyrow.gdx.particle.tester.Tester;
+import com.alyrow.gdx.particle.utils.InformationHolder;
 import com.alyrow.gdx.particle.utils.Line;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -39,15 +40,15 @@ public class MappedForceReaderWriterTest {
 
     private static void test(MappedForce force) {
 
-        int[][] org = MappedForce.packNicely("Hello There!".getBytes(), force.map);
+        int[][] org = MappedForce.pack(new InformationHolder("Hello There!".getBytes(), force.map));
 
         PixmapIO.writePNG(Gdx.files.absolute("D://i.png"), MappedForce.toPixmap(org), Deflater.NO_COMPRESSION, false);
 
-        int[][] wrt = MappedForce.packNicely("Hello There!".getBytes(), MappedForce.unpackNicelyGetMap(MappedForce.toData(new Pixmap(Gdx.files.absolute("D://i.png")))));
+        int[][] wrt = MappedForce.pack(new InformationHolder("Hello There!".getBytes(), MappedForce.unpack(MappedForce.toData(new Pixmap(Gdx.files.absolute("D://i.png")))).map));
 
         PixmapIO.writePNG(Gdx.files.absolute("D://j.png"), MappedForce.toPixmap(wrt), Deflater.NO_COMPRESSION, false);
 
-        long b = 0; //2142464,             wth 2079488 with BEST_COMPRESSION
+        long b = 0; //2142464, 2074112
 
         for (int i = 0; i < org.length; i++)
             for (int j = 0; j < org[0].length; j++)

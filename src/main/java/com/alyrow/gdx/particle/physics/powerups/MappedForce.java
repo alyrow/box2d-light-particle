@@ -2,10 +2,11 @@ package com.alyrow.gdx.particle.physics.powerups;
 
 import com.alyrow.gdx.particle.physics.PhysicForce;
 import com.alyrow.gdx.particle.physics.PhysicParticle;
+import com.alyrow.gdx.particle.utils.InformationHolder;
+import com.alyrow.gdx.particle.utils.MetaDataPacket;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.PixmapIO;
 import com.badlogic.gdx.math.Vector2;
 
 import java.util.zip.Deflater;
@@ -15,17 +16,6 @@ public class MappedForce extends PhysicForce {
     protected Vector2[][] map;
     protected int pad = 0;
     protected PhysicParticle particle;
-
-//    public MappedForce(float[][][] fls) {
-//        map = new Vector2[fls.length][fls[0].length];
-//        for (int i = 0; i < fls.length; i++)
-//            for (int j = 0; j < fls[0].length; j++)
-//                map[i][j] = new Vector2(fls[i][j][0], fls[i][j][1]);
-//    }
-
-    //public MappedForce(Vector2[][] map) {
-    //  this.map = map;
-    //}
 
     public MappedForce(PhysicForce initForce, boolean enablePad, Camera camera) {
         if (enablePad) pad = 50;
@@ -56,6 +46,30 @@ public class MappedForce extends PhysicForce {
         } catch (IndexOutOfBoundsException ignored) {
             return Vector2.Zero;
         }
+    }
+
+    private static int[][] pack(byte[] header, Vector2[][] map) {
+
+        int maw = map.length;
+        int w = 2 * maw;
+        int mdh = (int) Math.ceil(header.length / (double) w);
+        int mah = map[0].length;
+        int h = mah + mdh + 1;
+
+        int[][] data = new int[w][h];
+
+        for (int j = 0, c = 0; j < mdh + 1; j++)
+            for (int i = 0; i < w; i++, c++)
+                data[i][j] = c < header.length ? header[c] : 0;
+
+        for (int i = 0; i < maw; i++) {
+            for (int j = mdh + 1, maj = 0; j < h; j++, maj++) {
+                data[i][j] /* */ = (int) map[i][maj].x;
+                data[i + maw][j] = (int) map[i][maj].y;
+            }
+        }
+
+        return data;
     }
 
     /**
@@ -147,31 +161,14 @@ public class MappedForce extends PhysicForce {
      *   </tbody>
      * </table>
      */
-    public static int[][] packNicely(byte[] header, Vector2[][] map) {
-
-        int maw = map.length;
-        int w = 2 * maw;
-        int mdh = (int) Math.ceil(header.length / (double) w);
-        int mah = map[0].length;
-        int h = mah + mdh + 1;
-
-        int[][] data = new int[w][h];
-
-        for (int j = 0, c = 0; j < mdh + 1; j++)
-            for (int i = 0; i < w; i++, c++)
-                data[i][j] = c < header.length ? header[c] : 0;
-
-        for (int i = 0; i < maw; i++) {
-            for (int j = mdh + 1, maj = 0; j < h; j++, maj++) {
-                data[i][j] /* */ = (int) map[i][maj].x;
-                data[i + maw][j] = (int) map[i][maj].y;
-            }
-        }
-
-        return data;
+    public static int[][] pack(InformationHolder holder) {
+        return pack(holder.packet.getBytes(), holder.map);
     }
 
-    public static Vector2[][] unpackNicelyGetMap(int[][] data) {
+    public static InformationHolder unpack(int[][] data) {
+
+        InformationHolder holder = new InformationHolder();
+        holder.packet = new MetaDataPacket();
 
         int hj = 0;
         for (hj = 0; hj < data[0].length; hj++) {
@@ -185,6 +182,10 @@ public class MappedForce extends PhysicForce {
             if (test) break;
         }
 
+        for (int i = 0; i < data.length; i++)
+            for (int j = 0; j < hj; j++)
+                holder.packet.addByte((byte) data[i][j]);
+
         int maw = data.length / 2;
         int mah = data[0].length - hj - 1;
         Vector2[][] map = new Vector2[maw][mah];
@@ -193,7 +194,9 @@ public class MappedForce extends PhysicForce {
             for (int j = 0, k = hj + 1; j < mah; j++, k++)
                 map[i][j] = new Vector2(data[i][k], data[i + maw][k]);
 
-        return map;
+        holder.map = map;
+
+        return holder;
     }
 
     public static Pixmap toPixmap(int[][] data) {
