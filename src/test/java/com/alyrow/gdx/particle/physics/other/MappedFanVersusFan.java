@@ -11,7 +11,7 @@ public class MappedFanVersusFan {
 
         new Tester()
                 .forForce(() -> new Fan /**/ (Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, 20))
-                .forForce(() -> new MappedFan(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, 0.2f))
+                //.forForce(() -> new MappedFan(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, 0.2f))
                 .Test();
 
     }

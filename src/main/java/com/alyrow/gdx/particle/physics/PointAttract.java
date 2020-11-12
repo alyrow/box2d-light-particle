@@ -14,6 +14,12 @@ public class PointAttract extends PhysicForce {
         this.strength = strength;
     }
 
+    public PointAttract(float x, float y, float strength, float drs) {
+        this.center = new Vector2(x, y);
+        this.strength = strength;
+        this.drs = drs;
+    }
+
     Vector2 cache;
 
     @Override

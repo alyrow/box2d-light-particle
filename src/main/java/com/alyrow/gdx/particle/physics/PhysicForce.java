@@ -14,5 +14,4 @@ public class PhysicForce {
     public Vector2 getForce(PhysicParticle particle) {
         return force;
     }
-
 }
