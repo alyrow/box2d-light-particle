@@ -1,15 +1,14 @@
 package com.alyrow.gdx.particle;
 
 import box2dLight.RayHandler;
-import com.alyrow.gdx.particle.modifiers.RandomColors;
-import com.alyrow.gdx.particle.physics.Fan;
+import com.alyrow.gdx.particle.physics.BlackLine;
 import com.alyrow.gdx.particle.physics.PhysicManager;
-import com.alyrow.gdx.particle.physics.PointAttract;
 import com.alyrow.gdx.particle.physics.powerups.MappedForce;
 import com.alyrow.gdx.particle.rules.ParticleEmissionDuration;
 import com.alyrow.gdx.particle.rules.ParticleEmissionLightRandom;
 import com.alyrow.gdx.particle.rules.ParticleEmissionNumber;
 import com.alyrow.gdx.particle.rules.ParticleLife;
+import com.alyrow.gdx.particle.utils.Line;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
@@ -59,10 +58,16 @@ public class MappedForceTest extends Game {
 //        system.disableBlending();
 
 
+        int x = (int) (Gdx.graphics.getWidth() / 2f), y = (int) (Gdx.graphics.getHeight() / 2f);
 
         physicManager = new PhysicManager();
-        MappedForce mappedForce = new MappedForce(new Fan(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/2f, 20f), true, camera);
-        mappedForce.addForce(new PointAttract(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/2f, 10f, -1));
+        MappedForce mappedForce = new MappedForce(
+//                new Fan(x, y, 20f)
+//                new Whirlpool(x, y, 20, 20) {{setDestructionRadius(0);}}
+//                new BrownianForce(25,25, 156548, 1)
+                new BlackLine(Line.fromTwoPoints(0, 0, 1, 1), 40)  {{setDestructionRadius(0);}}
+                , true, null);
+//        mappedForce.addForce(new PointAttract(x, y, 10f, -1));
 
         physicManager.addForce(mappedForce);
 
@@ -76,7 +81,7 @@ public class MappedForceTest extends Game {
         camera.update();
         world.step(1f / 60f, 6, 2);
         system.setParticlesPosition(Math.round(Math.random() * Gdx.graphics.getWidth()), Math.round(Math.random() * Gdx.graphics.getHeight())); //Random position
-        emissionLight.color = new Color(0,0,1, 1);
+        emissionLight.color = new Color(0, 0, 1, 1);
         system.render();
 
         rayHandler.setCombinedMatrix(camera.combined);
