@@ -92,7 +92,7 @@ public class MappedForce extends PhysicForce {
      *     <li> <p>
      *         The <code> width:w </code> is twice that
      *         of the provided map! <br />
-     *         <code> maw = map[0].length // maw -> map width</code>
+     *         <code> maw = map.length; // maw -> map width </code>
      *         <code> w = 2 * maw </code>
      *     </p> </li>
      *     <li> <p>
@@ -103,7 +103,7 @@ public class MappedForce extends PhysicForce {
      *                 completely the header given in as header's
      *                 length < mdh * w. <br />
      *                 Such a value, mdh, is calculated as <br />
-     *                 <code> (int) Math.ceil(header.length / (double) w) </code>
+     *                 <code> mdh = (int) Math.ceil(header.length / (double) w) </code>
      *             </p> </li>
      *             <li> <p>
      *                 A height of <code> 1 </code>, just to give a
@@ -112,7 +112,7 @@ public class MappedForce extends PhysicForce {
      *             </p> </li>
      *             <li> <p>
      *                 The <code> height:mah </code> of the provided map. <br />
-     *                 <code> map.length </code>
+     *                 <code> mah = map[0].length </code>
      *             </p> </li>
      *         </ol>
      *     </p> </li>
@@ -133,12 +133,12 @@ public class MappedForce extends PhysicForce {
      *        <td> Information used by a specific force. </td>
      *      </tr>
      *      <tr>
-     *        <td> <code> mah*w </code> </td>
+     *        <td> <code> 1*w </code> </td>
      *        <td> Separator </td>
      *        <td> An indicator of separation between metadata and the map data </td>
      *      </tr>
      *      <tr>
-     *        <td> <code> 1 * w </code> </td>
+     *        <td> <code> mah*w </code> </td>
      *        <td> Map data </td>
      *        <td> A matrix of forces </td>
      *      </tr>
