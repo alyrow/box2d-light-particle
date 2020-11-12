@@ -33,7 +33,7 @@ public class BlackLine extends PhysicForce {
 
         if (rs < drs) particle.deleteParticle();
 
-        return PhysicForces.Clamp(cache.scl(effect * particle.mass / rs), limit);
+        return PhysicForces.Clamp(cache.scl(-effect * particle.mass / rs), limit);
     }
 
     public void setDestructionRadius(float destructionRadius) {
