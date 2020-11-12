@@ -2,6 +2,7 @@ package com.alyrow.gdx.particle.physics.powerups;
 
 import com.alyrow.gdx.particle.physics.PhysicForce;
 import com.alyrow.gdx.particle.physics.PhysicParticle;
+import com.alyrow.gdx.particle.utils.ImageSerializable;
 import com.alyrow.gdx.particle.utils.InformationHolder;
 import com.alyrow.gdx.particle.utils.MetaDataPacket;
 import com.badlogic.gdx.Gdx;
@@ -16,6 +17,7 @@ public class MappedForce extends PhysicForce {
     protected Vector2[][] map;
     protected int pad = 0;
     protected PhysicParticle particle;
+    protected InformationHolder holder;
 
     public MappedForce(PhysicForce initForce, boolean enablePad, Camera camera) {
         if (enablePad) pad = 50;
@@ -27,7 +29,24 @@ public class MappedForce extends PhysicForce {
                 particle.y = j;
                 map[i][j] = new Vector2(initForce.getForce(particle));
             }
+        if (initForce instanceof ImageSerializable) {
+            MetaDataPacket data = ((ImageSerializable) initForce).getByteData();
+            data.addInt(pad);
+            holder = new InformationHolder(data, map);
+        } else {
+            holder = new InformationHolder(new MetaDataPacket(), map);
+            holder.packet.addInt(pad);
+        }
+    }
 
+    public MappedForce(PhysicForce force, InformationHolder holder) {
+        if (force instanceof ImageSerializable) {
+            ((ImageSerializable) force).setByteData(holder.packet);
+            pad = holder.packet.getInt();
+        } else {
+            pad = holder.packet.getInt();
+        }
+        map = holder.map;
     }
 
     public void addForce(PhysicForce force) {
@@ -46,6 +65,10 @@ public class MappedForce extends PhysicForce {
         } catch (IndexOutOfBoundsException ignored) {
             return Vector2.Zero;
         }
+    }
+
+    public InformationHolder getHolder() {
+        return holder;
     }
 
     private static int[][] pack(byte[] header, Vector2[][] map) {
@@ -163,6 +186,10 @@ public class MappedForce extends PhysicForce {
      */
     public static int[][] pack(InformationHolder holder) {
         return pack(holder.packet.getBytes(), holder.map);
+    }
+
+    public static int[][] pack(MappedForce force) {
+        return pack(force.getHolder());
     }
 
     public static InformationHolder unpack(int[][] data) {

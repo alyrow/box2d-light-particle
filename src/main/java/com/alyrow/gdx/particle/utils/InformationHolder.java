@@ -15,4 +15,9 @@ public class InformationHolder {
         packet = new MetaDataPacket(bytes);
         this.map = map;
     }
+
+    public InformationHolder(MetaDataPacket packet, Vector2[][] map) {
+        this.packet = packet;
+        this.map = map;
+    }
 }

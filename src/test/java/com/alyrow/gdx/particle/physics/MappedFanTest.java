@@ -2,15 +2,18 @@ package com.alyrow.gdx.particle.physics;
 
 import com.alyrow.gdx.particle.physics.powerups.MappedForce;
 import com.alyrow.gdx.particle.tester.Tester;
+import com.alyrow.gdx.particle.utils.InformationHolder;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Pixmap;
+import com.badlogic.gdx.graphics.PixmapIO;
 
 public class MappedFanTest {
 
     public static void main(String[] args) {
 
         new Tester().forForce(() ->
-                new MappedForce(new Fan(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, 0.2f), true, null)
-                ).Test();
+                new MappedForce(new Fan(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, 20), true, null)
+        ).Test();
 
 //        new Tester().forForce(() -> new MappedForce(new Fan(Gdx.graphics.getWidth()/2f,Gdx.graphics.getHeight()/2f, 20f), true, new Camera() {
 //            float viewportWidth = Gdx.graphics.getWidth()/2f;
