@@ -37,7 +37,7 @@ public class MappedForceIOTest {
     private static MappedForce TestRead() {
 
         InformationHolder holder = MappedForce.unpack(MappedForce.toData(new Pixmap(Gdx.files.absolute("D://i.png"))));
-        return new MappedForce(new Fan(), holder);
+        return new MappedForce(holder);
 
     }
 
