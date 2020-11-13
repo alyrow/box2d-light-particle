@@ -7,12 +7,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.PixmapIO;
 
-public class MappedFanIOTest {
+public class MappedForceIOTest {
 
     public static void main(String[] args) {
 
         // Final run test
-        new Tester().forForce(MappedFanIOTest::TestInit).Test();
+        new Tester().forForce(MappedForceIOTest::TestInit).Test();
 
     }
 
