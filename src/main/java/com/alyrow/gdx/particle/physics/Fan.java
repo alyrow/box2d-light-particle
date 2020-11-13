@@ -1,13 +1,11 @@
 package com.alyrow.gdx.particle.physics;
 
-import com.alyrow.gdx.particle.utils.ImageSerializable;
-import com.alyrow.gdx.particle.utils.InformationHolder;
-import com.alyrow.gdx.particle.utils.MetaDataPacket;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
-public class Fan extends PhysicForce implements ImageSerializable {
+public class Fan extends PhysicForce implements Json.Serializable {
 
-    // Black hole specific
     private float speed;
     private Vector2 center;
 
@@ -27,19 +25,25 @@ public class Fan extends PhysicForce implements ImageSerializable {
     }
 
     @Override
-    public MetaDataPacket getByteData() {
-        MetaDataPacket packet = new MetaDataPacket();
-        packet.addFloat(center.x);
-        packet.addFloat(center.y);
-        packet.addFloat(speed);
-        return packet;
+    public void write(Json json) {
+
+        json.writeValue("center x", center.x);
+        json.writeValue("center y", center.y);
+
+        json.writeValue("speed", speed);
+
     }
 
     @Override
-    public void setByteData(MetaDataPacket packet) {
-        center = new Vector2();
-        center.x = packet.getFloat();
-        center.y = packet.getFloat();
-        speed = packet.getFloat();
+    public void read(Json json, JsonValue jsonData) {
+
+        center = new Vector2(jsonData.getFloat("center x"), jsonData.getFloat("center y"));
+        speed = jsonData.getFloat("speed");
+
+    }
+
+    @Override
+    public String toString() {
+        return "Fan{ x: " + center.x + "  y: " + center.y + "  speed: " + speed + " }";
     }
 }
