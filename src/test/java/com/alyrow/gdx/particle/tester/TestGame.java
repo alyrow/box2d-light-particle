@@ -42,18 +42,20 @@ public class TestGame extends Game {
     ArrayList<Function<TestGame, Modifier>> modifiers_wg;
     private HashMap<Integer, Runnable> inputKeys;
     private int pc;
+    private ParticleType type;
     private boolean lightOn;
     private int emissionNumberMode;
     private float emissionSecondsDelay;
     private final boolean clearScreen;
 
-    public TestGame(ArrayList<Supplier<PhysicForce>> forces, ArrayList<Supplier<Modifier>> modifiers, ArrayList<Function<TestGame, PhysicForce>> forces_wg, ArrayList<Function<TestGame, Modifier>> modifiers_wg, HashMap<Integer, Runnable> inputKeys, int pc, boolean lightsOn, int emissionNumberMode, float emissionSecondsDelay, boolean clearScreen) {
+    public TestGame(ArrayList<Supplier<PhysicForce>> forces, ArrayList<Supplier<Modifier>> modifiers, ArrayList<Function<TestGame, PhysicForce>> forces_wg, ArrayList<Function<TestGame, Modifier>> modifiers_wg, HashMap<Integer, Runnable> inputKeys, int pc, ParticleType type, boolean lightsOn, int emissionNumberMode, float emissionSecondsDelay, boolean clearScreen) {
         this.forces = forces;
         this.modifiers = modifiers;
         this.forces_wg = forces_wg;
         this.modifiers_wg = modifiers_wg;
         this.inputKeys = inputKeys;
         this.pc = pc;
+        this.type = type;
         this.lightOn = lightsOn;
         this.emissionNumberMode = emissionNumberMode;
         this.emissionSecondsDelay = emissionSecondsDelay;
@@ -83,7 +85,7 @@ public class TestGame extends Game {
         camera.position.set(camera.viewportWidth / 2.0f, camera.viewportHeight / 2.0f, 1.0f);
         camera.update();
 
-        system = new ParticleSystem(ParticleType.HALO, null, camera);
+        system = new ParticleSystem(type, null, camera);
         system.setRules(rules);
         system.setParticlesPosition(-2, 0);
 

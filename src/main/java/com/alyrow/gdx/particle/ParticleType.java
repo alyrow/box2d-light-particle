@@ -7,21 +7,37 @@ import com.alyrow.gdx.particle.texture.ParticleTexture;
  * Define particles type...
  */
 public enum ParticleType {
-    HALO(new ParticleTexture("halo.png")),
-    CIRCLE(new ParticleTexture("circle.png")),
-    SQUARE(new ParticleTexture("square.png")),
-    TRIANGLE(new ParticleTexture("triangle.png")),
-    TEXTURE(new ParticleTexture()), // TODO: Minecraftian14, What is this? What's it supposed to be?
-    NOTHING(new ParticleTexture());
+    CIRCLE("circle.png"),
+    GRILL("grill.png"),
+    HALO("halo.png"),
+    SQUARE("square.png"),
+    STAR("star.png"),
+    TRIANGLE("triangle.png"),
+
+    TEXTURE(), // TODO: Minecraftian14, What is this? What's it supposed to be?
+    NOTHING();
 
     private ParticleTexture texture;
+    private final String path;
 
-    ParticleType(ParticleTexture texture) {
-        this.texture = texture;
+    ParticleType(String path) {
+        this.path = path;
+    }
+
+    ParticleType() {
+        path = "NOT DEFINED";
     }
 
     public ParticleTexture getTexture() {
+        if (texture == null) prepareTexture();
         return texture;
+    }
+
+    private void prepareTexture() {
+        if (path.equals("NOT DEFINED"))
+            texture = new ParticleTexture();
+        else
+            texture = new ParticleTexture(path);
     }
 
     public void setTexture(ParticleTexture texture) {
@@ -29,7 +45,7 @@ public enum ParticleType {
     }
 
     public boolean isImage() {
-        return this == HALO;
+        return this != NOTHING && this != TEXTURE;
     }
 }
 

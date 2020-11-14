@@ -1,5 +1,6 @@
 package com.alyrow.gdx.particle.tester;
 
+import com.alyrow.gdx.particle.ParticleType;
 import com.alyrow.gdx.particle.modifiers.Modifier;
 import com.alyrow.gdx.particle.physics.PhysicForce;
 import com.alyrow.gdx.particle.rules.ParticleEmissionNumber;
@@ -27,6 +28,7 @@ public class Tester {
     HashMap<Integer, Runnable> inputKeys;
 
     int pc = 200;
+    ParticleType type = ParticleType.HALO;
     boolean lightOn = true;
     int emissionNumberMode = ParticleEmissionNumber.INNER_SCREEN;
     float emissionSecondsDelay = 1;
@@ -101,7 +103,11 @@ public class Tester {
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
         configuration.setTitle("Integrated Tests");
         configuration.setWindowedMode(1024, 768);
-        new Lwjgl3Application(new TestGame(forces, modifiers,forces_wg, modifiers_wg, inputKeys, pc, lightOn, emissionNumberMode, emissionSecondsDelay, clearScreen), configuration);
+        new Lwjgl3Application(new TestGame(forces, modifiers,forces_wg, modifiers_wg, inputKeys, pc, type, lightOn, emissionNumberMode, emissionSecondsDelay, clearScreen), configuration);
     }
 
+    public Tester setParticleType(ParticleType type) {
+        this.type = type;
+        return this;
+    }
 }
