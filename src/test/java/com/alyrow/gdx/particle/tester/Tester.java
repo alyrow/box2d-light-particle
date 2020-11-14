@@ -22,6 +22,8 @@ public class Tester {
 
     ArrayList<Supplier<PhysicForce>> forces;
     ArrayList<Supplier<Modifier>> modifiers;
+    ArrayList<Function<TestGame , PhysicForce>> forces_wg;
+    ArrayList<Function<TestGame , Modifier>> modifiers_wg;
     HashMap<Integer, Runnable> inputKeys;
 
     int pc = 200;
@@ -34,6 +36,8 @@ public class Tester {
 
         forces = new ArrayList<>();
         modifiers = new ArrayList<>();
+        forces_wg = new ArrayList<>();
+        modifiers_wg = new ArrayList<>();
         inputKeys = new HashMap<>();
 
     }
@@ -43,8 +47,18 @@ public class Tester {
         return this;
     }
 
+    public Tester forModifier(Function<TestGame, Modifier> modifier) {
+        modifiers_wg.add(modifier);
+        return this;
+    }
+
     public Tester forForce(Supplier<PhysicForce> force) {
         forces.add(force);
+        return this;
+    }
+
+    public Tester forForce(Function<TestGame, PhysicForce> force) {
+        forces_wg.add(force);
         return this;
     }
 
@@ -87,7 +101,7 @@ public class Tester {
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
         configuration.setTitle("Integrated Tests");
         configuration.setWindowedMode(1024, 768);
-        new Lwjgl3Application(new TestGame(forces, modifiers, inputKeys, pc, lightOn, emissionNumberMode, emissionSecondsDelay, clearScreen), configuration);
+        new Lwjgl3Application(new TestGame(forces, modifiers,forces_wg, modifiers_wg, inputKeys, pc, lightOn, emissionNumberMode, emissionSecondsDelay, clearScreen), configuration);
     }
 
 }
