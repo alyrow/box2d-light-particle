@@ -22,7 +22,7 @@ public class ParticleSystem {
      * Define particles type
      * @see ParticleType
      */
-    public int type;
+    public ParticleType type;
 
 
     private World world;
@@ -82,15 +82,16 @@ public class ParticleSystem {
      * @param world If `null` collisions between particles and world's objects are deactivated
      * @param camera For display particles on the screen
      */
-    public ParticleSystem(int type, World world, Camera camera) {
+    public ParticleSystem(ParticleType type, World world, Camera camera) {
         this.type = type;
         this.world = world;
         this.camera = camera;
         batch = new SpriteBatch();
         time = TimeUtils.millis();
 
-        if(type == ParticleType.HALO) texture = new ParticleTexture("halo.png");
-        else if (type == ParticleType.NOTHING) texture = new ParticleTexture();
+//        if(type == ParticleType.HALO) texture = new ParticleTexture("halo.png");
+//        else if (type == ParticleType.NOTHING) texture = new ParticleTexture();
+        texture = this.type.getTexture();
 
         modifierManager = new ModifierManager();
     }

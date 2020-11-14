@@ -24,8 +24,8 @@ public class MappedForce extends PhysicForce {
         map = new Vector2[Gdx.graphics.getWidth() + 2 * pad][Gdx.graphics.getHeight() + 2 * pad];
         for (int i = 0; i < map.length; i++)
             for (int j = 0; j < map[0].length; j++) {
-                particle.x = i;
-                particle.y = j;
+                particle.x = i + pad;
+                particle.y = j + pad;
                 map[i][j] = new Vector2(initForce.getForce(particle));
             }
         holder = new InformationHolder(new MetaDataPacket(), map);

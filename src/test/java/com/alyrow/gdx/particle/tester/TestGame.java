@@ -82,6 +82,7 @@ public class TestGame extends Game {
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.position.set(camera.viewportWidth / 2.0f, camera.viewportHeight / 2.0f, 1.0f);
         camera.update();
+
         system = new ParticleSystem(ParticleType.HALO, null, camera);
         system.setRules(rules);
         system.setParticlesPosition(-2, 0);

@@ -10,8 +10,8 @@ public class MappedFanVersusFan {
     public static void main(String[] args) {
 
         new Tester()
-                .forForce(() -> new Fan (Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, 20))
-                .forForce(game -> new MappedForce(new Fan /**/(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, -20), true, game.getCamera()))
+                .forForce(() -> /*             */ new Fan(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, 20))
+                .forForce(game -> new MappedForce(new Fan(Gdx.graphics.getWidth() / 2f, Gdx.graphics.getHeight() / 2f, -20), true, game.getCamera()))
                 .Test();
 
     }
