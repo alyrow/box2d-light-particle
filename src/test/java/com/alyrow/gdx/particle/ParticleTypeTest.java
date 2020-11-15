@@ -7,7 +7,7 @@ public class ParticleTypeTest {
 
     public static void main(String[] args) {
 
-        new Tester().setParticleType(ParticleType.STAR).Test();
+        new Tester().setParticleType(ParticleType.DISCORD).Test();
 
     }
 

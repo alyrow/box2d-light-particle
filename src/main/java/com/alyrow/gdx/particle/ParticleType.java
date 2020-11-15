@@ -1,6 +1,7 @@
 package com.alyrow.gdx.particle;
 
 import com.alyrow.gdx.particle.texture.ParticleTexture;
+import com.badlogic.gdx.graphics.Texture;
 
 /**
  * @author alyrow
@@ -8,6 +9,7 @@ import com.alyrow.gdx.particle.texture.ParticleTexture;
  */
 public enum ParticleType {
     CIRCLE("circle.png"),
+    DISCORD("discord.png"),
     GRILL("grill.png"),
     HALO("halo.png"),
     SQUARE("square.png"),
@@ -44,8 +46,17 @@ public enum ParticleType {
         this.texture = texture;
     }
 
+    public void setTexture(Texture texture) {
+        this.texture = new ParticleTexture(texture);
+    }
+
+    public void setTexture(String path) {
+        this.texture = new ParticleTexture(path);
+    }
+
     public boolean isImage() {
         return this != NOTHING && this != TEXTURE;
     }
+
 }
 
