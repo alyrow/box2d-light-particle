@@ -21,7 +21,7 @@ public class BlackLine extends PhysicForce {
         this(line, mass, 10000);
     }
 
-    private Vector2 cache = Vector2.Zero;
+    private Vector2 cache = new Vector2();
     private float rs;
 
     @Override

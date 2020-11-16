@@ -28,8 +28,6 @@ public class MappedForce extends PhysicForce {
                 particle.y = j + pad;
                 map[i][j] = new Vector2(initForce.getForce(particle));
             }
-        holder = new InformationHolder(new MetaDataPacket(), map);
-        holder.packet.addInt(pad);
     }
 
     public MappedForce(InformationHolder holder) {
@@ -56,6 +54,8 @@ public class MappedForce extends PhysicForce {
     }
 
     public InformationHolder getHolder() {
+        holder = new InformationHolder(new MetaDataPacket(), map);
+        holder.packet.addInt(pad);
         return holder;
     }
 

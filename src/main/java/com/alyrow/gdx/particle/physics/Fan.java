@@ -17,7 +17,7 @@ public class Fan extends PhysicForce implements Json.Serializable {
         this.speed = speed / 100;
     }
 
-    private Vector2 cache = new Vector2(0, 0);
+    private Vector2 cache = new Vector2();
 
     @Override
     public Vector2 getForce(PhysicParticle particle) {
