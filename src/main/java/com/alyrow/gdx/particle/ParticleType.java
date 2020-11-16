@@ -16,7 +16,7 @@ public enum ParticleType {
     STAR("star.png"),
     TRIANGLE("triangle.png"),
 
-    TEXTURE(), // TODO: Minecraftian14, What is this? What's it supposed to be?
+    TEXTURE(),
     NOTHING();
 
     private ParticleTexture texture;
