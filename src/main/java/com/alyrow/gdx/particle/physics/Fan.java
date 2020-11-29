@@ -4,6 +4,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonValue;
 
+//TODO Make JSON system <-- Very important
 public class Fan extends PhysicForce implements Json.Serializable {
 
     private float speed;
