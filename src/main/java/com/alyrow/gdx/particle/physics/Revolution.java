@@ -13,11 +13,11 @@ public class Revolution extends PhysicForce {
         this.speed = speed;
     }
 
-    private Vector2 cache;
+    private Vector2 cache = new Vector2();
 
     @Override
     public Vector2 getForce(PhysicParticle particle) {
-        return new Vector2(particle.y - center.y, center.x - particle.x).nor().scl(speed);
+        return cache.set(particle.y - center.y, center.x - particle.x).nor().scl(speed);
     }
 
 }

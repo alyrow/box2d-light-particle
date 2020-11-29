@@ -35,9 +35,9 @@ public class Particle {
     private long timeEllapsed;
     public PhysicParticle physicParticle;
     public PointLight light;
-    private int type;
+    private ParticleType type;
 
-    public Particle(PointLight light, float life, boolean outer, Texture texture, Camera camera, ParticleSystem system, float x, float y, PhysicParticle physicParticle, boolean worldPhysic, int type) {
+    public Particle(PointLight light, float life, boolean outer, Texture texture, Camera camera, ParticleSystem system, float x, float y, PhysicParticle physicParticle, boolean worldPhysic, ParticleType type) {
         this.life = life * 1000; //s to ms
         this.outer = outer;
         this.texture = texture;
@@ -111,7 +111,7 @@ public class Particle {
         sprite.setPosition(physicParticle.x, physicParticle.y);
         light.setPosition(physicParticle.x + physicParticle.width / 2, physicParticle.y + physicParticle.height / 2);
 
-        if(type == ParticleType.HALO && !sprite.getColor().equals(light.getColor())) {
+        if(type.isHalo() && !sprite.getColor().equals(light.getColor())) {
             sprite.setColor(light.getColor());
         }
 
