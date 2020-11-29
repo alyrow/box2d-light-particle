@@ -94,9 +94,7 @@ public class ParticleSystem {
         this.camera = camera;
         batch = new SpriteBatch();
         time = TimeUtils.millis();
-
-//        if(type == ParticleType.HALO) texture = new ParticleTexture("halo.png");
-//        else if (type == ParticleType.NOTHING) texture = new ParticleTexture();
+        
         texture = this.type.getTexture();
 
         modifierManager = new ModifierManager();
