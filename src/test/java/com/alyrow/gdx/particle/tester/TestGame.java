@@ -24,6 +24,7 @@ import com.badlogic.gdx.physics.box2d.World;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class TestGame extends Game {
@@ -37,18 +38,24 @@ public class TestGame extends Game {
 
     private ArrayList<Supplier<PhysicForce>> forces;
     private ArrayList<Supplier<Modifier>> modifiers;
+    ArrayList<Function<TestGame, PhysicForce>> forces_wg;
+    ArrayList<Function<TestGame, Modifier>> modifiers_wg;
     private HashMap<Integer, Runnable> inputKeys;
     private int pc;
+    private ParticleType type;
     private boolean lightOn;
     private int emissionNumberMode;
     private float emissionSecondsDelay;
     private final boolean clearScreen;
 
-    public TestGame(ArrayList<Supplier<PhysicForce>> forces, ArrayList<Supplier<Modifier>> modifiers, HashMap<Integer, Runnable> inputKeys, int pc, boolean lightsOn, int emissionNumberMode, float emissionSecondsDelay, boolean clearScreen) {
+    public TestGame(ArrayList<Supplier<PhysicForce>> forces, ArrayList<Supplier<Modifier>> modifiers, ArrayList<Function<TestGame, PhysicForce>> forces_wg, ArrayList<Function<TestGame, Modifier>> modifiers_wg, HashMap<Integer, Runnable> inputKeys, int pc, ParticleType type, boolean lightsOn, int emissionNumberMode, float emissionSecondsDelay, boolean clearScreen) {
         this.forces = forces;
         this.modifiers = modifiers;
+        this.forces_wg = forces_wg;
+        this.modifiers_wg = modifiers_wg;
         this.inputKeys = inputKeys;
         this.pc = pc;
+        this.type = type;
         this.lightOn = lightsOn;
         this.emissionNumberMode = emissionNumberMode;
         this.emissionSecondsDelay = emissionSecondsDelay;
@@ -77,15 +84,19 @@ public class TestGame extends Game {
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.position.set(camera.viewportWidth / 2.0f, camera.viewportHeight / 2.0f, 1.0f);
         camera.update();
-        system = new ParticleSystem(ParticleType.HALO, null, camera);
+
+        system = new ParticleSystem(type, null, camera);
         system.setRules(rules);
         system.setParticlesPosition(-2, 0);
 
         ModifierManager manager = system.getModifierManager();
         modifiers.forEach(sup -> manager.addModifier(sup.get()));
+        modifiers_wg.forEach(sup -> manager.addModifier(sup.apply(this)));
 
         physicManager = new PhysicManager();
         forces.forEach(sup -> physicManager.addForce(sup.get()));
+        forces_wg.forEach(sup -> physicManager.addForce(sup.apply(this)));
+
         system.setPhysicManager(physicManager);
 
     }
@@ -114,5 +125,34 @@ public class TestGame extends Game {
                 act.run();
         });
     }
+
+    public World getWorld() {
+        return world;
+    }
+
+    public RayHandler getRayHandler() {
+        return rayHandler;
+    }
+
+    public Box2DDebugRenderer getDebugRenderer() {
+        return debugRenderer;
+    }
+
+    public ParticleSystem getSystem() {
+        return system;
+    }
+
+    public OrthographicCamera getCamera() {
+        return camera;
+    }
+
+    public ParticleEmissionLightRandom getEmissionLight() {
+        return emissionLight;
+    }
+
+    public PhysicManager getPhysicManager() {
+        return physicManager;
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package com.alyrow.gdx.particle.physics;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -11,25 +12,25 @@ public class RadialForce extends PhysicForce {
 
     /**
      * Create radial force
+     *
      * @param strength Strength of the force
      */
     public RadialForce(float strength) {
         this.strength = strength;
     }
 
+    private Vector2 cache = new Vector2();
+
     @Override
     public Vector2 getForce(PhysicParticle particle) {
-        float distance = (float) Math.sqrt((particle.x-particle.x_start)*(particle.x-particle.x_start) + (particle.y-particle.y_start)*(particle.y-particle.y_start));
-        double angle;
-        if (distance == 0) {
-            angle = (Math.random() * 2 * Math.PI);
-            if (angle > Math.PI) particle.data.put("radian", -1f);
-            else particle.data.put("radian", 1f);
-        } else {
-            angle = Math.acos((particle.x - particle.x_start) / distance);
-            if (particle.data.get("radian") == -1f) angle = -angle;
-        }
+        cache.set(particle.x, particle.y).sub(particle.x_start, particle.y_start);
+        float distance = cache.len();
+
+        float angle;
+        if (distance == 0) particle.data_float.put("RadialForce:Angle", angle = MathUtils.random() * 2 * MathUtils.PI);
+        else angle = particle.data_float.get("RadialForce:Angle");
+
         //Gdx.app.log("angle", String.valueOf(Math.toDegrees(angle)));
-        return new Vector2((float) Math.cos(angle)*strength, (float) Math.sin(angle)*strength);
+        return cache.set(strength, 0).setAngleRad(angle);
     }
 }

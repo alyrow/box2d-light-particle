@@ -1,9 +1,12 @@
 package com.alyrow.gdx.particle.physics;
 
+import com.alyrow.gdx.particle.modifiers.Modifier;
 import com.alyrow.gdx.particle.modifiers.RandomColors;
 import com.alyrow.gdx.particle.tester.Tester;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+
+import java.util.function.Supplier;
 
 public class PathFollowTest {
 
@@ -12,7 +15,7 @@ public class PathFollowTest {
         new Tester()
                 .setLightOn(false)
                 .setPc(1000)
-                .forModifier(RandomColors::new)
+                .forModifier((Supplier<Modifier>) RandomColors::new)
                 .forForce(() -> {
                     int x = Gdx.graphics.getWidth() / 2;
                     int y = Gdx.graphics.getHeight() / 2;

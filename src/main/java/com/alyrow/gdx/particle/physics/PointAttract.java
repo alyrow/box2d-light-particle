@@ -14,11 +14,17 @@ public class PointAttract extends PhysicForce {
         this.strength = strength;
     }
 
-    Vector2 cache;
+    public PointAttract(float x, float y, float strength, float drs) {
+        this.center = new Vector2(x, y);
+        this.strength = strength;
+        this.drs = drs;
+    }
+
+    Vector2 cache = new Vector2();
 
     @Override
     public Vector2 getForce(PhysicParticle particle) {
-        cache = new Vector2(center).sub(particle.x, particle.y);
+        cache.set(center).sub(particle.x, particle.y);
         if(cache.len2() < drs) particle.deleteParticle();
         return cache.nor().scl(strength);
     }

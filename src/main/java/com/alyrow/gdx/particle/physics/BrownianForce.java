@@ -13,8 +13,9 @@ public class BrownianForce extends PhysicForce {
 
     /**
      * Brownian force with equals strength on x and y axis
-     * @param strength Strength of the force
-     * @param seed Seed of the force
+     *
+     * @param strength  Strength of the force
+     * @param seed      Seed of the force
      * @param frequency Lower means more quiet
      */
     public BrownianForce(float strength, long seed, double frequency) {
@@ -27,8 +28,8 @@ public class BrownianForce extends PhysicForce {
     /**
      * @param strength_x Strength of the force for x axis
      * @param strength_y Strength of the force for y axis
-     * @param seed Seed of the force
-     * @param frequency Lower means more quiet
+     * @param seed       Seed of the force
+     * @param frequency  Lower means more quiet
      */
     public BrownianForce(float strength_x, float strength_y, long seed, double frequency) {
         this.strength_x = strength_x;
@@ -36,6 +37,8 @@ public class BrownianForce extends PhysicForce {
         this.seed = seed;
         this.frequency = frequency;
     }
+
+    private Vector2 cache = new Vector2();
 
     @Override
     public Vector2 getForce(PhysicParticle particle) {
@@ -47,14 +50,14 @@ public class BrownianForce extends PhysicForce {
         //else dy = strength_y;
         //dy = (float) ((Math.random()*2-1)*strength_y);
 
-        particle.data.computeIfAbsent("seedy", k -> (float) (Math.random() * seed*100));
-        particle.data.computeIfAbsent("seedx", k -> (float) (Math.random() * seed*100));
+        particle.data.computeIfAbsent("seedy", k -> (float) (Math.random() * seed * 100));
+        particle.data.computeIfAbsent("seedx", k -> (float) (Math.random() * seed * 100));
 
-        dx = (float) layeredNoise(particle.y+strength_y, Math.round(particle.data.get("seedx")), frequency) * strength_x;
-        dy = (float) layeredNoise(particle.x+strength_x, Math.round(particle.data.get("seedy")), frequency) * strength_y;
+        dx = (float) layeredNoise(particle.y + strength_y, Math.round(particle.data.get("seedx")), frequency) * strength_x;
+        dy = (float) layeredNoise(particle.x + strength_x, Math.round(particle.data.get("seedy")), frequency) * strength_y;
         //Gdx.app.log("y", String.valueOf(dy));
 
-        return new Vector2(dx, dy);
+        return cache.set(dx, dy);
     }
 
 
@@ -62,11 +65,12 @@ public class BrownianForce extends PhysicForce {
      * Raise if you want to make it smoother
      */
     public static final int octaves = 4; // change to 5 or higher to make it smoother and have smaller extremes
+
     /**
-     * @author TEttinger
-     * @param x the time component or whatever is changing in 1D
-     * @param seed a long that should be different for different sequences of noise; when this changes, it won't smoothly transition
+     * @param x         the time component or whatever is changing in 1D
+     * @param seed      a long that should be different for different sequences of noise; when this changes, it won't smoothly transition
      * @param frequency usually between 0.01 and 0.1; 0.03 can be a good default, but some usage will need much larger or smaller frequencies
+     * @author TEttinger
      */
     public double layeredNoise(double x, long seed, double frequency) {
         x *= frequency;
@@ -76,6 +80,7 @@ public class BrownianForce extends PhysicForce {
         }
         return n / ((1 << octaves) - 1.0);
     }
+
     public double noise(double x, final long seed) {
         x += ((seed & 0xFFFFFFFFL) ^ (seed >>> 32)) * 0x1p-24; // offset x by between 0.0 and almost 256.0
         final long xFloor = x >= 0 ? (long) x : (long) x - 1L, // floor of x as a long

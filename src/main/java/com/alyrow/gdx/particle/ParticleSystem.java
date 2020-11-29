@@ -1,14 +1,14 @@
 package com.alyrow.gdx.particle;
 
 import com.alyrow.gdx.particle.modifiers.ModifierManager;
+import com.alyrow.gdx.particle.physics.PhysicManager;
+import com.alyrow.gdx.particle.rules.ParticleEmissionNumber;
+import com.alyrow.gdx.particle.texture.ParticleTexture;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.alyrow.gdx.particle.physics.PhysicManager;
-import com.alyrow.gdx.particle.rules.ParticleEmissionNumber;
-import com.alyrow.gdx.particle.texture.ParticleTexture;
 
 import java.util.Date;
 
@@ -20,9 +20,10 @@ import java.util.Date;
 public class ParticleSystem {
     /**
      * Define particles type
+     *
      * @see ParticleType
      */
-    public int type;
+    public ParticleType type;
 
 
     private World world;
@@ -30,6 +31,7 @@ public class ParticleSystem {
 
     /**
      * Define Texture of particles
+     *
      * @see ParticleTexture
      */
     public ParticleTexture texture;
@@ -37,6 +39,7 @@ public class ParticleSystem {
     /**
      * Define rules as particles life, emission duration....
      * For more details :
+     *
      * @see ParticleRules
      */
     private ParticleRules rules;
@@ -65,41 +68,46 @@ public class ParticleSystem {
 
     /**
      * Manage physics on particles
+     *
      * @see PhysicManager
      */
     private PhysicManager physicManager;
 
     /**
      * Manage modifier on particles
+     *
      * @see ModifierManager
      */
     private ModifierManager modifierManager;
 
     /**
      * Constructor that create a particle system
-     * @param type Particles type (Halo, Texture, No texture)
-     *             {@link ParticleType}
-     * @param world If `null` collisions between particles and world's objects are deactivated
+     *
+     * @param type   Particles type (Halo, Texture, No texture)
+     *               {@link ParticleType}
+     * @param world  If `null` collisions between particles and world's objects are deactivated
      * @param camera For display particles on the screen
      */
-    public ParticleSystem(int type, World world, Camera camera) {
+    public ParticleSystem(ParticleType type, World world, Camera camera) {
         this.type = type;
         this.world = world;
         this.camera = camera;
         batch = new SpriteBatch();
         time = TimeUtils.millis();
 
-        if(type == ParticleType.HALO) texture = new ParticleTexture("halo.png");
-        else if (type == ParticleType.NOTHING) texture = new ParticleTexture();
+//        if(type == ParticleType.HALO) texture = new ParticleTexture("halo.png");
+//        else if (type == ParticleType.NOTHING) texture = new ParticleTexture();
+        texture = this.type.getTexture();
 
         modifierManager = new ModifierManager();
     }
 
     /**
      * Set texture of particles if `type` is set to `TEXTURE` or `HALO`
-     * @see ParticleType
+     *
      * @param texture Set texture with ParticleTexture object
      *                {@link ParticleTexture}
+     * @see ParticleType
      */
     public void setTexture(ParticleTexture texture) {
         if (type == ParticleType.NOTHING) {
@@ -116,6 +124,7 @@ public class ParticleSystem {
     /**
      * Set the rules of particle system and particles.
      * /!\ THIS IS VERY IMPORTANT TO SET RULES
+     *
      * @param rules All rules in one object ;)
      *              {@link ParticleRules}
      */
@@ -126,6 +135,7 @@ public class ParticleSystem {
 
     /**
      * For get the rules
+     *
      * @return Return the rules in one single object
      * @see ParticleRules
      */
@@ -135,6 +145,7 @@ public class ParticleSystem {
 
     /**
      * Well, set physics rules to particles.
+     *
      * @param physicManager The physic manager contains all physics rules in a single object
      *                      {@link PhysicManager}
      */
@@ -144,6 +155,7 @@ public class ParticleSystem {
 
     /**
      * For get the physic manager
+     *
      * @return the physic manager
      */
     public PhysicManager getPhysicManager() {
@@ -152,6 +164,7 @@ public class ParticleSystem {
 
     /**
      * Set the first position of particles. If you modify this, it won't affect existing particles but futures.
+     *
      * @param x Set x position of futures particles
      * @param y Set y position of futures particles
      */
@@ -182,7 +195,7 @@ public class ParticleSystem {
             if (test_long < rules.number.getNumber())
                 particles.add(applyModifiers(new Particle(rules.light.getLight(), rules.life.getLife(), rules.life.outer, texture.getTexture(), camera, this, x, y, physicManager.getParticleForces(x, y, world, camera), world != null, type)));
         } else {
-            if (new Date().getTime() >= test_long + rules.number.seconds*1000) {
+            if (new Date().getTime() >= test_long + rules.number.seconds * 1000) {
                 for (int j = 0; j < rules.number.getNumber(); j++)
                     particles.add(applyModifiers(new Particle(rules.light.getLight(), rules.life.getLife(), rules.life.outer, texture.getTexture(), camera, this, x, y, physicManager.getParticleForces(x, y, world, camera), world != null, type)));
                 test_long = TimeUtils.millis();
@@ -198,6 +211,7 @@ public class ParticleSystem {
 
     /**
      * Get the Modifier Manager in order to apply modifiers on particles
+     *
      * @return {@link ModifierManager}
      */
     public ModifierManager getModifierManager() {
@@ -212,6 +226,7 @@ public class ParticleSystem {
 
     /**
      * Well, down are all blending function on SpriteBatch.
+     *
      * @see SpriteBatch
      */
 
@@ -219,27 +234,35 @@ public class ParticleSystem {
     public void enableBlending() {
         batch.enableBlending();
     }
+
     public void disableBlending() {
         batch.disableBlending();
     }
+
     public boolean isBlendingEnabled() {
         return batch.isBlendingEnabled();
     }
+
     public int getBlendDstFunc() {
         return batch.getBlendDstFunc();
     }
+
     public int getBlendSrcFunc() {
         return batch.getBlendSrcFunc();
     }
+
     public int getBlendSrcFuncAlpha() {
         return batch.getBlendSrcFuncAlpha();
     }
+
     public int getBlendDstFuncAlpha() {
         return batch.getBlendDstFuncAlpha();
     }
+
     public void disableBlending(int srcFunc, int dstFunc) {
         batch.setBlendFunction(srcFunc, dstFunc);
     }
+
     public void setBlendFunctionSeparate(int srcFuncColor, int dstFuncColor, int srcFuncAlpha, int dstFuncAlpha) {
         batch.setBlendFunctionSeparate(srcFuncColor, dstFuncColor, srcFuncAlpha, dstFuncAlpha);
     }
