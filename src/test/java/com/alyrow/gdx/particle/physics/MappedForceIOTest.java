@@ -30,13 +30,13 @@ public class MappedForceIOTest {
     private static void TestWrite() {
 
         MappedForce force = new MappedForce(new Fan(0, 0, 20), true, null);
-        PixmapIO.writePNG(Gdx.files.absolute("D://i.png"), MappedForce.toPixmap(MappedForce.pack(force)));
+        PixmapIO.writePNG(Gdx.files.local("generatedByTests/i.png"), MappedForce.toPixmap(MappedForce.pack(force)));
 
     }
 
     private static MappedForce TestRead() {
 
-        InformationHolder holder = MappedForce.unpack(MappedForce.toData(new Pixmap(Gdx.files.absolute("D://i.png"))));
+        InformationHolder holder = MappedForce.unpack(MappedForce.toData(new Pixmap(Gdx.files.local("generatedByTests/i.png"))));
         return new MappedForce(holder);
 
     }
