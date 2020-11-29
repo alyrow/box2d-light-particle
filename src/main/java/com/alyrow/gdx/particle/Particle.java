@@ -111,7 +111,7 @@ public class Particle {
         sprite.setPosition(physicParticle.x, physicParticle.y);
         light.setPosition(physicParticle.x + physicParticle.width / 2, physicParticle.y + physicParticle.height / 2);
 
-        if(type.isImage() && !sprite.getColor().equals(light.getColor())) {
+        if(type.isHalo() && !sprite.getColor().equals(light.getColor())) {
             sprite.setColor(light.getColor());
         }
 

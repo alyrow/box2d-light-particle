@@ -54,7 +54,7 @@ public enum ParticleType {
         this.texture = new ParticleTexture(path);
     }
 
-    public boolean isImage() {
+    public boolean isHalo() {
         return this != NOTHING && this != TEXTURE;
     }
 
