@@ -182,7 +182,7 @@ public class ParticleSystem {
             if (test_long < rules.number.getNumber())
                 particles.add(applyModifiers(new Particle(rules.light.getLight(), rules.life.getLife(), rules.life.outer, texture.getTexture(), camera, this, x, y, physicManager.getParticleForces(x, y, world, camera), world != null, type)));
         } else {
-            if (new Date().getTime() >= test_long + rules.number.seconds*1000) {
+            if (TimeUtils.timeSinceMillis(test_long) >= rules.number.seconds*1000) {
                 for (int j = 0; j < rules.number.getNumber(); j++)
                     particles.add(applyModifiers(new Particle(rules.light.getLight(), rules.life.getLife(), rules.life.outer, texture.getTexture(), camera, this, x, y, physicManager.getParticleForces(x, y, world, camera), world != null, type)));
                 test_long = TimeUtils.millis();
