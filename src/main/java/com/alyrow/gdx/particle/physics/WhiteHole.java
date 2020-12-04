@@ -16,15 +16,13 @@ public class WhiteHole extends PhysicForce {
         this(x, y, mass, 40000);
     }
 
-    private Vector2 cache = Vector2.Zero;
+    private Vector2 cache = new Vector2();
     private float rs;
 
     @Override
     public Vector2 getForce(PhysicParticle particle) {
-        cache.x = center.x - particle.x;
-        cache.y = center.y - particle.y;
+        cache.set(center.x - particle.x, center.y - particle.y);
         rs = cache.len2();
-
         return cache.nor().scl(effect * particle.mass / rs);
     }
 

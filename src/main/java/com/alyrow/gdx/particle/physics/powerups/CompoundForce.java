@@ -12,11 +12,12 @@ public class CompoundForce extends PhysicForce {
         this.forces = forces;
     }
 
-    Vector2 cache;
+    Vector2 cache = new Vector2();
+    ;
 
     @Override
     public Vector2 getForce(PhysicParticle particle) {
-        cache = new Vector2();
+        cache.set(0, 0);
         for (PhysicForce force : forces) cache.add(force.getForce(particle));
         return cache;
     }

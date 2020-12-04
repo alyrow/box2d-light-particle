@@ -1,5 +1,6 @@
 package com.alyrow.gdx.particle.physics;
 
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -27,10 +28,12 @@ public class RandomLinearForce extends PhysicForce {
         this.vy_max = vy_max;
     }
 
+    private Vector2 cache = new Vector2();
+
     @Override
     public Vector2 getForce(PhysicParticle particle) {
-        particle.data_float.computeIfAbsent("rlinearX", k -> (float) Math.random()*(vx_max-vx_min)+vx_min);
-        particle.data_float.computeIfAbsent("rlinearY", k -> (float) Math.random()*(vy_max-vy_min)+vy_min);
-        return new Vector2(particle.data_float.get("rlinearX"), particle.data_float.get("rlinearY"));
+        particle.data_float.computeIfAbsent("rlinearX", k -> MathUtils.random() * (vx_max - vx_min) + vx_min);
+        particle.data_float.computeIfAbsent("rlinearY", k -> MathUtils.random() * (vy_max - vy_min) + vy_min);
+        return cache.set(particle.data_float.get("rlinearX"), particle.data_float.get("rlinearY"));
     }
 }

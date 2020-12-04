@@ -20,12 +20,12 @@ public class PointElectrostaticForce extends PhysicForce {
         this(x, y, charge, 40000);
     }
 
-    private Vector2 cache;
+    private Vector2 cache = new Vector2();
     private float rs;
 
     @Override
     public Vector2 getForce(PhysicParticle particle) {
-        cache = new Vector2(center.x - particle.x, center.y - particle.y);
+        cache.set(center.x - particle.x, center.y - particle.y);
         rs = cache.len2();
         if (rs < drs) particle.deleteParticle();
 
