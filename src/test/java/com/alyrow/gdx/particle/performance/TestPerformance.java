@@ -1,8 +1,9 @@
-package com.alyrow.gdx.particle.tester;
+package com.alyrow.gdx.particle.performance;
 
 import com.alyrow.gdx.particle.modifiers.Modifier;
 import com.alyrow.gdx.particle.physics.PhysicForce;
 import com.alyrow.gdx.particle.rules.ParticleEmissionNumber;
+import com.alyrow.gdx.particle.tester.TestGame;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
@@ -11,8 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Supplier;
 
-public class Tester {
-
+public class TestPerformance {
     TestGame game;
 
     ArrayList<Supplier<PhysicForce>> forces;
@@ -25,7 +25,7 @@ public class Tester {
     float emissionSecondsDelay = 1;
     boolean clearScreen = true;
 
-    public Tester() {
+    public TestPerformance() {
 
         forces = new ArrayList<>();
         modifiers = new ArrayList<>();
@@ -33,47 +33,47 @@ public class Tester {
 
     }
 
-    public Tester forModifier(Supplier<Modifier> modifier) {
+    public TestPerformance forModifier(Supplier<Modifier> modifier) {
         modifiers.add(modifier);
         return this;
     }
 
-    public Tester forForce(Supplier<PhysicForce> force) {
+    public TestPerformance forForce(Supplier<PhysicForce> force) {
         forces.add(force);
         return this;
     }
 
-    public Tester setPc(int p) {
+    public TestPerformance setPc(int p) {
         pc = p;
         return this;
     }
 
-    public Tester setLightOn(boolean p) {
+    public TestPerformance setLightOn(boolean p) {
         lightOn = p;
         return this;
     }
 
-    public Tester setEmissionNumberMode(int p) {
+    public TestPerformance setEmissionNumberMode(int p) {
         emissionNumberMode = p;
         return this;
     }
 
-    public Tester setEmissionSecondsDelay(float p) {
+    public TestPerformance setEmissionSecondsDelay(float p) {
         emissionSecondsDelay = p;
         return this;
     }
 
-    public Tester clearScreen(boolean p) {
+    public TestPerformance clearScreen(boolean p) {
         clearScreen = p;
         return this;
     }
 
-    public Tester addKey(int key, Runnable action) {
+    public TestPerformance addKey(int key, Runnable action) {
         inputKeys.put(key, action);
         return this;
     }
 
-    public Tester addKey(Runnable action) {
+    public TestPerformance addKey(Runnable action) {
         inputKeys.put(Input.Keys.SPACE, action);
         return this;
     }
@@ -82,6 +82,6 @@ public class Tester {
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
         configuration.setTitle("Integrated Tests");
         configuration.setWindowedMode(1024, 768);
-        new Lwjgl3Application(new TestGame(forces, modifiers, inputKeys, pc, lightOn, emissionNumberMode, emissionSecondsDelay, clearScreen), configuration);
+        new Lwjgl3Application(new PerfGame(forces, modifiers, inputKeys, pc, lightOn, emissionNumberMode, emissionSecondsDelay, clearScreen), configuration);
     }
 }

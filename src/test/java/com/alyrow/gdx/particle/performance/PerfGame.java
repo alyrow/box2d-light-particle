@@ -1,4 +1,4 @@
-package com.alyrow.gdx.particle.tester;
+package com.alyrow.gdx.particle.performance;
 
 import box2dLight.RayHandler;
 import com.alyrow.gdx.particle.ParticleRules;
@@ -27,7 +27,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.function.Supplier;
 
-public class TestGame extends Game {
+public class PerfGame extends Game {
+    private final boolean clearScreen;
+    boolean locked = false;
+    long timeToLock, timeTo2000;
     private World world;
     private RayHandler rayHandler;
     private Box2DDebugRenderer debugRenderer;
@@ -35,7 +38,6 @@ public class TestGame extends Game {
     private OrthographicCamera camera;
     private ParticleEmissionLightRandom emissionLight;
     private PhysicManager physicManager;
-
     private ArrayList<Supplier<PhysicForce>> forces;
     private ArrayList<Supplier<Modifier>> modifiers;
     private HashMap<Integer, Runnable> inputKeys;
@@ -43,10 +45,9 @@ public class TestGame extends Game {
     private boolean lightOn;
     private int emissionNumberMode;
     private float emissionSecondsDelay;
-    private final boolean clearScreen;
     private long time;
 
-    public TestGame(ArrayList<Supplier<PhysicForce>> forces, ArrayList<Supplier<Modifier>> modifiers, HashMap<Integer, Runnable> inputKeys, int pc, boolean lightsOn, int emissionNumberMode, float emissionSecondsDelay, boolean clearScreen) {
+    public PerfGame(ArrayList<Supplier<PhysicForce>> forces, ArrayList<Supplier<Modifier>> modifiers, HashMap<Integer, Runnable> inputKeys, int pc, boolean lightsOn, int emissionNumberMode, float emissionSecondsDelay, boolean clearScreen) {
         this.forces = forces;
         this.modifiers = modifiers;
         this.inputKeys = inputKeys;
@@ -90,6 +91,8 @@ public class TestGame extends Game {
         forces.forEach(sup -> physicManager.addForce(sup.get()));
         system.setPhysicManager(physicManager);
 
+        timeToLock = TimeUtils.nanoTime();
+
     }
 
     @Override
@@ -99,6 +102,21 @@ public class TestGame extends Game {
         if (clearScreen) {
             Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        }
+
+        if (!locked && system.particles.size >= 6000) {
+            timeToLock = TimeUtils.timeSinceNanos(timeToLock);
+            System.out.println(timeToLock);
+            System.out.println(timeToLock / 1000000000d + "s");
+            locked = true;
+            system.getRules().number.number = 6000;
+            system.getRules().number.mode = ParticleEmissionNumber.INNER_SCREEN;
+            timeTo2000 = TimeUtils.nanoTime();
+        } else if (locked && system.particles.size <= 2000) {
+            timeTo2000 = TimeUtils.timeSinceNanos(timeTo2000);
+            System.out.println(timeTo2000 / 1000000000d + "s");
+            System.out.println(timeTo2000);
+            Gdx.app.exit();
         }
 
         camera.update();

@@ -1,16 +1,17 @@
 package com.alyrow.gdx.particle;
 
+import box2dLight.PointLight;
 import com.alyrow.gdx.particle.modifiers.ModifierManager;
+import com.alyrow.gdx.particle.physics.PhysicManager;
+import com.alyrow.gdx.particle.physics.PhysicParticle;
+import com.alyrow.gdx.particle.rules.ParticleEmissionNumber;
+import com.alyrow.gdx.particle.texture.ParticleTexture;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.alyrow.gdx.particle.physics.PhysicManager;
-import com.alyrow.gdx.particle.rules.ParticleEmissionNumber;
-import com.alyrow.gdx.particle.texture.ParticleTexture;
-
-import java.util.Date;
 
 
 /**
@@ -45,6 +46,7 @@ public class ParticleSystem {
      * Array of all existing particles in the system
      */
     public Array<Particle> particles = new Array<>();
+    //public Array<Particle> particles_gc = new Array<>();
 
     /**
      * Time of emission
@@ -196,8 +198,19 @@ public class ParticleSystem {
         batch.end();
     }
 
+    private Particle createParticle(PointLight light, float life, boolean outer, Texture texture, Camera camera, ParticleSystem system, float x, float y, PhysicParticle physicParticle, boolean worldPhysic, int type) {
+        /*if (particles_gc.size > 0) {
+            Particle particle = particles_gc.get(particles_gc.size);
+            particle.init(light, life, outer, texture, camera, system, x, y, physicParticle, worldPhysic, type);
+            particles_gc.removeValue(particle, true);
+            return particle;
+        }*/
+        return new Particle(light, life, outer, texture, camera, system, x, y, physicParticle, worldPhysic, type);
+    }
+
     /**
      * Get the Modifier Manager in order to apply modifiers on particles
+     *
      * @return {@link ModifierManager}
      */
     public ModifierManager getModifierManager() {

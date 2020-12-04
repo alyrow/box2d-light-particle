@@ -22,7 +22,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class Particle {
     public static float ratio = 1;
 
-    private final boolean worldPhysic;
+    private boolean worldPhysic;
     private AnimatedTexture anTex;
     public float life; //in seconds
     public boolean outer; //If false --> Survive `life` seconds then die
@@ -38,6 +38,12 @@ public class Particle {
     private int type;
 
     public Particle(PointLight light, float life, boolean outer, Texture texture, Camera camera, ParticleSystem system, float x, float y, PhysicParticle physicParticle, boolean worldPhysic, int type) {
+        if (!(texture instanceof AnimatedTexture))
+            sprite = new Sprite(texture);
+        init(light, life, outer, texture, camera, system, x, y, physicParticle, worldPhysic, type);
+    }
+
+    public void init(PointLight light, float life, boolean outer, Texture texture, Camera camera, ParticleSystem system, float x, float y, PhysicParticle physicParticle, boolean worldPhysic, int type) {
         this.life = life * 1000; //s to ms
         this.outer = outer;
         this.texture = texture;
@@ -53,7 +59,7 @@ public class Particle {
             //Gdx.app.log("AnimatedTexture", "true");
             anTex = (AnimatedTexture) texture;
             sprite = new Sprite(anTex.textures[0]);
-        } else sprite = new Sprite(texture);
+        }
         if (type == ParticleType.HALO)
             sprite.setColor(light.getColor());
         sprite.setPosition(x, y);
