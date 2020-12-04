@@ -37,13 +37,13 @@ public class Particle {
     public PointLight light;
     private ParticleType type;
 
-    public Particle(PointLight light, float life, boolean outer, Texture texture, Camera camera, ParticleSystem system, float x, float y, PhysicParticle physicParticle, boolean worldPhysic, int type) {
+    public Particle(PointLight light, float life, boolean outer, Texture texture, Camera camera, ParticleSystem system, float x, float y, PhysicParticle physicParticle, boolean worldPhysic, ParticleType type) {
         if (!(texture instanceof AnimatedTexture))
             sprite = new Sprite(texture);
         init(light, life, outer, texture, camera, system, x, y, physicParticle, worldPhysic, type);
     }
 
-    public void init(PointLight light, float life, boolean outer, Texture texture, Camera camera, ParticleSystem system, float x, float y, PhysicParticle physicParticle, boolean worldPhysic, int type) {
+    public void init(PointLight light, float life, boolean outer, Texture texture, Camera camera, ParticleSystem system, float x, float y, PhysicParticle physicParticle, boolean worldPhysic, ParticleType type) {
         this.life = life * 1000; //s to ms
         this.outer = outer;
         this.texture = texture;

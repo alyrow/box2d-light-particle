@@ -10,6 +10,7 @@ import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class Tester {
@@ -98,7 +99,7 @@ public class Tester {
         Lwjgl3ApplicationConfiguration configuration = new Lwjgl3ApplicationConfiguration();
         configuration.setTitle("Integrated Tests");
         configuration.setWindowedMode(1024, 768);
-        new Lwjgl3Application(new TestGame(forces, modifiers,forces_wg, modifiers_wg, inputKeys, pc, type, lightOn, emissionNumberMode, emissionSecondsDelay, clearScreen), configuration);
+        new Lwjgl3Application(new TestGame(forces, modifiers, forces_wg, modifiers_wg, inputKeys, pc, type, lightOn, emissionNumberMode, emissionSecondsDelay, clearScreen), configuration);
     }
 
     public Tester setParticleType(ParticleType type) {

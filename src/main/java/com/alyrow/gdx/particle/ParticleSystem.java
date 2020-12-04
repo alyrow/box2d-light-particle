@@ -209,7 +209,7 @@ public class ParticleSystem {
         batch.end();
     }
 
-    private Particle createParticle(PointLight light, float life, boolean outer, Texture texture, Camera camera, ParticleSystem system, float x, float y, PhysicParticle physicParticle, boolean worldPhysic, int type) {
+    private Particle createParticle(PointLight light, float life, boolean outer, Texture texture, Camera camera, ParticleSystem system, float x, float y, PhysicParticle physicParticle, boolean worldPhysic, ParticleType type) {
         /*if (particles_gc.size > 0) {
             Particle particle = particles_gc.get(particles_gc.size);
             particle.init(light, life, outer, texture, camera, system, x, y, physicParticle, worldPhysic, type);
