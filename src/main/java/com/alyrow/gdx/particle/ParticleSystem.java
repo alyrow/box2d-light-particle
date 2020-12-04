@@ -1,16 +1,17 @@
 package com.alyrow.gdx.particle;
 
+import box2dLight.PointLight;
 import com.alyrow.gdx.particle.modifiers.ModifierManager;
 import com.alyrow.gdx.particle.physics.PhysicManager;
+import com.alyrow.gdx.particle.physics.PhysicParticle;
 import com.alyrow.gdx.particle.rules.ParticleEmissionNumber;
 import com.alyrow.gdx.particle.texture.ParticleTexture;
 import com.badlogic.gdx.graphics.Camera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
-
-import java.util.Date;
 
 
 /**
@@ -48,6 +49,7 @@ public class ParticleSystem {
      * Array of all existing particles in the system
      */
     public Array<Particle> particles = new Array<>();
+    //public Array<Particle> particles_gc = new Array<>();
 
     /**
      * Time of emission
@@ -193,7 +195,7 @@ public class ParticleSystem {
             if (test_long < rules.number.getNumber())
                 particles.add(applyModifiers(new Particle(rules.light.getLight(), rules.life.getLife(), rules.life.outer, texture.getTexture(), camera, this, x, y, physicManager.getParticleForces(x, y, world, camera), world != null, type)));
         } else {
-            if (new Date().getTime() >= test_long + rules.number.seconds * 1000) {
+            if (TimeUtils.timeSinceMillis(test_long) >= rules.number.seconds*1000) {
                 for (int j = 0; j < rules.number.getNumber(); j++)
                     particles.add(applyModifiers(new Particle(rules.light.getLight(), rules.life.getLife(), rules.life.outer, texture.getTexture(), camera, this, x, y, physicManager.getParticleForces(x, y, world, camera), world != null, type)));
                 test_long = TimeUtils.millis();
@@ -205,6 +207,16 @@ public class ParticleSystem {
         for (int i = 0; i < particles.size; i++) particles.get(i).render(batch, camera, physicManager.forces);
         //particles.forEach(particle -> particle.render(batch, camera));
         batch.end();
+    }
+
+    private Particle createParticle(PointLight light, float life, boolean outer, Texture texture, Camera camera, ParticleSystem system, float x, float y, PhysicParticle physicParticle, boolean worldPhysic, int type) {
+        /*if (particles_gc.size > 0) {
+            Particle particle = particles_gc.get(particles_gc.size);
+            particle.init(light, life, outer, texture, camera, system, x, y, physicParticle, worldPhysic, type);
+            particles_gc.removeValue(particle, true);
+            return particle;
+        }*/
+        return new Particle(light, life, outer, texture, camera, system, x, y, physicParticle, worldPhysic, type);
     }
 
     /**

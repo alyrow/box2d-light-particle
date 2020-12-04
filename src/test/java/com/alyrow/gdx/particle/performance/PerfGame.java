@@ -1,4 +1,4 @@
-package com.alyrow.gdx.particle.tester;
+package com.alyrow.gdx.particle.performance;
 
 import box2dLight.RayHandler;
 import com.alyrow.gdx.particle.ParticleRules;
@@ -25,10 +25,12 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class TestGame extends Game {
+public class PerfGame extends Game {
+    private final boolean clearScreen;
+    boolean locked = false;
+    long timeToLock, timeTo2000;
     private World world;
     private RayHandler rayHandler;
     private Box2DDebugRenderer debugRenderer;
@@ -36,28 +38,20 @@ public class TestGame extends Game {
     private OrthographicCamera camera;
     private ParticleEmissionLightRandom emissionLight;
     private PhysicManager physicManager;
-
     private ArrayList<Supplier<PhysicForce>> forces;
     private ArrayList<Supplier<Modifier>> modifiers;
-    ArrayList<Function<TestGame, PhysicForce>> forces_wg;
-    ArrayList<Function<TestGame, Modifier>> modifiers_wg;
     private HashMap<Integer, Runnable> inputKeys;
     private int pc;
-    private ParticleType type;
     private boolean lightOn;
     private int emissionNumberMode;
     private float emissionSecondsDelay;
-    private final boolean clearScreen;
     private long time;
 
-    public TestGame(ArrayList<Supplier<PhysicForce>> forces, ArrayList<Supplier<Modifier>> modifiers, ArrayList<Function<TestGame, PhysicForce>> forces_wg, ArrayList<Function<TestGame, Modifier>> modifiers_wg, HashMap<Integer, Runnable> inputKeys, int pc, ParticleType type, boolean lightsOn, int emissionNumberMode, float emissionSecondsDelay, boolean clearScreen) {
+    public PerfGame(ArrayList<Supplier<PhysicForce>> forces, ArrayList<Supplier<Modifier>> modifiers, HashMap<Integer, Runnable> inputKeys, int pc, boolean lightsOn, int emissionNumberMode, float emissionSecondsDelay, boolean clearScreen) {
         this.forces = forces;
         this.modifiers = modifiers;
-        this.forces_wg = forces_wg;
-        this.modifiers_wg = modifiers_wg;
         this.inputKeys = inputKeys;
         this.pc = pc;
-        this.type = type;
         this.lightOn = lightsOn;
         this.emissionNumberMode = emissionNumberMode;
         this.emissionSecondsDelay = emissionSecondsDelay;
@@ -86,20 +80,18 @@ public class TestGame extends Game {
         camera = new OrthographicCamera(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         camera.position.set(camera.viewportWidth / 2.0f, camera.viewportHeight / 2.0f, 1.0f);
         camera.update();
-
-        system = new ParticleSystem(type, null, camera);
+        system = new ParticleSystem(ParticleType.HALO, null, camera);
         system.setRules(rules);
         system.setParticlesPosition(-2, 0);
 
         ModifierManager manager = system.getModifierManager();
         modifiers.forEach(sup -> manager.addModifier(sup.get()));
-        modifiers_wg.forEach(sup -> manager.addModifier(sup.apply(this)));
 
         physicManager = new PhysicManager();
         forces.forEach(sup -> physicManager.addForce(sup.get()));
-        forces_wg.forEach(sup -> physicManager.addForce(sup.apply(this)));
-
         system.setPhysicManager(physicManager);
+
+        timeToLock = TimeUtils.nanoTime();
 
     }
 
@@ -110,6 +102,21 @@ public class TestGame extends Game {
         if (clearScreen) {
             Gdx.gl.glClearColor(0f, 0f, 0f, 0f);
             Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        }
+
+        if (!locked && system.particles.size >= 6000) {
+            timeToLock = TimeUtils.timeSinceNanos(timeToLock);
+            System.out.println(timeToLock);
+            System.out.println(timeToLock / 1000000000d + "s");
+            locked = true;
+            system.getRules().number.number = 6000;
+            system.getRules().number.mode = ParticleEmissionNumber.INNER_SCREEN;
+            timeTo2000 = TimeUtils.nanoTime();
+        } else if (locked && system.particles.size <= 2000) {
+            timeTo2000 = TimeUtils.timeSinceNanos(timeTo2000);
+            System.out.println(timeTo2000 / 1000000000d + "s");
+            System.out.println(timeTo2000);
+            Gdx.app.exit();
         }
 
         camera.update();
@@ -132,34 +139,5 @@ public class TestGame extends Game {
             time = TimeUtils.millis();
         }
     }
-
-    public World getWorld() {
-        return world;
-    }
-
-    public RayHandler getRayHandler() {
-        return rayHandler;
-    }
-
-    public Box2DDebugRenderer getDebugRenderer() {
-        return debugRenderer;
-    }
-
-    public ParticleSystem getSystem() {
-        return system;
-    }
-
-    public OrthographicCamera getCamera() {
-        return camera;
-    }
-
-    public ParticleEmissionLightRandom getEmissionLight() {
-        return emissionLight;
-    }
-
-    public PhysicManager getPhysicManager() {
-        return physicManager;
-    }
-
 
 }
