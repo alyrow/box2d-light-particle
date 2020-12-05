@@ -33,10 +33,10 @@ public class ParticleTexture {
     }
 
     /**
-     * You will never use that but create a 2x2 transparent texture
+     * You will never use that but create a 1x1 transparent texture
      */
     public ParticleTexture() {
-        Pixmap t = new Pixmap(2, 2, Pixmap.Format.RGBA8888);
+        Pixmap t = new Pixmap(1, 1, Pixmap.Format.RGBA8888);
         texture = new Texture(t);
     }
 
