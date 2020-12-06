@@ -17,6 +17,7 @@ public class Jsonify implements Json.Serializable {
     @Override
     public void write(Json json) {
         json.writeValue("system.type", system.type, ParticleType.class);
+        json.writeValue("rules", system.getRules(), ParticleRules.class);
     }
 
     @Override
