@@ -2,12 +2,16 @@ package com.alyrow.gdx.particle;
 
 import com.alyrow.gdx.particle.texture.ParticleTexture;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 /**
  * @author alyrow
  * Define particles type...
  */
-public enum ParticleType {
+public enum ParticleType implements Json.Serializable {
     CIRCLE("circle.png"),
     DISCORD("discord.png"),
     GRILL("grill.png"),
@@ -46,10 +50,6 @@ public enum ParticleType {
         this.texture = texture;
     }
 
-    public void setTexture(Texture texture) {
-        this.texture = new ParticleTexture(texture);
-    }
-
     public void setTexture(String path) {
         this.texture = new ParticleTexture(path);
     }
@@ -57,6 +57,30 @@ public enum ParticleType {
     public boolean isHalo() {
         return this != NOTHING && this != TEXTURE;
     }
+
+    @Override
+    public void write(Json json) {
+
+        json.writeValue("particle_type_halo", isHalo());
+        //json.writeObjectStart("texture");
+        json.writeValue("texture", texture, ParticleTexture.class);
+        //json.writeValue("random", texture.random);
+        //json.writeValue("animated", texture.animated);
+        //json.writeValue("fps", texture.fps);
+        //json.writeValue("texture", texture.paths2d);
+        //json.writeObjectEnd();
+
+
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+
+        //center = new Vector2(jsonData.getFloat("center x"), jsonData.getFloat("center y"));
+        //speed = jsonData.getFloat("speed");
+
+    }
+
 
 }
 
