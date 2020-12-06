@@ -5,12 +5,15 @@ import box2dLight.RayHandler;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 /**
  * @author alyrow
  * Set lights settings
  */
-public class ParticleEmissionLight {
+public class ParticleEmissionLight implements Json.Serializable  {
 
     public RayHandler rayHandler;
     public int rays;
@@ -51,5 +54,28 @@ public class ParticleEmissionLight {
 
     public PointLight getLight() {
         return new PointLight(rayHandler, rays, color, distance, 0, 0);
+    }
+
+
+    @Override
+    public void write(Json json) {
+        boolean random = this instanceof ParticleEmissionLightRandom;
+        json.writeValue("random", random);
+        json.writeValue("rays", rays);
+        json.writeValue("color", color);
+        Array<Float> distances = new Array<>();
+        if (random) {
+            distances.add(((ParticleEmissionLightRandom) this).distance_min);
+            distances.add(((ParticleEmissionLightRandom) this).distance_max);
+        } else distances.add(distance);
+        json.writeValue("distance", distances);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+
+        //center = new Vector2(jsonData.getFloat("center x"), jsonData.getFloat("center y"));
+        //speed = jsonData.getFloat("speed");
+
     }
 }
