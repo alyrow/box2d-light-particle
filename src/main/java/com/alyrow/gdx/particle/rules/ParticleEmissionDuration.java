@@ -1,10 +1,13 @@
 package com.alyrow.gdx.particle.rules;
 
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
+
 /**
  * @author alyrow
  * Define the duration of emission
  */
-public class ParticleEmissionDuration {
+public class ParticleEmissionDuration implements Json.Serializable {
     public float duration; //Seconds
     public boolean infinite;
 
@@ -39,5 +42,20 @@ public class ParticleEmissionDuration {
      */
     public void setInfinite(boolean infinite) {
         this.infinite = infinite;
+    }
+
+
+    @Override
+    public void write(Json json) {
+        json.writeValue("infinite", infinite);
+        json.writeValue("duration", duration);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+
+        //center = new Vector2(jsonData.getFloat("center x"), jsonData.getFloat("center y"));
+        //speed = jsonData.getFloat("speed");
+
     }
 }
