@@ -4,12 +4,14 @@ import com.alyrow.gdx.particle.rules.ParticleEmissionDuration;
 import com.alyrow.gdx.particle.rules.ParticleEmissionLight;
 import com.alyrow.gdx.particle.rules.ParticleEmissionNumber;
 import com.alyrow.gdx.particle.rules.ParticleLife;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 /**
  * @author alyrow
  * This class defines the rules for the particle system and particles
  */
-public class ParticleRules {
+public class ParticleRules implements Json.Serializable{
     /**
      * Define life of particles
      * @see ParticleLife
@@ -73,5 +75,21 @@ public class ParticleRules {
      */
     public void setLight(ParticleEmissionLight light) {
         this.light = light;
+    }
+
+    @Override
+    public void write(Json json) {
+        json.writeValue("ParticleEmissionDuration", duration, ParticleEmissionDuration.class);
+        json.writeValue("ParticleEmissionLight", light, ParticleEmissionLight.class);
+        json.writeValue("ParticleEmissionNumber", number, ParticleEmissionNumber.class);
+        json.writeValue("ParticleLife", life, ParticleLife.class);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+
+        //center = new Vector2(jsonData.getFloat("center x"), jsonData.getFloat("center y"));
+        //speed = jsonData.getFloat("speed");
+
     }
 }
