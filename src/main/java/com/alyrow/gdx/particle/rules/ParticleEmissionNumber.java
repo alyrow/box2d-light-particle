@@ -1,10 +1,14 @@
 package com.alyrow.gdx.particle.rules;
 
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
+
 /**
  * @author alyrow
  * Set rule for the emission number
  */
-public class ParticleEmissionNumber {
+public class ParticleEmissionNumber implements Json.Serializable {
     /**
      * Number of particles emitted
      */
@@ -67,4 +71,28 @@ public class ParticleEmissionNumber {
      * Number of particles emitted per second
      */
     public static int PER_SECONDS = 1;
+
+
+
+    @Override
+    public void write(Json json) {
+        boolean random = this instanceof ParticleEmissionNumberRandom;
+        json.writeValue("random", random);
+        json.writeValue("mode", mode);
+        json.writeValue("delay", seconds);
+        Array<Integer> numbers = new Array<>();
+        if (random) {
+            numbers.add(((ParticleEmissionNumberRandom) this).min);
+            numbers.add(((ParticleEmissionNumberRandom) this).max);
+        } else numbers.add(number);
+        json.writeValue("number", numbers);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+
+        //center = new Vector2(jsonData.getFloat("center x"), jsonData.getFloat("center y"));
+        //speed = jsonData.getFloat("speed");
+
+    }
 }
