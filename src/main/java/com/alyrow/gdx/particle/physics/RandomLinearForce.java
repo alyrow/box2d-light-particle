@@ -2,6 +2,8 @@ package com.alyrow.gdx.particle.physics;
 
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 /**
  * @author alyrow
@@ -35,5 +37,18 @@ public class RandomLinearForce extends PhysicForce {
         particle.data_float.computeIfAbsent("rlinearX", k -> MathUtils.random() * (vx_max - vx_min) + vx_min);
         particle.data_float.computeIfAbsent("rlinearY", k -> MathUtils.random() * (vy_max - vy_min) + vy_min);
         return cache.set(particle.data_float.get("rlinearX"), particle.data_float.get("rlinearY"));
+    }
+
+    @Override
+    public void write(Json json) {
+        json.writeValue("vx_min", vx_min);
+        json.writeValue("vx_max", vx_max);
+        json.writeValue("vy_min", vy_min);
+        json.writeValue("vy_max", vy_max);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+        super.read(json, jsonData);
     }
 }

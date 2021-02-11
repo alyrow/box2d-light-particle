@@ -3,12 +3,14 @@ package com.alyrow.gdx.particle.physics;
 import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 /**
  * @author alyrow
  * Physic manager
  */
-public class PhysicManager {
+public class PhysicManager implements Json.Serializable {
     public Array<PhysicForce> forces = new Array<>();
 
     public PhysicManager() {}
@@ -34,5 +36,15 @@ public class PhysicManager {
      */
     public PhysicParticle getParticleForces(float x, float y, World world, Camera camera) {
         return new PhysicParticle(x, y, world, camera);
+    }
+
+    @Override
+    public void write(Json json) {
+        json.writeValue("forces", forces, PhysicForce.class);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+
     }
 }

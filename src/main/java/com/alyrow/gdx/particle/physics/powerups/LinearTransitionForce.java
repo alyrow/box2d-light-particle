@@ -3,6 +3,8 @@ package com.alyrow.gdx.particle.physics.powerups;
 import com.alyrow.gdx.particle.physics.PhysicForce;
 import com.alyrow.gdx.particle.physics.PhysicParticle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 import java.util.function.Supplier;
 
@@ -30,5 +32,16 @@ public class LinearTransitionForce extends LerpedForce {
 
     public void setCondition(Supplier<Boolean> condition) {
         this.condition = condition;
+    }
+
+    @Override
+    public void write(Json json) {
+        super.write(json);
+        json.writeValue("speed", speed);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+        super.read(json, jsonData);
     }
 }

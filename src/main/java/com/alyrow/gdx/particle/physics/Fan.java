@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.JsonValue;
 //TODO Make JSON system <-- Very important
 public class Fan extends PhysicForce implements Json.Serializable {
 
-    private float speed;
+    float speed;
     private Vector2 center;
 
     public Fan() {
@@ -28,8 +28,8 @@ public class Fan extends PhysicForce implements Json.Serializable {
     @Override
     public void write(Json json) {
 
-        json.writeValue("center x", center.x);
-        json.writeValue("center y", center.y);
+        json.writeValue("center_x", center.x);
+        json.writeValue("center_y", center.y);
 
         json.writeValue("speed", speed);
 
@@ -38,7 +38,7 @@ public class Fan extends PhysicForce implements Json.Serializable {
     @Override
     public void read(Json json, JsonValue jsonData) {
 
-        center = new Vector2(jsonData.getFloat("center x"), jsonData.getFloat("center y"));
+        center = new Vector2(jsonData.getFloat("center_x"), jsonData.getFloat("center_y"));
         speed = jsonData.getFloat("speed");
 
     }

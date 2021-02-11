@@ -6,6 +6,8 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 public class ImageColour extends PhysicForce {
 
@@ -42,4 +44,13 @@ public class ImageColour extends PhysicForce {
         return Vector2.Zero;
     }
 
+    @Override
+    public void write(Json json) {
+        json.writeValue("matrix", matrix);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+        super.read(json, jsonData);
+    }
 }

@@ -1,6 +1,8 @@
 package com.alyrow.gdx.particle.modifiers;
 
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 public class RandomMassModifier extends Modifier {
 
@@ -20,4 +22,14 @@ public class RandomMassModifier extends Modifier {
         setMass(min + ran * MathUtils.random());
     }
 
+    @Override
+    public void write(Json json) {
+        json.writeValue("min", min);
+        json.writeValue("ran", ran);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+        super.read(json, jsonData);
+    }
 }

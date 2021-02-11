@@ -2,6 +2,8 @@ package com.alyrow.gdx.particle.physics;
 
 import com.alyrow.gdx.particle.utils.PhysicForces;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 public class BlackHole extends PhysicForce {
 
@@ -38,5 +40,18 @@ public class BlackHole extends PhysicForce {
 
     public void disableDestructionRadius() {
         drs = 0;
+    }
+
+    @Override
+    public void write(Json json) {
+        json.writeValue("x", center.x);
+        json.writeValue("y", center.y);
+        json.writeValue("effect", effect);
+        json.writeValue("drs", drs);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+        super.read(json, jsonData);
     }
 }

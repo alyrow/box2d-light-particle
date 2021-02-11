@@ -5,6 +5,8 @@ import com.alyrow.gdx.particle.physics.PhysicParticle;
 import com.alyrow.gdx.particle.utils.switches.Switch;
 import com.alyrow.gdx.particle.utils.switches.TimedSwitch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 public class SwitchableForce extends PhysicForce {
 
@@ -24,5 +26,16 @@ public class SwitchableForce extends PhysicForce {
     @Override
     public Vector2 getForce(PhysicParticle particle) {
         return forces[swt.getState()].getForce(particle);
+    }
+
+    @Override
+    public void write(Json json) {
+        json.writeValue("forces", forces);
+        json.writeValue("switch", swt);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+        super.read(json, jsonData);
     }
 }

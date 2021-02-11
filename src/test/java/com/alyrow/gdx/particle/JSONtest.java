@@ -2,12 +2,13 @@ package com.alyrow.gdx.particle;
 
 import box2dLight.RayHandler;
 import com.alyrow.gdx.particle.modifiers.RandomColors;
-import com.alyrow.gdx.particle.physics.Fan;
-import com.alyrow.gdx.particle.physics.PhysicManager;
+import com.alyrow.gdx.particle.physics.*;
 import com.alyrow.gdx.particle.rules.ParticleEmissionDuration;
 import com.alyrow.gdx.particle.rules.ParticleEmissionLightRandom;
 import com.alyrow.gdx.particle.rules.ParticleEmissionNumber;
 import com.alyrow.gdx.particle.rules.ParticleLife;
+import com.alyrow.gdx.particle.utils.Line;
+import com.alyrow.gdx.particle.utils.LineTest;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
@@ -71,6 +72,16 @@ public class JSONtest extends Game {
 
         physicManager = new PhysicManager();
 
+        physicManager.addForce(new BlackHole(3, 5, 25));
+        physicManager.addForce(new BlackLine(Line.fromTwoPoints(1,1,5,5), 5, 25));
+        physicManager.addForce(new BrownianForce(1, 2, 0.5));
+        physicManager.addForce(new Drain(10, 10, 5, 5));
+        physicManager.addForce(new Fan(50, 50, 6));
+        physicManager.addForce(new LinearForce(12, -5));
+        physicManager.addForce(new PointAttract(41, 65, 1));
+        physicManager.addForce(new Revolution(15, 65, 2));
+        physicManager.addForce(new WhiteHole(600, 600, 0.001f));
+
         system.setPhysicManager(physicManager);
 
 
@@ -82,13 +93,13 @@ public class JSONtest extends Game {
     @Override
     public void render() {
 
-        /*
+
         camera.update();
         world.step(1f / 60f, 6, 2);
         system.setParticlesPosition(Math.round(Math.random() * Gdx.graphics.getWidth()), Math.round(Math.random() * Gdx.graphics.getHeight())); //Random position
-        emissionLight.color = new Color((float) Math.random() * 0, (float) Math.random() * 0, /*(float) Math.random()1, 1);
+        emissionLight.color = new Color((float) Math.random() * 0, (float) Math.random() * 0, (float) Math.random()*1, 1);
         system.render();
-
+/*
         if(g) {
             physicManager.addForce(new Fan(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 20));
             g = false;

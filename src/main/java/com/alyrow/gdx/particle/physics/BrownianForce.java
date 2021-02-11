@@ -1,6 +1,8 @@
 package com.alyrow.gdx.particle.physics;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 /**
  * @author alyrow
@@ -107,5 +109,16 @@ public class BrownianForce extends PhysicForce {
         return rise * x * (x - 1) * (h * x * (x - 1) - 1);
     }
 
+    @Override
+    public void write(Json json) {
+        json.writeValue("strength_x", strength_x);
+        json.writeValue("strength_y", strength_y);
+        json.writeValue("seed", seed);
+        json.writeValue("frequency", frequency);
+    }
 
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+        super.read(json, jsonData);
+    }
 }

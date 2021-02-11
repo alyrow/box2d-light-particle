@@ -2,6 +2,8 @@ package com.alyrow.gdx.particle.physics;
 
 import com.alyrow.gdx.particle.utils.PhysicForces;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 public class PointElectrostaticForce extends PhysicForce {
 
@@ -34,5 +36,18 @@ public class PointElectrostaticForce extends PhysicForce {
 
     public void setDestructionRadius(float destructionRadius) {
         this.drs = destructionRadius * destructionRadius;
+    }
+
+    @Override
+    public void write(Json json) {
+        json.writeValue("center_x", center.x);
+        json.writeValue("center_y", center.y);
+        json.writeValue("effect", effect);
+        json.writeValue("drs", drs);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+        super.read(json, jsonData);
     }
 }

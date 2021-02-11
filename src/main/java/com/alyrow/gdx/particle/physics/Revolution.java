@@ -1,6 +1,8 @@
 package com.alyrow.gdx.particle.physics;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 public class Revolution extends PhysicForce {
 
@@ -20,4 +22,15 @@ public class Revolution extends PhysicForce {
         return cache.set(particle.y - center.y, center.x - particle.x).nor().scl(speed);
     }
 
+    @Override
+    public void write(Json json) {
+        json.writeValue("center_x", center.x);
+        json.writeValue("center_y", center.y);
+        json.writeValue("speed", speed);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+        super.read(json, jsonData);
+    }
 }

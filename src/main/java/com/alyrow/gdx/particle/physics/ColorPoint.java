@@ -3,6 +3,8 @@ package com.alyrow.gdx.particle.physics;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 public class ColorPoint extends PhysicForce {
 
@@ -25,5 +27,18 @@ public class ColorPoint extends PhysicForce {
         }
 
         return cache.set(0,0);
+    }
+
+    @Override
+    public void write(Json json) {
+        json.writeValue("center_x", center.x);
+        json.writeValue("center_y", center.y);
+        json.writeValue("radius", radius);
+        json.writeValue("color", color);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+
     }
 }

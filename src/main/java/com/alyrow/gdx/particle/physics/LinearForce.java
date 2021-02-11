@@ -1,6 +1,8 @@
 package com.alyrow.gdx.particle.physics;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 /**
  * @author alyrow
@@ -18,5 +20,16 @@ public class LinearForce extends PhysicForce {
         this.vy = vy;
 
         force = new Vector2(vx, vy);
+    }
+
+    @Override
+    public void write(Json json) {
+        json.writeValue("vx", vx);
+        json.writeValue("vy", vy);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+        super.read(json, jsonData);
     }
 }

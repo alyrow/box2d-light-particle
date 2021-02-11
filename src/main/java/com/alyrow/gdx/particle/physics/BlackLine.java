@@ -3,6 +3,8 @@ package com.alyrow.gdx.particle.physics;
 import com.alyrow.gdx.particle.utils.Line;
 import com.alyrow.gdx.particle.utils.PhysicForces;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 public class BlackLine extends PhysicForce {
 
@@ -40,4 +42,15 @@ public class BlackLine extends PhysicForce {
         this.drs = destructionRadius * destructionRadius;
     }
 
+    @Override
+    public void write(Json json) {
+        json.writeValue("line", line, Line.class);
+        json.writeValue("effect", effect);
+        json.writeValue("drs", drs);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+        super.read(json, jsonData);
+    }
 }

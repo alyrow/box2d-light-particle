@@ -5,6 +5,8 @@ import com.alyrow.gdx.particle.physics.PhysicParticle;
 import com.alyrow.gdx.particle.utils.PhysicForces;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 public class LerpedForce extends PhysicForce {
 
@@ -51,5 +53,18 @@ public class LerpedForce extends PhysicForce {
 
     public void setClamp(boolean clamp) {
         this.clamp = clamp;
+    }
+
+    @Override
+    public void write(Json json) {
+        json.writeValue("one", one);
+        json.writeValue("two", two);
+        json.writeValue("factor", factor);
+        json.writeValue("clamp", clamp);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+        super.read(json, jsonData);
     }
 }

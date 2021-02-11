@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.sun.org.apache.xpath.internal.objects.XString;
 
 
 /**
@@ -19,6 +20,12 @@ import com.badlogic.gdx.utils.TimeUtils;
  * Create a particle system
  */
 public class ParticleSystem {
+
+    public String version = "2.0.0-snapshot";
+    public long version_code = 200000000000L;
+    public long min_version_code = 200000000000L;
+
+
     /**
      * Define particles type
      *
@@ -66,7 +73,7 @@ public class ParticleSystem {
     /**
      * Initial position of particles
      */
-    private float x, y;
+    float x, y;
 
     /**
      * Manage physics on particles

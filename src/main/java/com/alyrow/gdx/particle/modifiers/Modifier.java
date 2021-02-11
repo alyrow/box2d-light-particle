@@ -5,8 +5,10 @@ import com.alyrow.gdx.particle.Particle;
 import com.alyrow.gdx.particle.physics.PhysicParticle;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
-public class Modifier {
+public class Modifier implements Json.Serializable {
     private float life;
     private Boolean outer;
     public Texture texture;
@@ -103,5 +105,15 @@ public class Modifier {
 
     public void setCharge(float charge) {
         physicParticle.charge = charge;
+    }
+
+    @Override
+    public void write(Json json) {
+
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+
     }
 }

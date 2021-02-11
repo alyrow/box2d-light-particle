@@ -1,6 +1,8 @@
 package com.alyrow.gdx.particle.physics;
 
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 /**
  * @author alyrow
@@ -34,5 +36,16 @@ public class RandomRadialForce extends PhysicForce {
         }
         //Gdx.app.log("angle", String.valueOf(Math.toDegrees(angle)));
         return new Vector2((float) Math.cos(angle)*strength, (float) Math.sin(angle)*strength);
+    }
+
+    @Override
+    public void write(Json json) {
+        json.writeValue("strength_min", strength_min);
+        json.writeValue("strength_max", strength_max);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+        super.read(json, jsonData);
     }
 }

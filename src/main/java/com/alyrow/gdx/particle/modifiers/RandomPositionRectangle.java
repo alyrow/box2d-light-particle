@@ -3,6 +3,8 @@ package com.alyrow.gdx.particle.modifiers;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.JsonValue;
 
 public class RandomPositionRectangle extends Modifier {
 
@@ -44,5 +46,15 @@ public class RandomPositionRectangle extends Modifier {
 //        r.translate(anx + b.x, any + b.y);
         b = r.getBoundingRectangle();
         return this;
+    }
+
+    @Override
+    public void write(Json json) {
+        json.writeValue("rectangle", b);
+    }
+
+    @Override
+    public void read(Json json, JsonValue jsonData) {
+        super.read(json, jsonData);
     }
 }
