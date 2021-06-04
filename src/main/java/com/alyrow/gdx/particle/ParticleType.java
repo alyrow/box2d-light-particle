@@ -58,7 +58,7 @@ public enum ParticleType implements Json.Serializable {
         return this != NOTHING && this != TEXTURE;
     }
 
-    @Override
+
     public void write(Json json) {
 
         json.writeValue("particle_type_halo", isHalo());
@@ -73,7 +73,6 @@ public enum ParticleType implements Json.Serializable {
 
     }
 
-    @Override
     public void read(Json json, JsonValue jsonData) {
 
         //center = new Vector2(jsonData.getFloat("center x"), jsonData.getFloat("center y"));

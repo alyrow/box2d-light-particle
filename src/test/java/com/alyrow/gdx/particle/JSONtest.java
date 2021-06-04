@@ -84,8 +84,9 @@ public class JSONtest extends Game {
 
         system.setPhysicManager(physicManager);
 
-
-        System.out.println(new Jsonify().systemToJSON(system));
+        String str = new Jsonify().systemToJSON(system);
+        System.out.println(str);
+        System.out.println(new Jsonify().JSONtoSystem(str));
     }
 
     boolean g = true;

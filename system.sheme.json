@@ -1,0 +1,161 @@
+{
+  system.type: {
+    particle_type_halo: true
+    texture: {
+      random: false
+      animated: false
+      fps: 0
+      texture: [
+        [
+          {
+            class: java.lang.String
+            value: halo.png
+          }
+        ]
+      ]
+    }
+  }
+  rules: {
+    ParticleEmissionDuration: {
+      infinite: true
+      duration: 0
+    }
+    ParticleEmissionLight: {
+      class: com.alyrow.gdx.particle.rules.ParticleEmissionLightRandom
+      random: true
+      rays: 5
+      color: {
+        r: 1
+        g: 1
+        b: 1
+        a: 1
+      }
+      distance: [
+        {
+          class: java.lang.Float
+          value: 10.5
+        }
+        {
+          class: java.lang.Float
+          value: 50
+        }
+      ]
+    }
+    ParticleEmissionNumber: {
+      random: false
+      mode: 0
+      delay: 1
+      number: [
+        {
+          class: java.lang.Integer
+          value: 1000
+        }
+      ]
+    }
+    ParticleLife: {
+      random: false
+      outer: true
+      life: [
+        {
+          class: java.lang.Float
+          value: 5
+        }
+      ]
+    }
+  }
+  physics: {
+    forces: [
+      {
+        class: com.alyrow.gdx.particle.physics.BlackHole
+        x: 3
+        y: 5
+        effect: 1000000
+        drs: 0.5
+      }
+      {
+        class: com.alyrow.gdx.particle.physics.BlackLine
+        line: {
+          class: com.alyrow.gdx.particle.utils.InvertedSlopeConstantLine
+          m: 1
+          c: 0
+          hypot: 1.4142135
+          isSegment: false
+          yf: 0
+          yt: 0
+        }
+        effect: 125
+        drs: 0.1
+      }
+      {
+        class: com.alyrow.gdx.particle.physics.BrownianForce
+        strength_x: 1
+        strength_y: 1
+        seed: 2
+        frequency: 0.5
+      }
+      {
+        class: com.alyrow.gdx.particle.physics.Drain
+        forces: [
+          {
+            class: com.alyrow.gdx.particle.physics.PointAttract
+            center_x: 10
+            center_y: 10
+            strength: 5
+            drs: 0.3
+          }
+          {
+            class: com.alyrow.gdx.particle.physics.Revolution
+            center_x: 10
+            center_y: 10
+            speed: 5
+          }
+        ]
+      }
+      {
+        class: com.alyrow.gdx.particle.physics.Fan
+        center_x: 50
+        center_y: 50
+        speed: 0.06
+      }
+      {
+        class: com.alyrow.gdx.particle.physics.LinearForce
+        vx: 12
+        vy: -5
+      }
+      {
+        class: com.alyrow.gdx.particle.physics.PointAttract
+        center_x: 41
+        center_y: 65
+        strength: 1
+        drs: 0.3
+      }
+      {
+        class: com.alyrow.gdx.particle.physics.Revolution
+        center_x: 15
+        center_y: 65
+        speed: 2
+      }
+      {
+        class: com.alyrow.gdx.particle.physics.WhiteHole
+        center_x: 600
+        center_y: 600
+        effect: -40
+      }
+    ]
+  }
+  modifiers: {
+    modifiers: [
+      {
+        class: com.alyrow.gdx.particle.modifiers.RandomColors
+        cols: null
+      }
+    ]
+  }
+  position: {
+    x: -2
+    y: 0
+  }
+  version: 2.0.0-snapshot
+  version_code: 200000000000
+  min_version_code: 200000000000
+}
